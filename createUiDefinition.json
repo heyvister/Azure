@@ -1,0 +1,426 @@
+{
+  "handler": "Microsoft.Compute.MultiVm",
+  "version": "0.1.2-preview",
+  "parameters": {
+    "basics": [{
+      "name": "VMPrefixName",
+      "type": "Microsoft.Common.TextBox",
+      "label": "VM Prefix Name",
+	  "defaultValue": "[concat('AlteonVM', string(rand(1, 1000)))]",
+      "toolTip": "Alteon VA Virtual machine name prefix",
+	  "visible": true
+    },{
+      "name": "adminUsername",
+      "type": "Microsoft.Compute.UserNameTextBox",
+      "label": "Username",
+      "toolTip": "Administrator user name for the Alteon virtual VA machine",
+      "osPlatform": "Linux"
+    }, {
+      "name": "adminPassword",
+      "type": "Microsoft.Compute.CredentialsCombo",
+      "label": {
+        "authenticationType": "Authentication type",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "sshPublicKey": "SSH public key"
+      },
+      "toolTip": {
+        "password": "Admin password for the virtual machines"
+      },
+	  "options": {
+        "hideConfirmation": false,
+        "hidePassword": false
+      },
+      "osPlatform": "Linux"
+    }],
+    "steps": [{
+      "name": "infrastructureConfig",
+      "label": "Settings",
+      "subLabel": {
+        "preValidation": "Configure VM settings",
+        "postValidation": "Done"
+      },
+      "bladeTitle": "Infrastructure settings",
+      "elements": [{
+        "name": "VmCount",
+        "type": "Microsoft.Common.DropDown",
+        "label": "Solution Deployment",
+        "defaultValue": "StandAlone",
+        "toolTip": "Select the Alteon VA deployment mode",
+        "constraints": {
+          "allowedValues": [{
+            "label": "StandAlone",
+            "value": "1"
+          }, {
+            "label": "High Availability",
+            "value": "2"
+          }]
+        }
+      }, {
+        "name": "storageAccount",
+        "type": "Microsoft.Storage.StorageAccountSelector",
+        "label": "Storage account",
+        "defaultValue": {
+		  "name": "[concat('alteonstorage', string(rand(1, 1000)))]",
+          "type": "Standard_LRS"
+        },
+		 "options": {
+			"hideExisting": true
+		}
+      }, {
+        "name": "vmSize",
+        "type": "Microsoft.Compute.SizeSelector",
+        "label": "Virtual machine size",
+        "toolTip": "The size of the virtual machine/s",
+        "recommendedSizes": [
+          "Standard_D2",
+		  "Standard_A2",
+          "Standard_D3",
+          "Standard_A3"
+        ],
+        "constraints": {
+          "allowedSizes": [
+            "Standard_DS1_V2",
+			"Standard_DS2_V2",
+			"Standard_DS3_V2",
+			"Standard_DS4_V2",
+			"Standard_DS5_V2",
+			"Standard_DS11_V2",	
+            "Standard_D2",
+            "Standard_D3",
+            "Standard_D4",
+            "Standard_D11",
+            "Standard_D12",
+            "Standard_D13",
+            "Standard_D14",
+			"Standard_A2",
+			"Standard_A3"
+			
+          ]
+        },
+        "osPlatform": "Linux",
+        "imageReference": {
+          "publisher": "radware",
+          "offer": "radware-alteon-va",
+          "sku": "radware-alteon-ng-va-adc"
+        },
+        "count": "[steps('infrastructureConfig').vmCount]"
+      }, {
+        "name": "dnsAndPublicIP",
+        "type": "Microsoft.Network.PublicIpAddressCombo",
+        "label": {
+          "publicIpAddress": "Public IP address",
+          "domainNameLabel": "Hostname Prefix"
+        },
+        "toolTip": {
+          "domainNameLabel": "The prefix of the Alteon VA virtual machine host name"
+        },
+        "defaultValue": {
+          "publicIpAddressName": "AlteonPublicIP",
+		  "domainNameLabel": "[toLower(basics('VMPrefixName'))]"
+        },
+        "options": {
+          "hideNone": true,
+		  "hideExisting": true,
+		  "hideDomainNameLabel": false
+        }
+      }]
+    },
+	{
+      "name": "ActiveDirSetting",
+      "label": "Active Directory",
+      "subLabel": {
+        "preValidation": "Configure Active Directory settings",
+        "postValidation": "Done"
+      },
+      "bladeTitle": "Active Directory settings",
+      "elements": [ {
+		  "name": "EnaDisActiveDir",
+		  "type": "Microsoft.Common.OptionsGroup",
+		  "label": "Enable/Disable Alteon use of Active Directory   (Relevant for GSLB/HA)",
+		  "defaultValue": "Disable",
+		  "toolTip": "Enable/Disable Alteon use of Active Directory - relevant for GSLB/HA",
+		  "constraints": {
+			"allowedValues": [
+			  {
+				"label": "Enable",
+				"value": "Enable"
+			  },
+			  {
+				"label": "Disable",
+				"value": "Disable"
+			  }
+			]
+		  },
+		  "visible": true
+		}, {
+        "name": "DNSServerIP",
+        "type": "Microsoft.Common.TextBox",
+        "label": "DNS Server IP Address",
+        "defaultValue": "",
+        "toolTip": "DNS Server IP Address",
+		"constraints": {
+			"required": true
+		 },
+		"visible": "[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+	  }, {
+		"name": "ActiveDirectoryCredentials",
+		"type": "Microsoft.Common.Section",
+		"label": "Active Directory Credentials",
+		"elements": [{
+        "name": "ClientID",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Client ID",
+        "defaultValue": "",
+        "toolTip": "Active Directory Client ID",
+		"constraints": {
+			"required": true
+		 },
+		"visible": "[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+	    }, {
+	    "name": "ClientSecret",
+	    "type": "Microsoft.Common.PasswordBox",
+	    "label": {
+		  "password": "Client Secret",
+		  "confirmPassword": "Confirm password"
+	    },
+	    "toolTip": "Active Directory Client Secret",
+	    "constraints": {
+		  "required": true,
+		  "regex": "",
+		  "validationMessage": ""
+	    },
+	    "options": {
+		  "hideConfirmation": true
+	    },
+	    "visible": "[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+	   }, {
+        "name": "TenantID",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Tenant ID",
+        "defaultValue": "",
+        "toolTip": "Active Directory Tenant ID",
+		"constraints": {
+			"required": true
+		 },
+		"visible": "[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+	  }],
+	  "visible": "[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+	 }
+	]
+    },
+	{
+      "name": "SLBSetting",
+      "label": "SLB settings",
+      "subLabel": {
+        "preValidation": "Configure SLB settings",
+        "postValidation": "Done"
+      },
+      "bladeTitle": "SLB settings",
+      "elements": [{
+        "name": "RealsCount",
+        "type": "Microsoft.Common.DropDown",
+        "label": "Number of real servers",
+        "defaultValue": "2",
+        "toolTip": "",
+        "constraints": {
+          "allowedValues": [{
+            "label": "0",
+            "value": 0
+          },{
+            "label": "1",
+            "value": 1
+          }, {
+            "label": "2",
+            "value": 2
+          }, {
+            "label": "3",
+            "value": 3
+          }, {
+            "label": "4",
+            "value": 4
+          }, {
+            "label": "5",
+            "value": 5
+          }, {
+            "label": "6",
+            "value": 6
+          }, {
+            "label": "7",
+            "value": 7
+          }, {
+            "label": "8",
+            "value": 8
+          }, {
+            "label": "9",
+            "value": 9
+          },{
+            "label": "10",
+            "value": 10
+          }]
+        }
+      }, {
+        "name": "SLBPortNumber",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Service Port Number",
+        "defaultValue": "80",
+        "toolTip": "The port number of the service you want to load balance"
+	  }, {
+        "name": "SLBMetric",
+        "type": "Microsoft.Common.DropDown",
+        "label": "Metrics",
+        "defaultValue": "Least connections",
+        "toolTip": "The load balancing metrics you want to use",
+        "constraints": {
+          "allowedValues": [{
+            "label": "Least connections",
+            "value": "leastconns"
+          },{
+            "label": "Round robin",
+            "value": "roundrobin"
+          }, {
+            "label": "Response time",
+            "value": "response"
+          }]
+        }
+      },{
+		"name": "RealServerSection",
+		"type": "Microsoft.Common.Section",
+		"label": "Real Servers IP Address",
+		"elements": [
+		{
+			"name": "Real1",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 1 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 0)]"
+		},
+		{
+		   "name": "Real2",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 2 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 1)]"
+		},
+		{
+			"name": "Real3",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 3 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 2)]"
+		},
+		{
+			"name": "Real4",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 4 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 3)]"
+		},
+		{
+			"name": "Real5",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 5 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 4)]"
+		},
+		{
+			"name": "Real6",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 6 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 5)]"
+		},
+		{
+			"name": "Real7",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 7 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 6)]"
+		},
+		{
+			"name": "Real8",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 8 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 7)]"
+		},
+		{
+			"name": "Real9",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 9 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 8)]"
+		},
+		{
+			"name": "Real10",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Real 10 IP Address",
+			"defaultValue": "",
+			"constraints": {
+				"required": true
+			},
+			"visible": "[greater(steps('SLBSetting').RealsCount, 9)]"
+		}
+		]
+		}]
+    }],
+    "outputs": {
+	  "VMPrefixName": "[basics('VMPrefixName')]",
+      "adminUsername": "[basics('adminUsername')]",
+      "adminPassword": "[basics('adminPassword').password]",
+      "storageAccountNewOrExisting": "[steps('infrastructureConfig').storageAccount.newOrExisting]",
+      "StorageAccountName": "[steps('infrastructureConfig').storageAccount.name]",
+      "storageAccountType": "[steps('infrastructureConfig').storageAccount.type]",
+      "existingStorageAccountRG": "[steps('infrastructureConfig').storageAccount.resourceGroup]",
+      "vmSize": "[steps('infrastructureConfig').vmSize]",
+	  "vmCount": "[steps('infrastructureConfig').VmCount]",
+      "dnsNameForPublicIP": "[steps('infrastructureConfig').dnsAndPublicIP.domainNameLabel]",
+      "existingIPRGName": "[steps('infrastructureConfig').dnsAndPublicIP.resourceGroup]",
+      "publicIPNewOrExisting": "[steps('infrastructureConfig').dnsAndPublicIP.newOrExistingOrNone]",
+	  "ClientID": "[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
+	  "ClientSecret": "[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
+	  "TenantID": "[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
+	  "DNSServerIP": "[steps('ActiveDirSetting').DNSServerIP]",
+	  "RealsCount": "[string(steps('SLBSetting').RealsCount)]",
+	  "SLBPortNumber": "[steps('SLBSetting').SLBPortNumber]",
+	  "SLBMetric": "[steps('SLBSetting').SLBMetric]",
+	  "Real1": "[steps('SLBSetting').RealServerSection.Real1]",
+	  "Real2": "[steps('SLBSetting').RealServerSection.Real2]",
+	  "Real3": "[steps('SLBSetting').RealServerSection.Real3]",
+	  "Real4": "[steps('SLBSetting').RealServerSection.Real4]",
+	  "Real5": "[steps('SLBSetting').RealServerSection.Real5]",
+	  "Real6": "[steps('SLBSetting').RealServerSection.Real6]",
+	  "Real7": "[steps('SLBSetting').RealServerSection.Real7]",
+	  "Real8": "[steps('SLBSetting').RealServerSection.Real8]",
+	  "Real9": "[steps('SLBSetting').RealServerSection.Real9]",
+	  "Real10": "[steps('SLBSetting').RealServerSection.Real10]"
+    }
+  }
+}
