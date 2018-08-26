@@ -1,0 +1,701 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    },
+    "variables": {
+		"vmCount": "1",
+		"nicNamePrefix": "AlteonNic",	
+		"addressPrefix": "10.0.0.0/16",
+		"PrivateIPAddressPrefix": "10.0.0.",
+		"PrivateIPAddressPosixStart": 4,
+		"subnetName": "Subnet-1",
+		"subnetPrefix": "10.0.0.0/24",		
+		"ClientID": "none",
+		"ClientSecret": "none",
+		"TenantID": "none", 
+		"DNSServerIP": "none", 
+		"SLBPortNumber" : "80",
+		"SLBMetric": "none",
+		"RealsCount": "",
+		"Real1": "none",
+		"Real2": "none",
+		"Real3": "none",
+		"Real4": "none",
+		"Real5": "none",
+		"Real6": "none",
+		"Real7": "none",
+		"Real8": "none",
+		"Real9": "none",
+		"Real10": "none",		
+        "vmSize": "Standard_D1",
+		"resourceGroupName": "[resourceGroup().name]",	
+		"subscripID": "[subscription().id]",
+        "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
+        "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
+        "virtualMachineScaleSetsName": "[concat(variables('resourceGroupName'), 'Vmss')]",
+        "networkSecurityGroupsName": "[concat(variables('resourceGroupName'), 'VmssSG')]", 
+        "publicIPAddressesName": "[concat(variables('resourceGroupName'), 'VmssLBPublicIP')]", 
+		"NICName": "[concat(variables('nicNamePrefix'), '1')]",
+		"PIPName": "[concat(variables('publicIPAddressesName'), '1')]",
+		"SIPName": "[concat(variables('publicIPAddressesName'), '2')]",
+		"PNICName": "[concat(variables('nicNamePrefix'), '2')]",
+		"virtualMachineScaleSets_id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet/subnets/testVmssSubnet",
+		"loadBalancers_id": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
+		"loadBalancers_id_1": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/backendAddressPools/', variables('virtualMachineScaleSetsName'), 'LBBEPool')]",
+		"loadBalancers_id_2": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/probes/Probe_8080')]",
+        "sites_demoAlteonsFunc_name": "[concat(variables('resourceGroupName'), 'Func')]",
+        "components_demoAlteonsSS_name":  "[concat(variables('resourceGroupName'), 'Func')]",	
+        "storageAccounts_demoalteonsfunc_name": "[concat(toLower(variables('resourceGroupName')), '8a8b')]", 
+		"serverfarms_Plan_name" : "[concat(variables('resourceGroupName'), 'Plan')]", 
+        "hostNameBindings_demoalteonsfunc_net_name": "[concat(toLower(variables('sites_demoAlteonsFunc_name')), '.azurewebsites.net')]",
+		"microsoft_insights_tag": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Web/sites/', variables('components_demoAlteonsSS_name'))]",
+		"sites_demoAlteonsFunc_serverFarmId": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', variables('serverfarms_Plan_name'))]",
+		"customData": "[concat('#!/usr/bin/env python\n', '###########################\n', '# Originally written by:\n', '# nissimn@radware.com\n', '#Nissim Nisimov\n', '###########################\n', '# Version 1.0 - 19/Sep/2016\n', '###########################\n', 'import fileinput\n', '\n', '#make sure each parameters is in new line - only parameters and variables attributes are supported\n', '#if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py\n', '\n', 'server_dict = {}\n', 'server_dict[\"SLB_PORT\"] =     \"', variables('SLBPortNumber'), '\"', '\n', 'server_dict[\"REAL_COUNT\"] =   \"', variables('RealsCount'), '\"', '\n', 'server_dict[\"REAL_1\"] =       \"', variables('Real1'), '\"', '\n', 'server_dict[\"REAL_2\"] =       \"', variables('Real2'), '\"', '\n', 'server_dict[\"REAL_3\"] =       \"', variables('Real3'), '\"', '\n', 'server_dict[\"REAL_4\"] =       \"', variables('Real4'), '\"', '\n', 'server_dict[\"REAL_5\"] =       \"', variables('Real5'), '\"', '\n', 'server_dict[\"REAL_6\"] =       \"', variables('Real6'), '\"', '\n', 'server_dict[\"REAL_7\"] =       \"', variables('Real7'), '\"', '\n', 'server_dict[\"REAL_8\"] =       \"', variables('Real8'), '\"', '\n', 'server_dict[\"REAL_9\"] =       \"', variables('Real9'), '\"', '\n', 'server_dict[\"REAL_10\"] =      \"', variables('Real10'), '\"', '\n', 'server_dict[\"CLIENTID\"] =     \"', variables('ClientID'), '\"', '\n', 'server_dict[\"CLIENTSECRET\"] = \"', variables('ClientSecret'), '\"', '\n', 'server_dict[\"TENANTID\"] =     \"', variables('TenantID'), '\"', '\n', 'server_dict[\"DNSSERVERIP\"] =  \"', variables('DNSServerIP'), '\"', '\n', 'server_dict[\"RSRCGRP\"] =      \"', variables('resourceGroupName'), '\"', '\n', 'server_dict[\"SUBSCRIP\"] =     \"', variables('subscripID'), '\"', '\n', 'server_dict[\"NICNAME\"] =      \"', variables('NICName'), '\"', '\n', 'server_dict[\"PIPNAME\"] =      \"', variables('PIPName'), '\"', '\n', 'server_dict[\"PNICNAME\"] =     \"', variables('PNICName'), '\"', '\n', 'server_dict[\"SIPNAME\"] =      \"', variables('SIPName'), '\"', '\n', 'server_dict[\"SLB_METRIC\"] =   \"', variables('SLBMetric'), '\"', '\n', 'server_dict[\"VM_COUNT\"] =     \"', variables('vmCount'), '\"', '\n', 'server_dict[\"VM_ID\"] =        VM_ID\n', 'server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] =  \"', variables('PrivateIPAddressPrefix'), '\"', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"] =  ', variables('PrivateIPAddressPosixStart'), '', '\n', '\n', '#file which will hold the generated configuration\n', 'output_file=open(\"/mnt/cf/Alteon/config/azure_converted_config.txt\", \"a+\")\n', 'real_count=0\n', '\n', 'def init_vars():\n', '     global real_count\n', '     if \"REAL_COUNT\" in server_dict:\n', '        if int(server_dict[\"REAL_COUNT\"]) > 0:\n', '            real_count=server_dict[\"REAL_COUNT\"]\n', '        else:\n', '            real_count=0\n', '\n', '#convert  DNS server to Alteon if needed\"\n', 'def convert_DNS_menu_to_config():\n', '    if \"DNSSERVERIP\" in server_dict:\n', '        if len(server_dict[\"DNSSERVERIP\"]) > 1:\n', '              if server_dict[\"DNSSERVERIP\"] != \"none\":\n', '                 output_file.write(\"/c/l3/dns\\n\\tprima \" + server_dict[\"DNSSERVERIP\"]+\"\\n\")\n', '\n', '\n', '#convert ActiveDirecory parameters and add DNS server to Alteon if needed\"\n', 'def convert_AZURE_menu_to_config():\n', '    azure_menu_on = 0;\n', '    if \"SUBSCRIP\" in server_dict:\n', '        if len(server_dict[\"SUBSCRIP\"]) > 1:\n', '              if server_dict[\"SUBSCRIP\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 # the format is /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98 we need to skip the prefix and get only the ID\n', '                 string_location = server_dict[\"SUBSCRIP\"].find(\"/subscriptions/\")\n', '                 string_size  = string_location + 15\n', '                 output_file.write(\"\\tsubscrip \" + server_dict[\"SUBSCRIP\"][string_size:len(server_dict[\"SUBSCRIP\"])]+\"\\n\")\n', '    if \"CLIENTID\" in server_dict:\n', '        if len(server_dict[\"CLIENTID\"]) > 1:\n', '              if server_dict[\"CLIENTID\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tclient \" + server_dict[\"CLIENTID\"]+\"\\n\")\n', '    if \"CLIENTSECRET\" in server_dict:\n', '        if len(server_dict[\"CLIENTSECRET\"]) > 1:\n', '              if server_dict[\"CLIENTSECRET\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tsecret\\n\\t\" + server_dict[\"CLIENTSECRET\"] + \"\\n\")\n', '    if \"TENANTID\" in server_dict:\n', '        if len(server_dict[\"TENANTID\"]) > 1:\n', '              if server_dict[\"TENANTID\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\ttenant \" + server_dict[\"TENANTID\"]+\"\\n\")\n', '    if \"RSRCGRP\" in server_dict:\n', '        if len(server_dict[\"RSRCGRP\"]) > 1:\n', '              if server_dict[\"RSRCGRP\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\trsrcgp \" + server_dict[\"RSRCGRP\"]+\"\\n\")\n', '    if \"NICNAME\" in server_dict:\n', '        if len(server_dict[\"NICNAME\"]) > 1:\n', '              if server_dict[\"NICNAME\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 if (server_dict[\"VM_ID\"]) == 1:\n', '                    output_file.write(\"\\tnicname \" + server_dict[\"NICNAME\"]+\"\\n\")\n', '                 elif (server_dict[\"VM_ID\"]) == 2:\n', '                    output_file.write(\"\\tpnicname \" + server_dict[\"NICNAME\"]+\"\\n\")\n', '    if \"PIPNAME\" in server_dict:\n', '        if len(server_dict[\"PIPNAME\"]) > 1:\n', '              if server_dict[\"PIPNAME\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tpipname \" + server_dict[\"PIPNAME\"]+\"\\n\")\n', '    if \"PNICNAME\" in server_dict:\n', '        if (server_dict[\"VM_COUNT\"]) == \"2\":  \n', '            if len(server_dict[\"PNICNAME\"]) > 1:\n', '                  if server_dict[\"PNICNAME\"] != \"none\":\n', '                     if (azure_menu_on == 0):\n', '                         azure_menu_on = 1\n', '                         output_file.write(\"/c/sys/azure\\n\" )\n', '                     if (server_dict[\"VM_ID\"]) == 1:\n', '                        output_file.write(\"\\tpnicname \" + server_dict[\"PNICNAME\"]+\"\\n\")\n', '                     elif (server_dict[\"VM_ID\"]) == 2:\n', '                        output_file.write(\"\\tnicname \" + server_dict[\"PNICNAME\"]+\"\\n\")\n', '    if \"SIPNAME\" in server_dict:\n', '        if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '            if len(server_dict[\"SIPNAME\"]) > 1:\n', '                  if server_dict[\"SIPNAME\"] != \"none\":\n', '                     if (azure_menu_on == 0):\n', '                         azure_menu_on = 1\n', '                         output_file.write(\"/c/sys/azure\\n\" )\n', '                     output_file.write(\"\\tsipname \" + server_dict[\"SIPNAME\"]+\"\\n\")\n', '\n', '\n', '#convert slb port to \"/c/slb/virt 1/service X http\"\n', 'def convert_service_to_config():\n', '    if (server_dict[\"VM_ID\"]) == 1:\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])\n', '    else:\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1)\n', '\n', '    output_file.write(\"/c/slb/virt 1\\n\\tena\\n\\tvip \" + private_ip +\"\\n\")\n', '  \n', '    if \"SLB_PORT\" in server_dict:\n', '       if len(server_dict[\"SLB_PORT\"]) > 0:\n', '          output_file.write(\"/c/slb/virt 1/service \"+ server_dict[\"SLB_PORT\"] + \" http\\n\")\n', '\n', '\n', '\n', '#convert reals to \"/c/slb/real x/rip y.y.y.y/ena\"\n', 'def convert_reals_to_config():\n', '     for indx in range(1, int(real_count)+1):\n', '        if (\"REAL_\" +str(indx)) in server_dict:\n', '           if len(server_dict[\"REAL_\" +str(indx)]) > 1:\n', '              if server_dict[\"REAL_\" +str(indx)] != \"none\":\n', '                 output_file.write(\"/c/slb/real \" + str(indx) + \"\\n\\tena\\n \"+\"\\trip \"+ server_dict[\"REAL_\" +str(indx)]+\"\\n\")\n', '\n', '\n', '\n', '#add reals and metric to group \"/c/slb/group 1/add x /c/slb/group 1/metric x\"\n', 'def convert_group_to_config():\n', '    if int(real_count) > 0:\n', '        output_file.write(\"/c/slb/group 1\\n\")\n', '        if \"SLB_METRIC\" in server_dict:\n', '           if len(server_dict[\"SLB_METRIC\"]) > 0:\n', '              if server_dict[\"SLB_METRIC\"] != \"none\":\n', '                 output_file.write(\"\\tmetric \"+ server_dict[\"SLB_METRIC\"]+ \"\\n\")\n', '        for indx in range(1, int(real_count)+1):\n', '            if (\"REAL_\" +str(indx)) in server_dict:\n', '                if len(server_dict[\"REAL_\" +str(indx)]) > 1:\n', '                    if server_dict[\"REAL_\" +str(indx)] != \"none\":\n', '                        output_file.write(\"\\tadd \" + str(indx) + \"\\n\")\n', '\n', '#convert to HA configuration\"\n', 'def convert_ha_to_config():\n', '    #check if we are in HA mode\n', '    if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '        output_file.write(\"/c/l3/hamode switch\\n\")\n', '        output_file.write(\"/c/l3/ha/switch\\n\\tdef 1\\n\")\n', '\n', '#convert to interface configuration\"\n', 'def convert_interface_peer_to_config():\n', '    #check if we are in HA mode\n', '    if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '        private_ip_master_peer = server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1\n', '        #we need to edit the interface ip and enable it so Alteon accept the config\n', '        if (server_dict[\"VM_ID\"]) == 1:\n', '            output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])  +\"\\n\")\n', '            output_file.write(\"\\tpeer \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(private_ip_master_peer) +\"\\n\")\n', '        elif (server_dict[\"VM_ID\"]) == 2:\n', '            output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(private_ip_master_peer)  +\"\\n\")\n', '            output_file.write(\"\\tpeer \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]) + \"\\n\")\n', '\n', '\n', 'init_vars()\n', 'convert_interface_peer_to_config()\n', 'convert_DNS_menu_to_config()\n', 'convert_reals_to_config()\n', 'convert_group_to_config()\n', 'convert_service_to_config()\n', 'convert_ha_to_config()\n', 'convert_AZURE_menu_to_config()\n')]"	
+	},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Compute/virtualMachineScaleSets/demoAlteonVmss'.",
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "sku": {
+                "name": "Standard_DS1_v2",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "name": "[variables('virtualMachineScaleSetsName')]",
+            "apiVersion": "2017-12-01",
+            "location": "[resourceGroup().location]",
+            "plan": {
+                "name": "radware-alteon-ng-va-adc",
+                "product": "radware-alteon-va",
+                "publisher": "radware"
+            },
+            "tags": {
+                "owner": "idohe@radware.com",
+                "expired_date": "2018-12-31"
+            },
+            "scale": null,
+            "properties": {
+                "singlePlacementGroup": true,
+                "upgradePolicy": {
+                    "mode": "Manual",
+                    "automaticOSUpgrade": false
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "alteofceb",
+                        "adminUsername": "radware",
+						"adminPassword": "radware12345!", 
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": false
+                        },
+						"customData": "[base64(concat('VM_ID = ',  '1', '\n', variables('customData')))]"
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            }
+                        },
+                        "imageReference": {
+                            "publisher": "radware",
+                            "offer": "radware-alteon-va",
+                            "sku": "radware-alteon-ng-va-adc",
+                            "version": "32.1.0000003"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "alteofcebNic",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": false,
+                                    "networkSecurityGroup": {
+                                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupsName'))]"
+                                    },
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "alteofcebIPConfig",
+                                            "properties": {
+                                                "subnet": {
+                                                    "id": "[variables('virtualMachineScaleSets_id')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4",
+                                                "loadBalancerBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName')), concat('/backendAddressPools/', variables('virtualMachineScaleSetsName'),'LBBEPool'))]"
+                                                    }
+                                                ],
+                                                "loadBalancerInboundNatPools": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupsName'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/microsoft.insights/autoscalesettings/alteonscale'.",
+            "type": "microsoft.insights/autoscalesettings",
+            "name": "[variables('autoscalesettingsName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "profiles": [
+                    {
+                        "name": "Auto created scale condition",
+                        "capacity": {
+                            "minimum": "1",
+                            "maximum": "1",
+                            "default": "1"
+                        },
+                        "rules": [
+                            {
+                                "metricTrigger": {
+                                    "metricName": "Percentage CPU",
+                                    "metricNamespace": "",
+                                    "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "GreaterThan",
+                                    "threshold": 70
+                                },
+                                "scaleAction": {
+                                    "direction": "Increase",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "enabled": true,
+                "name": "[variables('autoscalesettingsName')]",
+                "targetResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/microsoft.insights/components/demoAlteonsFunc'.",
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[variables('sites_demoAlteonsFunc_name')]",
+            "apiVersion": "2015-05-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "variables(microsoft_insights_tag)" : "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "Application_Type": "web",
+                "Flow_Type": null,
+                "Request_Source": "IbizaWebAppExtensionCreate",
+                "HockeyAppId": null,
+                "SamplingPercentage": null
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Network/loadBalancers/demoAlteonVmssLB'.",
+            "type": "Microsoft.Network/loadBalancers",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[variables('loadBalancersName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "owner": "idohe@radware.com",
+                "expired_date": "2018-12-31"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e408cdf7-d30a-40d6-8d50-c0f9c20d82f6",
+                "frontendIPConfigurations": [
+                    {
+                        "name": "loadBalancerFrontEnd",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressesName'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "[concat(variables('loadBalancersName'),'BEPool')]",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "provisioningState": "Succeeded"
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "http",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendIPConfiguration": {
+                                "id": "[variables('loadBalancers_id')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "SourceIP",
+                            "backendAddressPool": {
+                                "id": "[variables('loadBalancers_id_1')]"
+                            },
+                            "probe": {
+                                "id": "[variables('loadBalancers_id_2')]"
+                            }							
+                        }
+                    },
+                    {
+                        "name": "https_mgmt",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+							"frontendIPConfiguration": {
+                                "id": "[variables('loadBalancers_id')]"
+                            },							
+                            "frontendPort": 8443,
+                            "backendPort": 8443,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "SourceIP",
+                            "backendAddressPool": {
+                                "id": "[variables('loadBalancers_id_1')]"
+                            },
+                            "probe": {
+                                "id": "[variables('loadBalancers_id_2')]"
+                            }							
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "Probe_8080",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",								
+                            "protocol": "Tcp",
+                            "port": 8080,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressesName'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Network/networkSecurityGroups/demoAlteonVmssSG'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('networkSecurityGroupsName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "8edbe2b4-72c5-4527-9dac-457460d73d7d",
+                "securityRules": [
+                    {
+                        "name": "SSH",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1023,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "HTTP",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1033,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Port_https_mgmt",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1043,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"3066324c-d64a-42b9-83f6-b231650be63a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Network/publicIPAddresses/demoAlteonVmssLBPublicIP'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[variables('publicIPAddressesName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "owner": "idohe@radware.com",
+                "expired_date": "2018-12-31"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "00373c28-8675-4101-9675-83f73ee11e4f",
+                "ipAddress": "137.117.37.217",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            },
+            "dependsOn": []
+        },	
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Storage/storageAccounts/demoalteonsfunc8a8b'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[variables('storageAccounts_demoalteonsfunc_name')]",
+            "apiVersion": "2018-03-01-preview",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
+        },	
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Web/serverfarms/EastUSPlan'.",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "kind": "functionapp",
+            "name": "[variables('serverfarms_Plan_name')]",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "scale": null,
+            "properties": {
+                "name": "[variables('serverfarms_Plan_name')]",
+                "workerTierName": null,
+                "adminSiteName": null,
+                "hostingEnvironmentProfile": null,
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Web/sites/demoAlteonsFunc'.",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "name": "[variables('sites_demoAlteonsFunc_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "[resourceGroup().location]",
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(toLower(variables('sites_demoAlteonsFunc_name')), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(toLower(variables('sites_demoAlteonsFunc_name')), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[variables('sites_demoAlteonsFunc_serverFarmId')]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('serverfarms_Plan_name'))]"
+            ],
+			"resources": [
+			   {
+				  "apiVersion": "2015-08-01",
+				  "name": "httpTrigger",
+				  "type": "functions",
+				  "dependsOn": [
+					"[resourceId('Microsoft.Web/Sites', variables('sites_demoAlteonsFunc_name'))]"
+				  ],
+				  "properties": {
+					  "bindings": [
+						{
+						  "authLevel": "function",
+						  "type": "httpTrigger",
+						  "direction": "in",
+						  "name": "req",
+						  "methods": [
+							"post"
+						  ]
+						},
+						{
+						  "type": "http",
+						  "direction": "out",
+						  "name": "res"
+						}
+					  ],
+					  "disabled": false
+				  }
+			   }	
+			]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/demoAlteonsSS/providers/Microsoft.Web/sites/demoAlteonsFunc/hostNameBindings/demoalteonsfunc.azurewebsites.net'.",
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[concat(variables('sites_demoAlteonsFunc_name'), '/', variables('hostNameBindings_demoalteonsfunc_net_name'))]",
+            "apiVersion": "2016-08-01",
+            "location": "[resourceGroup().location]",
+            "scale": null,
+            "properties": {
+                "siteName": "[variables('sites_demoAlteonsFunc_name')]",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('sites_demoAlteonsFunc_name'))]"
+            ]
+        }
+    ]
+}
+
+
+
