@@ -1,0 +1,44 @@
+
+
+az group create --name IdoAlteonsSS --location eastus
+
+az network nsg create --name AlteonVmssSG --resource-group IdoAlteonsSS
+
+az network public-ip create -g IdoAlteonsSS -n AlteonVmssLBPublicIP --dns-name alteonvmss
+
+az network nsg rule create \
+  --resource-group IdoAlteonsSS \
+  --nsg-name AlteonVmssSG \
+  --name Port_50003 \
+  --access Allow \
+  --protocol Tcp \
+  --direction Inbound \
+  --priority 1002 \
+  --source-address-prefix Internet \
+  --source-port-range "*" \
+  --destination-port-range 50003
+
+az network nsg rule create \
+  --resource-group IdoAlteonsSS \
+  --nsg-name AlteonVmssSG \
+  --name Port_50000 \
+  --access Allow \
+  --protocol Tcp \
+  --direction Inbound \
+  --priority 1003 \
+  --source-address-prefix Internet \
+  --source-port-range "*" \
+  --destination-port-range 50000
+
+
+az vmss create -n AlteonVmss --admin-username radware --admin-password radware12345!  -g IdoAlteonsSS --nsg AlteonVmssSG \
+--subnet /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet/subnets/testVmssSubnet \
+--image radware:radware-alteon-va:radware-alteon-ng-va-adc:32.1.0000003 --tag owner=idohe@radware.com  expired_date=2018-12-31 \
+ --location eastus --instance-count 2
+
+#az vmss create -n AlteonVmss --admin-username radware --admin-password radware12345!  -g IdoAlteonsSS --nsg AlteonVmssSG \
+#--subnet /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet/subnets/testVmssSubnet \
+#--image radware:radware-alteon-va:radware-alteon-ng-va-adc:32.0.101010001  --plan-name radware-alteon-ng-va-adc --plan-product radware-alteon-va-preview --plan-publisher radware \
+#--tag owner=idohe@radware.com  expired_date=2018-12-31 \
+# --location eastus --instance-count 2
+

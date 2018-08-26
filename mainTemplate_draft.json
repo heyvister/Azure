@@ -1,0 +1,729 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of storage account"
+			}
+		},
+		"storageAccountNewOrExisting": {
+			"type": "string",
+			"defaultValue": "new",
+			"allowedValues": [
+				"new",
+				"existing"
+			],
+			"metadata": {
+			"Description": "Indicates whether the Storage Account is new or existing"
+			}
+		},
+		"storageAccountType": {
+			"type": "string",
+			"metadata": {
+				"description": "The type of the Storage Account created"
+			},
+			"defaultValue": "Standard_LRS"
+		},
+		"existingStorageAccountRG": {
+			"type": "string",
+			"metadata": {
+				"description": "Resource Group of the Existing VM."
+			},
+			"defaultValue": ""
+		},
+		 "VMPrefixName": {
+            "type": "String",
+            "metadata": {
+                "description": "VM Prefix Name"
+            }
+        },
+        "adminUsername": {
+            "type": "String",
+            "metadata": {
+                "description": "Admin username"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password"
+            }
+        },
+		"vmCount": {
+            "defaultValue": "1",
+            "type": "String",
+            "metadata": {
+                "description": "VM count"
+            }
+        },
+        "nicName": {
+            "defaultValue": "nic1",
+            "type": "String",
+            "metadata": {
+                "description": "Network Interface for the VM"
+            }
+        },
+        "publicIPAddressName": {
+            "defaultValue": "PublicIP",
+            "type": "String",
+            "metadata": {
+                "description": "Public IP Name"
+            }
+        },
+		"dnsNameForPublicIP": {
+			"type": "string",
+			"metadata": {
+				"description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+			}
+		},
+		"existingIPRGName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"publicIPNewOrExisting": {
+			"type": "string",
+			"defaultValue": "new",
+			"allowedValues": [
+				"new",
+				"existing"
+			],
+			"metadata": {
+				"Description": "Indicates whether the public IP is new or existing"
+			}
+		},
+		"ClientID": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "AD Client ID"
+            }
+        },
+		"ClientSecret": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "AD Client Secret"
+            }
+        },
+		"TenantID": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "AD Tenant ID"
+            }
+        },
+		"DNSServerIP": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "DNS Server IP"
+            }
+        },
+		"SLBPortNumber": {
+            "defaultValue": "80",
+            "type": "String",
+            "metadata": {
+                "description": "service port number"
+            }
+        },
+		"SLBMetric": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "SLB metric"
+            }
+        },
+		"RealsScalesetUsed": {
+            "defaultValue": "scaleset",
+            "type": "String",
+			"allowedValues": [
+				"scaleset",
+				"descrete"
+			],			
+            "metadata": {
+                "description": "Should scaleset or descrete mode be used as reals group"
+            }
+        },		
+		"RealsCount": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Amount of Real Servers"
+            }
+        },
+		 "Real1": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 1"
+            }
+        },
+		 "Real2": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 2"
+            }
+        },
+		 "Real3": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 3"
+            }
+        },
+		 "Real4": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 4"
+            }
+        },
+		 "Real5": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 5"
+            }
+        },
+		 "Real6": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 6"
+            }
+        },
+		 "Real7": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 7"
+            }
+        },
+		 "Real8": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 8"
+            }
+        },
+		"Real9": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 9"
+            }
+        },
+		"Real10": {
+            "defaultValue": "none",
+            "type": "String",
+            "metadata": {
+                "description": "ip for server 10"
+            }
+        },
+        "vmSize": {
+            "defaultValue": "Standard_D1",
+            "type": "String",
+            "metadata": {
+                "description": "Size of the VM"
+            }
+        }
+    },
+    "variables": {
+		"vmNamePrefix": "[parameters('VMPrefixName')]",
+		"nicNamePrefix": "AlteonNic",
+		"storageAccountType": "Standard_LRS",
+		"availabilitySetName": "AlteonVMAvSet",
+		"securityGroupName": "AlteonSG",
+		"addressPrefix": "10.0.0.0/16",
+		"PrivateIPAddressPrefix": "10.0.0.",
+		"PrivateIPAddressPosixStart": 4,
+		"subnetName": "Subnet-1",
+		"subnetPrefix": "10.0.0.0/24",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
+        "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables ('subnetName'))]",
+		"publicIPAddressNameref" : "[concat(parameters('publicIPAddressName'), '1')]",
+		"vnetName": "myVNET1",
+		"subscripID": "[subscription().id]",
+		"resourceGroupName": "[resourceGroup().name]",
+		"NICName": "[concat(variables('nicNamePrefix'), '1')]",
+		"PIPName": "[concat(parameters('publicIPAddressName'), '1')]",
+		"SIPName": "[concat(parameters('publicIPAddressName'), '2')]",
+		"PNICName": "[concat(variables('nicNamePrefix'), '1')]",
+		"imageOffer": "radware-alteon-va-preview",
+		"imagePublisher": "radware",
+		"radware_sku": "radware-alteon-ng-va-adc",
+		"plan": "[variables(concat('plan-', variables('imageOffer')))]",
+		"plan-radware-alteon-va-preview": {
+			"name": "[variables('radware_sku')]",
+			"product": "[variables('imageOffer')]",
+			"publisher": "[variables('imagePublisher')]"
+		},
+        "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
+        "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
+        "virtualMachineScaleSetsName": "[concat(variables('resourceGroupName'), 'Vmss')]",
+        "networkSecurityGroupsName": "[concat(variables('resourceGroupName'), 'VmssSG')]", 
+		"virtualMachineScaleSets_id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet/subnets/testVmssSubnet",
+		"loadBalancerFrontEnd": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
+		"backendAddressPools": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/backendAddressPools/', variables('virtualMachineScaleSetsName'), 'LBBEPool')]",
+		"loadBalancersProbes": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/probes/Probe_8080')]",		
+        "customData": "[concat('#!/usr/bin/env python\n', '###########################\n', '# Originally written by:\n', '# nissimn@radware.com\n', '#Nissim Nisimov\n', '###########################\n', '# Version 1.0 - 19/Sep/2016\n', '###########################\n', 'import fileinput\n', '\n', '#make sure each parameters is in new line - only parameters and vaiables attributes are supported\n', '#if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py\n', '\n', 'server_dict = {}\n', 'server_dict[\"SLB_PORT\"] =     \"', parameters('SLBPortNumber'), '\"', '\n', 'server_dict[\"REAL_COUNT\"] =   \"', parameters('RealsCount'), '\"', '\n', 'server_dict[\"REAL_1\"] =       \"', parameters('Real1'), '\"', '\n', 'server_dict[\"REAL_2\"] =       \"', parameters('Real2'), '\"', '\n', 'server_dict[\"REAL_3\"] =       \"', parameters('Real3'), '\"', '\n', 'server_dict[\"REAL_4\"] =       \"', parameters('Real4'), '\"', '\n', 'server_dict[\"REAL_5\"] =       \"', parameters('Real5'), '\"', '\n', 'server_dict[\"REAL_6\"] =       \"', parameters('Real6'), '\"', '\n', 'server_dict[\"REAL_7\"] =       \"', parameters('Real7'), '\"', '\n', 'server_dict[\"REAL_8\"] =       \"', parameters('Real8'), '\"', '\n', 'server_dict[\"REAL_9\"] =       \"', parameters('Real9'), '\"', '\n', 'server_dict[\"REAL_10\"] =      \"', parameters('Real10'), '\"', '\n', 'server_dict[\"CLIENTID\"] =     \"', parameters('ClientID'), '\"', '\n', 'server_dict[\"CLIENTSECRET\"] = \"', parameters('ClientSecret'), '\"', '\n', 'server_dict[\"TENANTID\"] =     \"', parameters('TenantID'), '\"', '\n', 'server_dict[\"DNSSERVERIP\"] =  \"', parameters('DNSServerIP'), '\"', '\n', 'server_dict[\"RSRCGRP\"] =      \"', variables('resourceGroupName'), '\"', '\n', 'server_dict[\"SUBSCRIP\"] =     \"', variables('subscripID'), '\"', '\n', 'server_dict[\"NICNAME\"] =      \"', variables('NICName'), '\"', '\n', 'server_dict[\"PIPNAME\"] =      \"', variables('PIPName'), '\"', '\n', 'server_dict[\"PNICNAME\"] =     \"', variables('PNICName'), '\"', '\n', 'server_dict[\"SIPNAME\"] =      \"', variables('SIPName'), '\"', '\n', 'server_dict[\"SLB_METRIC\"] =   \"', parameters('SLBMetric'), '\"', '\n', 'server_dict[\"VM_COUNT\"] =     \"', parameters('vmCount'), '\"', '\n', 'server_dict[\"VM_ID\"] =        VM_ID\n', 'server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] =  \"', variables('PrivateIPAddressPrefix'), '\"', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"] =  ', variables('PrivateIPAddressPosixStart'), '', '\n', '\n', '#file which will hold the generated configuration\n', 'output_file=open(\"/mnt/cf/Alteon/config/azure_converted_config.txt\", \"a+\")\n', 'real_count=0\n', '\n', 'def init_vars():\n', '     global real_count\n', '     if \"REAL_COUNT\" in server_dict:\n', '        if int(server_dict[\"REAL_COUNT\"]) > 0:\n', '            real_count=server_dict[\"REAL_COUNT\"]\n', '        else:\n', '            real_count=0\n', '\n', '#convert  DNS server to Alteon if needed\"\n', 'def convert_DNS_menu_to_config():\n', '    if \"DNSSERVERIP\" in server_dict:\n', '        if len(server_dict[\"DNSSERVERIP\"]) > 1:\n', '              if server_dict[\"DNSSERVERIP\"] != \"none\":\n', '                 output_file.write(\"/c/l3/dns\\n\\tprima \" + server_dict[\"DNSSERVERIP\"]+\"\\n\")\n', '\n', '\n', '#convert ActiveDirecory parameters and add DNS server to Alteon if needed\"\n', 'def convert_AZURE_menu_to_config():\n', '    azure_menu_on = 0;\n', '    if \"SUBSCRIP\" in server_dict:\n', '        if len(server_dict[\"SUBSCRIP\"]) > 1:\n', '              if server_dict[\"SUBSCRIP\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 # the format is /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98 we need to skip the prefix and get only the ID\n', '                 string_location = server_dict[\"SUBSCRIP\"].find(\"/subscriptions/\")\n', '                 string_size  = string_location + 15\n', '                 output_file.write(\"\\tsubscrip \" + server_dict[\"SUBSCRIP\"][string_size:len(server_dict[\"SUBSCRIP\"])]+\"\\n\")\n', '    if \"CLIENTID\" in server_dict:\n', '        if len(server_dict[\"CLIENTID\"]) > 1:\n', '              if server_dict[\"CLIENTID\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tclient \" + server_dict[\"CLIENTID\"]+\"\\n\")\n', '    if \"CLIENTSECRET\" in server_dict:\n', '        if len(server_dict[\"CLIENTSECRET\"]) > 1:\n', '              if server_dict[\"CLIENTSECRET\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tsecret\\n\\t\" + server_dict[\"CLIENTSECRET\"] + \"\\n\")\n', '    if \"TENANTID\" in server_dict:\n', '        if len(server_dict[\"TENANTID\"]) > 1:\n', '              if server_dict[\"TENANTID\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\ttenant \" + server_dict[\"TENANTID\"]+\"\\n\")\n', '    if \"RSRCGRP\" in server_dict:\n', '        if len(server_dict[\"RSRCGRP\"]) > 1:\n', '              if server_dict[\"RSRCGRP\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\trsrcgp \" + server_dict[\"RSRCGRP\"]+\"\\n\")\n', '    if \"NICNAME\" in server_dict:\n', '        if len(server_dict[\"NICNAME\"]) > 1:\n', '              if server_dict[\"NICNAME\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 if (server_dict[\"VM_ID\"]) == 1:\n', '                    output_file.write(\"\\tnicname \" + server_dict[\"NICNAME\"]+\"\\n\")\n', '                 elif (server_dict[\"VM_ID\"]) == 2:\n', '                    output_file.write(\"\\tpnicname \" + server_dict[\"NICNAME\"]+\"\\n\")\n', '    if \"PIPNAME\" in server_dict:\n', '        if len(server_dict[\"PIPNAME\"]) > 1:\n', '              if server_dict[\"PIPNAME\"] != \"none\":\n', '                 if (azure_menu_on == 0):\n', '                     azure_menu_on = 1\n', '                     output_file.write(\"/c/sys/azure\\n\" )\n', '                 output_file.write(\"\\tpipname \" + server_dict[\"PIPNAME\"]+\"\\n\")\n', '    if \"PNICNAME\" in server_dict:\n', '        if (server_dict[\"VM_COUNT\"]) == \"2\":  \n', '            if len(server_dict[\"PNICNAME\"]) > 1:\n', '                  if server_dict[\"PNICNAME\"] != \"none\":\n', '                     if (azure_menu_on == 0):\n', '                         azure_menu_on = 1\n', '                         output_file.write(\"/c/sys/azure\\n\" )\n', '                     if (server_dict[\"VM_ID\"]) == 1:\n', '                        output_file.write(\"\\tpnicname \" + server_dict[\"PNICNAME\"]+\"\\n\")\n', '                     elif (server_dict[\"VM_ID\"]) == 2:\n', '                        output_file.write(\"\\tnicname \" + server_dict[\"PNICNAME\"]+\"\\n\")\n', '    if \"SIPNAME\" in server_dict:\n', '        if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '            if len(server_dict[\"SIPNAME\"]) > 1:\n', '                  if server_dict[\"SIPNAME\"] != \"none\":\n', '                     if (azure_menu_on == 0):\n', '                         azure_menu_on = 1\n', '                         output_file.write(\"/c/sys/azure\\n\" )\n', '                     output_file.write(\"\\tsipname \" + server_dict[\"SIPNAME\"]+\"\\n\")\n', '\n', '\n', '#convert slb port to \"/c/slb/virt 1/service X http\"\n', 'def convert_service_to_config():\n', '    if (server_dict[\"VM_ID\"]) == 1:\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])\n', '    else:\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1)\n', '\n', '    output_file.write(\"/c/slb/virt 1\\n\\tena\\n\\tvip \" + private_ip +\"\\n\")\n', '  \n', '    if \"SLB_PORT\" in server_dict:\n', '       if len(server_dict[\"SLB_PORT\"]) > 0:\n', '          output_file.write(\"/c/slb/virt 1/service \"+ server_dict[\"SLB_PORT\"] + \" http\\n\")\n', '\n', '\n', '\n', '#convert reals to \"/c/slb/real x/rip y.y.y.y/ena\"\n', 'def convert_reals_to_config():\n', '     for indx in range(1, int(real_count)+1):\n', '        if (\"REAL_\" +str(indx)) in server_dict:\n', '           if len(server_dict[\"REAL_\" +str(indx)]) > 1:\n', '              if server_dict[\"REAL_\" +str(indx)] != \"none\":\n', '                 output_file.write(\"/c/slb/real \" + str(indx) + \"\\n\\tena\\n \"+\"\\trip \"+ server_dict[\"REAL_\" +str(indx)]+\"\\n\")\n', '\n', '\n', '\n', '#add reals and metric to group \"/c/slb/group 1/add x /c/slb/group 1/metric x\"\n', 'def convert_group_to_config():\n', '    if int(real_count) > 0:\n', '        output_file.write(\"/c/slb/group 1\\n\")\n', '        if \"SLB_METRIC\" in server_dict:\n', '           if len(server_dict[\"SLB_METRIC\"]) > 0:\n', '              if server_dict[\"SLB_METRIC\"] != \"none\":\n', '                 output_file.write(\"\\tmetric \"+ server_dict[\"SLB_METRIC\"]+ \"\\n\")\n', '        for indx in range(1, int(real_count)+1):\n', '            if (\"REAL_\" +str(indx)) in server_dict:\n', '                if len(server_dict[\"REAL_\" +str(indx)]) > 1:\n', '                    if server_dict[\"REAL_\" +str(indx)] != \"none\":\n', '                        output_file.write(\"\\tadd \" + str(indx) + \"\\n\")\n', '\n', '#convert to HA configuration\"\n', 'def convert_ha_to_config():\n', '    #check if we are in HA mode\n', '    if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '        output_file.write(\"/c/l3/hamode switch\\n\")\n', '        output_file.write(\"/c/l3/ha/switch\\n\\tdef 1\\n\")\n', '\n', '#convert to interface configuration\"\n', 'def convert_interface_peer_to_config():\n', '    #check if we are in HA mode\n', '    if (server_dict[\"VM_COUNT\"]) == \"2\":\n', '        private_ip_master_peer = server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1\n', '        #we need to edit the interface ip and enable it so Alteon accept the config\n', '        if (server_dict[\"VM_ID\"]) == 1:\n', '            output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])  +\"\\n\")\n', '            output_file.write(\"\\tpeer \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(private_ip_master_peer) +\"\\n\")\n', '        elif (server_dict[\"VM_ID\"]) == 2:\n', '            output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(private_ip_master_peer)  +\"\\n\")\n', '            output_file.write(\"\\tpeer \" + server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]) + \"\\n\")\n', '\n', '\n', 'init_vars()\n', 'convert_interface_peer_to_config()\n', 'convert_DNS_menu_to_config()\n', 'convert_reals_to_config()\n', 'convert_group_to_config()\n', 'convert_service_to_config()\n', 'convert_ha_to_config()\n', 'convert_AZURE_menu_to_config()\n')]"
+
+	},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[parameters('storageAccountName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accountType": "Standard_LRS"
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressNameref')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+			"copy": {
+				"name": "publicIPLoop",
+				"count": "[int(parameters('vmCount'))]"
+			},
+            "properties": {
+                "publicIPAllocationMethod": "Static",
+				"dnsSettings": {
+                     "domainNameLabel": "[concat(parameters('dnsNameForPublicIP'), copyindex(1))]"
+                }
+            }
+        },
+		{
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
+			"type": "Microsoft.Compute/availabilitySets",
+			"name": "[variables('availabilitySetName')]",
+			"apiVersion": "2015-06-15",
+			"location": "[resourceGroup().location]",
+			"properties": { }
+		},
+		{
+		  "apiVersion": "2015-06-15",
+		  "type": "Microsoft.Network/networkSecurityGroups",
+		  "name": "[variables('securityGroupName')]",
+		  "location": "[resourceGroup().location]",
+		  "tags": {
+			"displayName": "NSG - Front End"
+		  },
+		  "properties": {
+			"securityRules": [
+			  {
+				"name": "mgmt-https",
+				"properties": {
+				  "description": "Allow mgmt https WEB",
+				  "protocol": "Tcp",
+				  "sourcePortRange": "*",
+				  "destinationPortRange": "8443",
+				  "sourceAddressPrefix": "Internet",
+				  "destinationAddressPrefix": "*",
+				  "access": "Allow",
+				  "priority": 100,
+				  "direction": "Inbound"
+				}
+			  },
+			  {
+				"name": "default-allow-ssh",
+				"properties": {
+				  "description": "Allow ssh access",
+				  "protocol": "Tcp",
+				  "sourcePortRange": "*",
+				  "destinationPortRange": "22",
+				  "sourceAddressPrefix": "Internet",
+				  "destinationAddressPrefix": "*",
+				  "access": "Allow",
+				  "priority": 101,
+				  "direction": "Inbound"
+				}
+			  },
+			  {
+				"name": "slb-service",
+				"properties": {
+				  "description": "slb service port",
+				  "protocol": "Tcp",
+				  "sourcePortRange": "*",
+				  "destinationPortRange": "[int(parameters('SLBPortNumber'))]",
+				  "sourceAddressPrefix": "Internet",
+				  "destinationAddressPrefix": "*",
+				  "access": "Allow",
+				  "priority": 102,
+				  "direction": "Inbound"
+				}
+			  }
+			]
+		  }
+				
+		},
+		{
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
+			"type": "Microsoft.Network/virtualNetworks",
+			"name": "[variables('vnetName')]",
+			"apiVersion": "2015-06-15",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"
+			],
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+					   "[variables('addressPrefix')]"
+					]
+				},
+				"subnets": [
+					{
+						"name": "[variables('subnetName')]",
+						"properties": {
+							"addressPrefix": "[variables('subnetPrefix')]",
+							"networkSecurityGroup": {
+								"id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
+							}
+						}
+					}
+				]
+			}
+	    },
+        {
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('nicNamePrefix'), copyindex(1))]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+			"copy": {
+				"name": "nicLoop",
+				"count": "[int(parameters('vmCount'))]"
+			},
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+						    "privateIPAddress": "[concat(variables('PrivateIPAddressPrefix'), copyindex(variables('PrivateIPAddressPosixStart')))]",
+                            "privateIPAllocationMethod": "Static",
+                            "publicIPAddress": {
+							    "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressNameref'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName'))]",
+				"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressNameref'))]"
+            ]
+        },
+        {
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
+            "type": "Microsoft.Compute/virtualMachines",
+			"name": "[concat(variables('vmNamePrefix'), copyindex(1))]",
+			"copy": {
+				"name": "virtualMachineLoop",
+				"count": "[int(parameters('vmCount'))]"
+			},
+            "apiVersion": "2015-06-15",
+			"dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicNamePrefix'),copyindex(1)))]",
+				"[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+            ],
+            "location": "[resourceGroup().location]",
+			"plan": "[variables('plan')]",
+            "properties": {
+			    "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": "false",
+                        "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+                    }
+                },
+			    "availabilitySet": {
+					"id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
+				},
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[concat(variables('vmNamePrefix'), copyIndex(1))]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+					"customData": "[base64(concat('VM_ID = ',  copyIndex(1), '\n', variables('customData')))]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+						"offer": "[variables('imageOffer')]",
+						"sku" : "[variables('radware_sku')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/','osdisk',copyindex(1), '.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+						    "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicNamePrefix'),copyindex(1)))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'scaleset')]",
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "sku": {
+                "name": "Standard_DS1_v2",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "name": "[variables('virtualMachineScaleSetsName')]",
+            "apiVersion": "2017-12-01",
+            "location": "[resourceGroup().location]",
+            "plan" : "[variables('plan')]",
+            "tags": {
+                "owner": "idohe@radware.com",
+                "expired_date": "2018-12-31"
+            },
+            "scale": null,
+            "properties": {
+                "singlePlacementGroup": true,
+                "upgradePolicy": {
+                    "mode": "Manual",
+                    "automaticOSUpgrade": false
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "alteofceb",
+                        "adminUsername": "radware",
+						"adminPassword": "radware12345!", 
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": false
+                        },
+						"customData": "[base64(concat('VM_ID = ',  '1', '\n', variables('customData')))]"
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            }
+                        },
+							"imageReference": {
+							"publisher": "[variables('imagePublisher')]",
+							"offer": "[variables('imageOffer')]",
+							"sku" : "[variables('radware_sku')]",
+							"version": "latest"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "alteofcebNic",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": false,
+                                    "networkSecurityGroup": {
+                                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
+                                    },
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "alteofcebIPConfig",
+                                            "properties": {
+                                                "subnet": {
+                                                    "id": "[variables('virtualMachineScaleSets_id')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4",
+                                                "loadBalancerBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName')), concat('/backendAddressPools/', variables('virtualMachineScaleSetsName'),'LBBEPool'))]"
+                                                    }
+                                                ],
+                                                "loadBalancerInboundNatPools": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]"
+            ]
+        },
+        {
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'scaleset')]",
+            "type": "microsoft.insights/autoscalesettings",
+            "name": "[variables('autoscalesettingsName')]",
+            "apiVersion": "2014-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "profiles": [
+                    {
+                        "name": "Auto created scale condition",
+                        "capacity": {
+                            "minimum": "1",
+                            "maximum": "1",
+                            "default": "1"
+                        },
+                        "rules": [
+                            {
+                                "metricTrigger": {
+                                    "metricName": "Percentage CPU",
+                                    "metricNamespace": "",
+                                    "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "GreaterThan",
+                                    "threshold": 70
+                                },
+                                "scaleAction": {
+                                    "direction": "Increase",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "enabled": true,
+                "name": "[variables('autoscalesettingsName')]",
+                "targetResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]"
+            ]
+        },
+        {
+			"condition" : "[equals(parameters('RealsScalesetUsed'), 'scaleset')]",
+            "type": "Microsoft.Network/loadBalancers",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[variables('loadBalancersName')]",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "owner": "idohe@radware.com",
+                "expired_date": "2018-12-31"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e408cdf7-d30a-40d6-8d50-c0f9c20d82f6",
+                "frontendIPConfigurations": [
+                    {
+                        "name": "loadBalancerFrontEnd",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+								 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressNameref'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "[concat(variables('loadBalancersName'),'BEPool')]",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "http",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[variables('loadBalancerFrontEnd')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "SourceIP",
+                            "backendAddressPool": {
+                                "id": "[variables('backendAddressPools')]"
+                            },
+                            "probe": {
+                                "id": "[variables('loadBalancersProbes')]"
+                            }							
+                        }
+                    },
+                    {
+                        "name": "https_mgmt",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {
+							"frontendIPConfiguration": {
+                                "id": "[variables('loadBalancerFrontEnd')]"
+                            },							
+                            "frontendPort": 8443,
+                            "backendPort": 8443,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "SourceIP",
+                            "backendAddressPool": {
+                                "id": "[variables('backendAddressPools')]"
+                            },
+                            "probe": {
+                                "id": "[variables('loadBalancersProbes')]"
+                            }							
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "Probe_8080",
+                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
+                        "properties": {								
+                            "protocol": "Tcp",
+                            "port": 8080,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressNameref'))]"
+            ]
+        }		
+		
+    ],
+    "outputs": {
+	}
+}

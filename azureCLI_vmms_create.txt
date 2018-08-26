@@ -1,0 +1,21 @@
+
+#az group create --name IdoRealsSS --location eastus
+
+#az network nsg create --name testVmssSG --resource-group IdoRealsSS
+
+#az network public-ip update -g IdoRealsSS -n testVmssLBPublicIP --dns-name testvmss
+
+#az network nsg rule create \
+#  --resource-group IdoRealsSS \
+#  --nsg-name testVmssSG \
+#  --name Port_50002 \
+#  --access Allow \
+#  --protocol Tcp \
+#  --direction Inbound \
+#  --priority 1001 \
+#  --source-address-prefix Internet \
+#  --source-port-range "*" \
+#  --destination-port-range 50002
+
+az vmss create -n testVmss --admin-username radware --admin-password radware12345! -g IdoRealsSS \
+ --nsg testVmssSG --image UbuntuLTS --location eastus --vnet-name IdoRealSSvnet --instance-count 2
