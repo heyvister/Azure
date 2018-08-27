@@ -145,7 +145,14 @@
             "metadata": {
                 "description": "Should scaleset or descrete mode be used as reals group"
             }
-        },		
+        },	
+		"azureLoadBalancersName": {
+            "defaultValue": "default",
+            "type": "String",
+            "metadata": {
+                "description": "Azure LB name"
+            }
+        },	        	
 		"RealsCount": {
             "defaultValue": "",
             "type": "String",
@@ -261,7 +268,8 @@
 			"product": "[variables('imageOffer')]",
 			"publisher": "[variables('imagePublisher')]"
 		},
-        "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
+		"loadBalancersNameRef": "[if(equals(parameters('azureLoadBalancersName'), 'default'), resourceGroup().name, parameters('azureLoadBalancersName'))]",
+        "loadBalancersName": "[concat(variables('loadBalancersNameRef'), 'VmssLB')]", 
         "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
         "virtualMachineScaleSetsName": "[concat(variables('resourceGroupName'), 'Vmss')]",
         "networkSecurityGroupsName": "[concat(variables('resourceGroupName'), 'VmssSG')]", 
@@ -637,7 +645,6 @@
             },
             "scale": null,
             "properties": {
-                "provisioningState": "Succeeded",
                 "resourceGuid": "e408cdf7-d30a-40d6-8d50-c0f9c20d82f6",
                 "frontendIPConfigurations": [
                     {
@@ -653,7 +660,7 @@
                 ],
                 "backendAddressPools": [
                     {
-                        "name": "[concat(variables('loadBalancersName'),'BEPool')]",
+                        "name": "[concat(variables('virtualMachineScaleSetsName'),'LBBEPool')]",
                         "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
                         "properties": {
                         }
