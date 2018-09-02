@@ -8,17 +8,6 @@
 				"description": "Name of storage account"
 			}
 		},
-		"storageAccountNewOrExisting": {
-			"type": "string",
-			"defaultValue": "new",
-			"allowedValues": [
-				"new",
-				"existing"
-			],
-			"metadata": {
-			"Description": "Indicates whether the Storage Account is new or existing"
-			}
-		},
 		"storageAccountType": {
 			"type": "string",
 			"metadata": {
@@ -26,19 +15,6 @@
 			},
 			"defaultValue": "Standard_LRS"
 		},
-		"existingStorageAccountRG": {
-			"type": "string",
-			"metadata": {
-				"description": "Resource Group of the Existing VM."
-			},
-			"defaultValue": ""
-		},
-		 "VMPrefixName": {
-            "type": "String",
-            "metadata": {
-                "description": "VM Prefix Name"
-            }
-        },
         "adminUsername": {
             "type": "String",
             "metadata": {
@@ -51,20 +27,42 @@
                 "description": "Admin password"
             }
         },
-		"vmCount": {
+ 
+        "vmCount": {
             "defaultValue": "1",
-            "type": "String",
-            "metadata": {
-                "description": "VM count"
-            }
-        },
+             "type": "String",
+             "metadata": {
+                  "description": "VM count"
+             }
+        },            
         "nicName": {
             "defaultValue": "nic1",
+     		"type": "String",
+             "metadata": {
+               "description": "Network Interface for the VM"
+               }
+        },    
+        "realsResourceGroupName": {
+            "defaultValue": "IdoRealsSS",
             "type": "String",
             "metadata": {
-                "description": "Network Interface for the VM"
+                "description": "Exsisting reals resource group"
             }
-        },
+        },    
+        "realsVnetName": {
+            "defaultValue": "IdoRealSSvnet",
+            "type": "String",
+            "metadata": {
+                "description": "Exsisting reals vnet name"
+            }
+        },  
+        "realsSubnetName": {
+            "defaultValue": "testVmssSubnet",
+            "type": "String",
+            "metadata": {
+                "description": "Exsisting reals vnet subnet name"
+            }
+        },               
         "publicIPAddressName": {
             "defaultValue": "PublicIP",
             "type": "String",
@@ -76,21 +74,6 @@
 			"type": "string",
 			"metadata": {
 				"description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-			}
-		},
-		"existingIPRGName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"publicIPNewOrExisting": {
-			"type": "string",
-			"defaultValue": "new",
-			"allowedValues": [
-				"new",
-				"existing"
-			],
-			"metadata": {
-				"Description": "Indicates whether the public IP is new or existing"
 			}
 		},
 		"ClientID": {
@@ -231,7 +214,7 @@
             }
         },
         "vmSize": {
-            "defaultValue": "Standard_D1",
+            "defaultValue": "Standard_A1_v2",
             "type": "String",
             "metadata": {
                 "description": "Size of the VM"
@@ -239,23 +222,15 @@
         }
     },
     "variables": {
-		"vmNamePrefix": "[parameters('VMPrefixName')]",
-		"nicNamePrefix": "AlteonNic",
-		"storageAccountType": "Standard_LRS",
-		"availabilitySetName": "AlteonVMAvSet",
 		"securityGroupName": "AlteonSG",
 		"addressPrefix": "10.0.0.0/16",
 		"PrivateIPAddressPrefix": "10.0.0.",
 		"PrivateIPAddressPosixStart": 4,
-		"subnetName": "Subnet-1",
-		"subnetPrefix": "10.0.0.0/24",
-        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
-        "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables ('subnetName'))]",
-		"publicIPAddressNameref" : "[concat(parameters('publicIPAddressName'), '1')]",
-		"vnetName": "myVNET1",
+        "nicNamePrefix": "AlteonNic",
+        "NICName": "[concat(variables('nicNamePrefix'), '1')]",
+		"publicIPAddressNameref": "[concat(parameters('publicIPAddressName'), '1')]",
 		"subscripID": "[subscription().id]",
 		"resourceGroupName": "[resourceGroup().name]",
-		"NICName": "[concat(variables('nicNamePrefix'), '1')]",
 		"PIPName": "[concat(parameters('publicIPAddressName'), '1')]",
 		"SIPName": "[concat(parameters('publicIPAddressName'), '2')]",
 		"PNICName": "[concat(variables('nicNamePrefix'), '1')]",
@@ -273,7 +248,7 @@
         "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
         "virtualMachineScaleSetsName": "[concat(variables('resourceGroupName'), 'Vmss')]",
         "networkSecurityGroupsName": "[concat(variables('resourceGroupName'), 'VmssSG')]", 
-		"virtualMachineScaleSets_id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet/subnets/testVmssSubnet",
+        "realsFullSubnetName": "[concat(variables('subscripID'), '/resourceGroups/', parameters('realsResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('realsVnetName'), '/subnets/', parameters('realsSubnetName'))]",
 		"loadBalancerFrontEnd": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
 		"backendAddressPools": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/backendAddressPools/', variables('virtualMachineScaleSetsName'), 'LBBEPool')]",
 		"loadBalancersProbes": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/probes/Probe_8080')]",
@@ -311,14 +286,6 @@
                 }
             }
         },
-		{
-			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
-			"type": "Microsoft.Compute/availabilitySets",
-			"name": "[variables('availabilitySetName')]",
-			"apiVersion": "2015-06-15",
-			"location": "[resourceGroup().location]",
-			"properties": { }
-		},
 		{
 		  "apiVersion": "2015-06-15",
 		  "type": "Microsoft.Network/networkSecurityGroups",
@@ -375,126 +342,6 @@
 		  }
 				
 		},
-		{
-			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
-			"type": "Microsoft.Network/virtualNetworks",
-			"name": "[variables('vnetName')]",
-			"apiVersion": "2015-06-15",
-			"location": "[resourceGroup().location]",
-			"dependsOn": [
-				"[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"
-			],
-			"properties": {
-				"addressSpace": {
-					"addressPrefixes": [
-					   "[variables('addressPrefix')]"
-					]
-				},
-				"subnets": [
-					{
-						"name": "[variables('subnetName')]",
-						"properties": {
-							"addressPrefix": "[variables('subnetPrefix')]",
-							"networkSecurityGroup": {
-								"id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
-							}
-						}
-					}
-				]
-			}
-	    },
-        {
-			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('nicNamePrefix'), copyindex(1))]",
-            "apiVersion": "2015-06-15",
-            "location": "[resourceGroup().location]",
-			"copy": {
-				"name": "nicLoop",
-				"count": "[int(parameters('vmCount'))]"
-			},
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-						    "privateIPAddress": "[concat(variables('PrivateIPAddressPrefix'), copyindex(variables('PrivateIPAddressPosixStart')))]",
-                            "privateIPAllocationMethod": "Static",
-                            "publicIPAddress": {
-							    "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressNameref'))]"
-                            },
-                            "subnet": {
-                                "id": "[variables('subnetRef')]"
-                            }
-                        }
-                    }
-                ]
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName'))]",
-				"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressNameref'))]"
-            ]
-        },
-        {
-			"condition" : "[equals(parameters('RealsScalesetUsed'), 'descrete')]",
-            "type": "Microsoft.Compute/virtualMachines",
-			"name": "[concat(variables('vmNamePrefix'), copyindex(1))]",
-			"copy": {
-				"name": "virtualMachineLoop",
-				"count": "[int(parameters('vmCount'))]"
-			},
-            "apiVersion": "2015-06-15",
-			"dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicNamePrefix'),copyindex(1)))]",
-				"[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
-            ],
-            "location": "[resourceGroup().location]",
-			"plan": "[variables('plan')]",
-            "properties": {
-			    "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": "false",
-                        "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
-                    }
-                },
-			    "availabilitySet": {
-					"id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
-				},
-                "hardwareProfile": {
-                    "vmSize": "[parameters('vmSize')]"
-                },
-                "osProfile": {
-                    "computerName": "[concat(variables('vmNamePrefix'), copyIndex(1))]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]",
-					"customData": "[base64(concat('VM_ID = ',  copyIndex(1), '\n', variables('customData')))]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('imagePublisher')]",
-						"offer": "[variables('imageOffer')]",
-						"sku" : "[variables('radware_sku')]",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "osdisk",
-                        "vhd": {
-                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/','osdisk',copyindex(1), '.vhd')]"
-                        },
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-						    "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicNamePrefix'),copyindex(1)))]"
-                        }
-                    ]
-                }
-            }
-        },
         {
 			"condition" : "[equals(parameters('RealsScalesetUsed'), 'scaleset')]",
             "type": "Microsoft.Compute/virtualMachineScaleSets",
@@ -562,7 +409,7 @@
                                             "name": "alteofcebIPConfig",
                                             "properties": {
                                                 "subnet": {
-                                                    "id": "[variables('virtualMachineScaleSets_id')]"
+                                                    "id": "[variables('realsFullSubnetName')]"
                                                 },
                                                 "privateIPAddressVersion": "IPv4",
                                                 "loadBalancerBackendAddressPools": [
