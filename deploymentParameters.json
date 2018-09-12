@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": ""
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },
+    "adminUsername": {
+      "value": "radware"
+    },
+    "adminPassword": {
+      "value": "radware12345!"
+    },
+    "vmCount": {
+      "value": "1"
+    },
+    "nicName": {
+      "value": "nic1"
+    },
+    "realsResourceGroupName": {
+      "value": "IdoRealsSS"
+    },
+    "realsScalesetName": {
+      "value": "testVmss"
+    },
+    "realsResourceGroupName": {
+      "value": "IdoRealsSS"
+    },
+    "realsVnetName": {
+      "value": "IdoRealSSvnet"
+    },
+    "realsSubnetName": {
+      "value": "testVmssSubnet"
+    },
+    "publicIPAddressName": {
+      "value": "PublicIP"
+    },
+    "dnsNameForPublicIP": {
+      "value": ""
+    },
+    "ClientID": {
+      "value": "0c46a7db-cf3d-475d-ab18-e0601a94fde5"
+    },
+    "ClientSecret": {
+      "value": "OvPYiakHZ9WFRres6dLAtub54Y52LO3WeEqKzrCEVys="
+    },
+    "TenantID": {
+      "value": "36361a21-c721-4248-9748-8848b2573f18"
+    },
+    "DNSServerIP": {
+      "value": "8.8.8.8"
+    },
+    "SLBPortNumber": {
+      "value": "80"
+    },
+    "SLBMetric": {
+      "value": "none"
+    },
+    "RealsScalesetUsed": {
+      "value": "scaleset"
+    },
+    "azureLoadBalancersName": {
+      "value": "default"
+    },
+    "RealsCount": {
+      "value": "1"
+    },
+    "Real1": {
+      "value": "1.1.1.1"
+    },
+    "vmSize": {
+      "value": "Standard_D1"
+    }
+  }
+}
