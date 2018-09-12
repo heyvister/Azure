@@ -2,6 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "location": {      
+      "value": "East US"
+    },
     "storageAccountName": {
       "value": ""
     },
@@ -16,9 +19,6 @@
     },
     "vmCount": {
       "value": "1"
-    },
-    "nicName": {
-      "value": "nic1"
     },
     "realsResourceGroupName": {
       "value": "IdoRealsSS"
