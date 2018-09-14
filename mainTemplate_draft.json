@@ -367,7 +367,7 @@
                                 }
                             }
                         ]
-                    }                   
+                    }                                                
                 } ,          
                 "overprovision": true	                        
             },		            
@@ -376,7 +376,7 @@
                 "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]",
                 "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]"               			                   
             ]  
-        },
+        },                         
         {
 			"condition" : "[equals(parameters('RealsScalesetUsed'), 'scaleset')]",
             "type": "microsoft.insights/autoscalesettings",
@@ -672,8 +672,25 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]"
             ]
-        }		
-		
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "name": "[concat(variables('virtualMachineScaleSetsName'),'/','extensions')]",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "properties": {
+              "publisher": "Microsoft.Azure.Extensions",
+              "type": "CustomScript",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "script": "[base64(concat('#!/bin/bash\r\n',  'touch /disk/Alteon/ido.txt\r\n', 'echo \"hello world\" >> /disk/Alteon/ido.txt\r\n'))]"
+              }
+            },
+            "dependsOn": [
+                      "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]"    
+                  ]	  
+     }			 	        
     ],
     "outputs": {
 	}
