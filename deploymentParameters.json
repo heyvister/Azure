@@ -17,9 +17,6 @@
     "adminPassword": {
       "value": "radware12345!"
     },
-    "vmCount": {
-      "value": "1"
-    },
     "realsResourceGroupName": {
       "value": "IdoRealsSS"
     },
@@ -36,7 +33,7 @@
       "value": "testVmssSubnet"
     },
     "publicIPAddressName": {
-      "value": "PublicIP"
+      "value": "demoPublicIP"
     },
     "dnsNameForPublicIP": {
       "value": ""
@@ -64,9 +61,6 @@
     },
     "azureLoadBalancersName": {
       "value": "default"
-    },
-    "RealsCount": {
-      "value": "1"
     },
     "Real1": {
       "value": "1.1.1.1"
