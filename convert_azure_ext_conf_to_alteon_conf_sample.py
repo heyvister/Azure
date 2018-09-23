@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 ###########################
 # Originally written by:
 # nissimn@radware.com
@@ -16,6 +15,15 @@ server_dict = {}
 server_dict["SLB_PORT"] =     "parameters('SLBPortNumber')"
 server_dict["REAL_COUNT"] =   "parameters('RealsCount')"
 server_dict["REAL_1"] =       "parameters('Real1')"
+server_dict["REAL_2"] =       "parameters('Real2')"
+server_dict["REAL_3"] =       "parameters('Real3')"
+server_dict["REAL_4"] =       "parameters('Real4')"
+server_dict["REAL_5"] =       "parameters('Real5')"
+server_dict["REAL_6"] =       "parameters('Real6')"
+server_dict["REAL_7"] =       "parameters('Real7')"
+server_dict["REAL_8"] =       "parameters('Real8')"
+server_dict["REAL_9"] =       "parameters('Real9')"
+server_dict["REAL_10"] =      "parameters('Real10')"
 server_dict["CLIENTID"] =     "parameters('ClientID')"
 server_dict["CLIENTSECRET"] = "parameters('ClientSecret')"
 server_dict["TENANTID"] =     "parameters('TenantID')"
@@ -27,11 +35,6 @@ server_dict["PIPNAME"] =      "variables('PIPName')"
 server_dict["PNICNAME"] =     "variables('PNICName')"
 server_dict["SIPNAME"] =      "variables('SIPName')"
 server_dict["SLB_METRIC"] =   "parameters('SLBMetric')"
-server_dict["SS_NAME"] =      "scaleset1"
-server_dict["REAL_SS_NAME"] = "parameters('realsScalesetName')"
-server_dict["REALS_SS_RG"] =  "parameters('realsResourceGroupName')"
-server_dict["VM_COUNT"] =     "parameters('vmCount')"
-server_dict["FUNC_URL"] =     "variables('alteonAzureFuncUrl')"
 server_dict["VM_COUNT"] =     "parameters('vmCount')"
 server_dict["VM_ID"] =        VM_ID
 server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
@@ -135,23 +138,28 @@ def convert_AZURE_menu_to_config():
                          output_file.write("/c/sys/azure\n" )
                      output_file.write("\tsipname " + server_dict["SIPNAME"]+"\n")
 
-
 #convert slb port to "/c/slb/virt 1/service X http"
 def convert_service_to_config():
+    if (server_dict["VM_ID"]) == 1:
+        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"])
+    else:
+        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1)
+
+    output_file.write("/c/slb/virt 1\n\tena\n\tvip " + private_ip +"\n")
+  
     if "SLB_PORT" in server_dict:
        if len(server_dict["SLB_PORT"]) > 0:
-          output_file.write("/c/slb/virt 1\n\tena\n")
-          output_file.write("\tgroup 1\n")
-          output_file.write("\trport 80\n")
           output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
 
 
 
 #convert reals to "/c/slb/real x/rip y.y.y.y/ena"
 def convert_reals_to_config():
-    if len(server_dict["REAL_1"]) > 1:
-        if server_dict["REAL_1"] != "none":
-            output_file.write("/c/slb/real " + "1" + "\n\tdis\n "+"\trip "+ server_dict["REAL_1"]+"\n")
+     for indx in range(1, int(real_count)+1):
+        if ("REAL_" +str(indx)) in server_dict:
+           if len(server_dict["REAL_" +str(indx)]) > 1:
+              if server_dict["REAL_" +str(indx)] != "none":
+                 output_file.write("/c/slb/real " + str(indx) + "\n\tena\n "+"\trip "+ server_dict["REAL_" +str(indx)]+"\n")
 
 
 
@@ -163,10 +171,11 @@ def convert_group_to_config():
            if len(server_dict["SLB_METRIC"]) > 0:
               if server_dict["SLB_METRIC"] != "none":
                  output_file.write("\tmetric "+ server_dict["SLB_METRIC"]+ "\n")
-
-        if len(server_dict["REAL_1"]) > 1:
-            if server_dict["REAL_1"] != "none":
-                output_file.write("\tadd " + "1" + "\n")
+        for indx in range(1, int(real_count)+1):
+            if ("REAL_" +str(indx)) in server_dict:
+                if len(server_dict["REAL_" +str(indx)]) > 1:
+                    if server_dict["REAL_" +str(indx)] != "none":
+                        output_file.write("\tadd " + str(indx) + "\n")
 
 #convert to HA configuration"
 def convert_ha_to_config():
@@ -175,42 +184,6 @@ def convert_ha_to_config():
         output_file.write("/c/l3/hamode switch\n")
         output_file.write("/c/l3/ha/switch\n\tdef 1\n")
 
-#convert reals scaleset configuration"
-def convert_reals_scaleset_to_config():
-    fqdn_menu_on = 0
-    if "REAL_SS_NAME" in server_dict:
-        if len(server_dict["REAL_SS_NAME"]) > 1:
-              if server_dict["REAL_SS_NAME"] != "none":
-                 if (fqdn_menu_on == 0):
-                     fqdn_menu_on = 1
-                     output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup 1\n")
-		     output_file.write("\tmode cscale\n")
-                     output_file.write("\tena\n")
-			
-                 output_file.write("\tfqdn " + server_dict["REAL_SS_NAME"]+"\n")
-
-    if "REALS_SS_RG" in server_dict:
-        if len(server_dict["REALS_SS_RG"]) > 1:
-              if server_dict["REALS_SS_RG"] != "none":
-                 if (fqdn_menu_on == 0):
-                     fqdn_menu_on = 1
-                     output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup 1\n")
-                     output_file.write("\tmode cscale\n")
-                     output_file.write("\tena\n")
-
-                 output_file.write("\trsrcgrp " + server_dict["REALS_SS_RG"]+"\n")
-
-
-#Add HC probe 8080"
-def add_hc_probe_to_config():
-    output_file.write("/c/sys/health\n\ton\n\tadd 8080\n")
-
-#convert to Azure function URL"
-def convert_azure_function_url_to_config():
-     output_file.write("/c/sys/azure/funcurl \n\t"+ server_dict["FUNC_URL"]+ "\n")
-
 #convert to interface configuration"
 def convert_interface_peer_to_config():
     #check if we are in HA mode
@@ -218,10 +191,10 @@ def convert_interface_peer_to_config():
         private_ip_master_peer = server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1
         #we need to edit the interface ip and enable it so Alteon accept the config
         if (server_dict["VM_ID"]) == 1:
-            output_file.write("/c/l3/if 1\n\tena\n\taddr " + server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"])  +"\n")
+            output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.1"  + "\n")
             output_file.write("\tpeer " + server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(private_ip_master_peer) +"\n")
         elif (server_dict["VM_ID"]) == 2:
-            output_file.write("/c/l3/if 1\n\tena\n\taddr " + server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(private_ip_master_peer)  +"\n")
+            output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.2" + "\n")
             output_file.write("\tpeer " + server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]) + "\n")
 
 
@@ -230,9 +203,7 @@ convert_interface_peer_to_config()
 convert_DNS_menu_to_config()
 convert_reals_to_config()
 convert_group_to_config()
-#convert_service_to_config()
+convert_service_to_config()
 convert_ha_to_config()
-convert_reals_scaleset_to_config()
-add_hc_probe_to_config()
-convert_azure_function_url_to_config()
 convert_AZURE_menu_to_config()
+

@@ -107,9 +107,9 @@ def convert_reals_to_config():
 
 
 
-#add reals and metric to group "/c/slb/group group1/add x /c/slb/group group1/metric x"
+#add reals and metric to group "/c/slb/group 1/add x /c/slb/group 1/metric x"
 def convert_group_to_config():
-    output_file.write("/c/slb/group group1\n")
+    output_file.write("/c/slb/group 1\n")
     if "SLB_METRIC" in server_dict:
         if len(server_dict["SLB_METRIC"]) > 0:
 	    if server_dict["SLB_METRIC"] != "none":
@@ -129,7 +129,7 @@ def convert_reals_scaleset_to_config():
                  if (fqdn_menu_on == 0):
                      fqdn_menu_on = 1
                      output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup group1\n")
+                     output_file.write("\tgroup 1\n")
                      output_file.write("\tmode cscale\n")
                      output_file.write("\tena\n")
 
@@ -141,7 +141,7 @@ def convert_reals_scaleset_to_config():
                  if (fqdn_menu_on == 0):
                      fqdn_menu_on = 1
                      output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup group1\n")
+                     output_file.write("\tgroup 1\n")
                      output_file.write("\tmode cscale\n")
                      output_file.write("\tena\n")
 
@@ -158,12 +158,10 @@ def convert_azure_function_url_to_config():
 
 #convert to interface configuration"
 def convert_interface_peer_to_config():
-   
     private_ip_master_peer = server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1
     #we need to edit the interface ip and enable it so Alteon accept the config
     if (server_dict["VM_ID"]) == 1:
         output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.1"  + "\n")
-        output_file.write("\tpeer " + server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(private_ip_master_peer) +"\n")
  
 
 convert_interface_peer_to_config()
