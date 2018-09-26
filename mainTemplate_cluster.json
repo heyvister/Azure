@@ -612,9 +612,9 @@
                         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef'))]"
                     ],
                     "properties": {
-                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2015-05-01-preview').key1,';')]", 
-                        "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2015-05-01-preview').key1,';')]", 
-                        "FUNCTIONS_EXTENSION_VERSION": "latest"
+                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                        "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                        "FUNCTIONS_EXTENSION_VERSION": "~1"
                     }
                 },
                 {
