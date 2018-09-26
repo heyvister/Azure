@@ -55,10 +55,7 @@
     },
     "DNSServerIP": {
       "value": "8.8.8.8"
-    },
-    "AcceleratedNetworking": {
-      "value": "f"
-    },     
+    },   
     "SLBPortNumber": {
       "value": "80"
     },

@@ -118,7 +118,6 @@
             }
         },
 		"AcceleratedNetworking": {
-            "defaultValue": "bool('false')",
             "type": "bool",
             "metadata": {
                 "description": "DNS Server IP"
@@ -205,11 +204,12 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('storageAccountNameRef')]",
-            "apiVersion": "2018-04-01",
+            "apiVersion": "2018-07-01",
             "location": "[parameters('location')]",
-            "properties": {
-                "accountType": "Standard_LRS"
-            }
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "properties": {}
         },
         {
             "type": "Microsoft.Network/publicIPAddresses",
@@ -389,7 +389,7 @@
         {
             "type": "microsoft.insights/autoscalesettings",
             "name": "[variables('autoscalesettingsName')]",
-            "apiVersion": "2018-04-01",
+            "apiVersion": "2014-04-01",
             "location": "[parameters('location')]",
             "tags": {},
             "scale": null,
@@ -563,7 +563,7 @@
             },
             "kind": "functionapp",
             "name": "[variables('alteonAzureFuncServerfarmsPlanName')]",
-            "apiVersion": "2018-04-01",
+            "apiVersion": "2017-08-01",
             "location": "[parameters('location')]",
             "scale": null,
             "properties": {
@@ -604,7 +604,7 @@
             ],
             "resources": [
                 {
-                    "apiVersion": "2016-04-01",
+                    "apiVersion": "2018-02-01",
                     "name": "appsettings",
                     "type": "config",
                     "dependsOn": [
@@ -618,7 +618,7 @@
                     }
                 },
                 {
-                "apiVersion": "2018-04-01",
+                "apiVersion": "2018-02-01",
                 "name": "TestFunctionCM",
                 "type": "functions",
                 "dependsOn": [
@@ -650,7 +650,7 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "name": "[concat(variables('alteonsAzureFuncName'), '/', variables('alteonAzureFuncHostNameBindingsName'))]",
-            "apiVersion": "2018-04-01",
+            "apiVersion": "2018-02-01",
             "location": "[parameters('location')]",
             "scale": null,
             "properties": {
