@@ -17,6 +17,12 @@
     "adminPassword": {
       "value": "radware12345!"
     },
+    "tagOwnerName": {
+      "value": "idohe@radware.com"
+    },
+    "tagExpired":{
+      "value": "2019-12-31"
+    },
     "realsResourceGroupName": {
       "value": "IdoRealsSS"
     },
@@ -50,14 +56,14 @@
     "DNSServerIP": {
       "value": "8.8.8.8"
     },
+    "AcceleratedNetworking": {
+      "value": "f"
+    },     
     "SLBPortNumber": {
       "value": "80"
     },
     "SLBMetric": {
       "value": "none"
-    },
-    "RealsScalesetUsed": {
-      "value": "scaleset"
     },
     "azureLoadBalancersName": {
       "value": "default"
