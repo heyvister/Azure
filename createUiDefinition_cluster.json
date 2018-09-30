@@ -5,15 +5,15 @@
     "parameters":{  
         "basics":[  
             {  
-                "name":"VMPrefixName",
+                "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
-                "label":"VM Prefix Name",
-                "defaultValue":"[concat('AlteonVM', string(rand(1, 1000)))]",
+                "label":"Alteon Cluster Name",
+                "defaultValue":"[concat(name(), string(rand(1, 1000)))]",
                 "constraints":{  
-                    "regex":"^[a-z0-9A-Z]{1,100}$",
-                    "validationMessage":"VM prefix must start with an alphanumeric characters"
+                    "regex":"^([a-z0-9A-Z]*[-]{1}[a-z0-9A-Z]{1,}$)",
+                    "validationMessage":"Alteon cluster must start with an alphanumeric characters"
                 },
-                "toolTip":"Alteon VA Virtual machine name prefix",
+                "toolTip":"Alteon VA Cluster name",
                 "visible":true
             } 
         ],
@@ -53,7 +53,7 @@
                         "label":"Username",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
-                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     },
                     {  
                         "name":"adminPassword",
@@ -72,7 +72,7 @@
                             "hidePassword":false
                         },
                         "osPlatform":"Linux",
-                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     }
                 ]
             },                    
@@ -502,7 +502,7 @@
         ],
         "outputs":{  
             "location":"[location()]",
-            "VMPrefixName":"[basics('VMPrefixName')]",
+            "VMPrefixName":"[basics('AlteonClusterName')]",
             "adminUsername":"[basics('adminUsername')]",
             "adminPassword":"[basics('adminPassword').password]",
             "StorageAccountName":"[steps('infrastructureConfig').storageAccount.name]",
