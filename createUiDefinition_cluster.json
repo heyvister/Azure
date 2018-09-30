@@ -19,20 +19,20 @@
         ],
         "steps":[ 
             {  
-                "name":"VmssCredentials",
-                "label":"VMSS Credentials",
+                "name":"VmCredentials",
+                "label":"VM Credentials",
                 "subLabel":{  
-                    "preValidation":"Configure VMSS credentials settings",
+                    "preValidation":"Configure VM credentials settings",
                     "postValidation":"Done"
                 },
-                "bladeTitle":" VMSS credentials settings",
+                "bladeTitle":" VM credentials settings",
                 "elements":[  
                     {  
                         "name":"EnaDisVmssCredentials",
                         "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of VMSS credentias",
+                        "label":"Enable/Disable Alteon use of VM credentias",
                         "defaultValue":"Disable",
-                        "toolTip":"Enable/Disable Alteon use of VMSS credentias",
+                        "toolTip":"Enable/Disable Alteon use of VM credentias",
                         "constraints":{  
                             "allowedValues":[  
                                 {  
@@ -53,13 +53,13 @@
                         "label":"Username",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssCredentials').EnaDisVmssCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     },
                     {  
                         "name":"adminPassword",
                         "type":"Microsoft.Compute.CredentialsCombo",
                         "label":{  
-                            "authenticationType":"VMSS credentials",
+                            "authenticationType":"VM credentials",
                             "password":"Password",
                             "confirmPassword":"Confirm password",
                             "sshPublicKey":"SSH Public Key"
@@ -72,7 +72,7 @@
                             "hidePassword":false
                         },
                         "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssCredentials').EnaDisVmssCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     }
                 ]
             },                    
