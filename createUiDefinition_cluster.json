@@ -15,7 +15,32 @@
                 },
                 "toolTip":"Alteon VA Cluster name prefix",
                 "visible":true
-            }
+            },
+            {  
+                "name":"adminUsername",
+                "type":"Microsoft.Compute.UserNameTextBox",
+                "label":"Username",
+                "toolTip":"Administrator user name for the Alteon virtual VA machine",
+                "osPlatform":"Linux"
+            },
+            {  
+                "name":"adminPassword",
+                "type":"Microsoft.Compute.CredentialsCombo",
+                "label":{  
+                    "authenticationType":"Authentication type",
+                    "password":"Password",
+                    "confirmPassword":"Confirm password",
+                    "sshPublicKey":"SSH public key"
+                },
+                "toolTip":{  
+                    "password":"Admin password for the virtual machines"
+                },
+                "options":{  
+                    "hideConfirmation":true,
+                    "hidePassword":false
+                },
+                "osPlatform":"Linux"
+            }            
         ],
         "steps":[                 
             {  
