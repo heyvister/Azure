@@ -15,7 +15,9 @@
                 },
                 "toolTip":"Alteon VA Cluster name prefix",
                 "visible":true
-            },
+            }
+        ],
+        "steps":[  
             {  
                 "name":"VmCredentials",
                 "label":"VM Credentials",
@@ -51,7 +53,7 @@
                         "label":"Username",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
-                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     },
                     {  
                         "name":"adminPassword",
@@ -60,7 +62,7 @@
                             "authenticationType":"VM credentials",
                             "password":"Password",
                             "confirmPassword":"Confirm password",
-                            "sshPublicKey":"sSH Public Key"
+                            "sshPublicKey":"SSH Public Key"
                         },
                         "toolTip":{  
                             "password":"Admin password for the virtual machines"
@@ -70,12 +72,10 @@
                             "hidePassword":false
                         },
                         "osPlatform":"Linux",
-                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     }
                 ]
-            }          
-        ],
-        "steps":[  
+            },                 
             {  
                 "name":"infrastructureConfig",
                 "label":"Settings",
