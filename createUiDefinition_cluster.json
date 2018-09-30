@@ -8,7 +8,7 @@
                 "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
                 "label":"Alteon Cluster Name",
-                "defaultValue":"[concat(name(), string(rand(1, 1000)))]",
+                "defaultValue":"['alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
                     "regex":"^([a-z0-9A-Z]*[-]{1}[a-z0-9A-Z]{1,}$)",
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters"
@@ -19,20 +19,20 @@
         ],
         "steps":[ 
             {  
-                "name":"VmCredentials",
-                "label":"VM Credentials",
+                "name":"VmssCredentials",
+                "label":"VMSS Credentials",
                 "subLabel":{  
-                    "preValidation":"Configure VM credentials settings",
+                    "preValidation":"Configure VMSS credentials settings",
                     "postValidation":"Done"
                 },
-                "bladeTitle":" VM credentials settings",
+                "bladeTitle":" VMSS credentials settings",
                 "elements":[  
                     {  
-                        "name":"EnaDisVmCredentials",
+                        "name":"EnaDisVmssCredentials",
                         "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of VM credentias",
-                        "defaultValue":"Enable",
-                        "toolTip":"Enable/Disable Alteon use of VM credentias",
+                        "label":"Enable/Disable Alteon use of VMSS credentias",
+                        "defaultValue":"Disable",
+                        "toolTip":"Enable/Disable Alteon use of VMSS credentias",
                         "constraints":{  
                             "allowedValues":[  
                                 {  
@@ -53,13 +53,13 @@
                         "label":"Username",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmssCredentials').EnaDisVmssCredentials, 'Enable')]"
                     },
                     {  
                         "name":"adminPassword",
                         "type":"Microsoft.Compute.CredentialsCombo",
                         "label":{  
-                            "authenticationType":"VM credentials",
+                            "authenticationType":"VMSS credentials",
                             "password":"Password",
                             "confirmPassword":"Confirm password",
                             "sshPublicKey":"SSH Public Key"
@@ -72,7 +72,7 @@
                             "hidePassword":false
                         },
                         "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "visible":"[equals(steps('VmssCredentials').EnaDisVmssCredentials, 'Enable')]"
                     }
                 ]
             },                    
