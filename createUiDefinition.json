@@ -28,13 +28,12 @@
                 "type":"Microsoft.Compute.CredentialsCombo",
                 "label":{  
                     "authenticationType":"VM credentials",
-                    "password":"Default",
+                    "Default":"Default",
                     "confirmPassword":"Confirm password",
-                    "userDefined":"User Defined",
-                    "userName": "User Name"
+                    "userDefined":"User Defined"
                 },
                 "toolTip":{  
-                    "password":"Admin password for the virtual machines"
+                    "Default":"Admin password for the virtual machines"
                 },
                 "options":{  
                     "hideConfirmation":true,
