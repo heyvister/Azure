@@ -32,8 +32,14 @@
                     "confirmPassword":"Confirm password",
                     "sshPublicKey":"User Defined"
                 },
+                "label":{  
+                    "authenticationType":"VM credentials",
+                    "password":"Default2",
+                    "confirmPassword":"Confirm password2",
+                    "sshPublicKey":"User Defined2"
+                },                
                 "toolTip":{  
-                    "Default":"Admin password for the virtual machines"
+                    "password":"Admin password for the virtual machines"
                 },
                 "options":{  
                     "hideConfirmation":true,
