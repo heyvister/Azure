@@ -5,15 +5,15 @@
     "parameters":{  
         "basics":[  
             {  
-                "name":"VMPrefixName",
+                "name":"alteonClusterNAme",
                 "type":"Microsoft.Common.TextBox",
-                "label":"VM Prefix Name",
-                "defaultValue":"[concat('AlteonVM', string(rand(1, 1000)))]",
+                "label":"Alteon Cluster name",
+                "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
                     "regex":"^[a-z0-9A-Z]{1,100}$",
-                    "validationMessage":"VM prefix must start with an alphanumeric characters"
+                    "validationMessage":"Alteon cluster nane with an alphanumeric characters"
                 },
-                "toolTip":"Alteon VA Virtual machine name prefix",
+                "toolTip":"Alteon VA Cluster name prefix",
                 "visible":true
             },
             {  
@@ -27,10 +27,11 @@
                 "name":"adminPassword",
                 "type":"Microsoft.Compute.CredentialsCombo",
                 "label":{  
-                    "authenticationType":"Authentication type",
-                    "password":"Password",
+                    "authenticationType":"VM credentials",
+                    "password":"Default",
                     "confirmPassword":"Confirm password",
-                    "sshPublicKey":"SSH public key"
+                    "userDefined":"User Defined",
+                    "userName": "User Name"
                 },
                 "toolTip":{  
                     "password":"Admin password for the virtual machines"
