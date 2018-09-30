@@ -10,8 +10,8 @@
                 "label":"Alteon Cluster name",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
-                    "regex":"^[a-z0-9A-Z]{1,100}$",
-                    "validationMessage":"Alteon cluster nane with an alphanumeric characters"
+                    "regex":"^[a-z0-9A-Z]+_a-z0-9A-Z]{1,100}$",
+                    "validationMessage":"Alteon cluster name with an alphanumeric characters"
                 },
                 "toolTip":"Alteon VA Cluster name prefix",
                 "visible":true
