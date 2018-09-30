@@ -5,15 +5,15 @@
     "parameters":{  
         "basics":[  
             {  
-                "name":"alteonClusterNAme",
+                "name":"VMPrefixName",
                 "type":"Microsoft.Common.TextBox",
-                "label":"Alteon Cluster name",
-                "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
+                "label":"VM Prefix Name",
+                "defaultValue":"[concat('AlteonVM', string(rand(1, 1000)))]",
                 "constraints":{  
-                    "regex":"^([a-z0-9A-Z]*[-]{1}[a-z0-9A-Z]{1,}$)",
-                    "validationMessage":"Alteon cluster name with an alphanumeric characters"
+                    "regex":"^[a-z0-9A-Z]{1,100}$",
+                    "validationMessage":"VM prefix must start with an alphanumeric characters"
                 },
-                "toolTip":"Alteon VA Cluster name prefix",
+                "toolTip":"Alteon VA Virtual machine name prefix",
                 "visible":true
             },
             {  
@@ -40,9 +40,9 @@
                     "hidePassword":false
                 },
                 "osPlatform":"Linux"
-            }            
+            }
         ],
-        "steps":[                 
+        "steps":[  
             {  
                 "name":"infrastructureConfig",
                 "label":"Settings",
@@ -144,20 +144,20 @@
                 ]
             },
             {  
-                "name":"VmCredentials",
-                "label":"VM Credentials",
+                "name":"ActiveDirSetting",
+                "label":"Active Directory",
                 "subLabel":{  
-                    "preValidation":"Configure VM credentials settings",
+                    "preValidation":"Configure Active Directory settings",
                     "postValidation":"Done"
                 },
-                "bladeTitle":" VM credentials settings",
+                "bladeTitle":"Active Directory settings",
                 "elements":[  
                     {  
-                        "name":"EnaDisVmCredentials",
+                        "name":"EnaDisActiveDir",
                         "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of VM credentias",
-                        "defaultValue":"Enable",
-                        "toolTip":"Enable/Disable Alteon use of VM credentias",
+                        "label":"Enable/Disable Alteon use of Active Directory   (Relevant for GSLB/HA)",
+                        "defaultValue":"Disable",
+                        "toolTip":"Enable/Disable Alteon use of Active Directory - relevant for GSLB/HA",
                         "constraints":{  
                             "allowedValues":[  
                                 {  
@@ -173,34 +173,130 @@
                         "visible":true
                     },
                     {  
-                        "name":"adminUsername",
-                        "type":"Microsoft.Compute.UserNameTextBox",
-                        "label":"Username",
-                        "toolTip":"Administrator user name for the Alteon virtual VA machine",
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "name":"DNSServerIP",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"DNS Server IP Address",
+                        "defaultValue":"",
+                        "toolTip":"DNS Server IP Address",
+                        "constraints":{  
+                            "required":true,
+                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                            "validationMessage":"Format should be a valid IPv4 address"
+                        },
+                        "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
                     },
                     {  
-                        "name":"adminPassword",
-                        "type":"Microsoft.Compute.CredentialsCombo",
-                        "label":{  
-                            "authenticationType":"VM credentials",
-                            "password":"Password",
-                            "confirmPassword":"Confirm password",
-                            "sshPublicKey":"SSH Public Key"
+                        "name":"VmCredentials",
+                        "label":"VM Credentials",
+                        "subLabel":{  
+                            "preValidation":"Configure VM credentials settings",
+                            "postValidation":"Done"
                         },
-                        "toolTip":{  
-                            "password":"Admin password for the virtual machines"
-                        },
-                        "options":{  
-                            "hideConfirmation":true,
-                            "hidePassword":false
-                        },
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                        "bladeTitle":" VM credentials settings",
+                        "elements":[  
+                            {  
+                                "name":"EnaDisVmCredentials",
+                                "type":"Microsoft.Common.OptionsGroup",
+                                "label":"Enable/Disable Alteon use of VM credentias",
+                                "defaultValue":"Enable",
+                                "toolTip":"Enable/Disable Alteon use of VM credentias",
+                                "constraints":{  
+                                    "allowedValues":[  
+                                        {  
+                                            "label":"Enable",
+                                            "value":"Enable"
+                                        },
+                                        {  
+                                            "label":"Disable",
+                                            "value":"Disable"
+                                        }
+                                    ]
+                                },
+                                "visible":true
+                            },
+                            {  
+                                "name":"adminUsername",
+                                "type":"Microsoft.Compute.UserNameTextBox",
+                                "label":"Username",
+                                "toolTip":"Administrator user name for the Alteon virtual VA machine",
+                                "osPlatform":"Linux",
+                                "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                            },
+                            {  
+                                "name":"adminPassword",
+                                "type":"Microsoft.Compute.CredentialsCombo",
+                                "label":{  
+                                    "authenticationType":"VM credentials",
+                                    "password":"Password",
+                                    "confirmPassword":"Confirm password",
+                                    "sshPublicKey":"SSH Public Key"
+                                },
+                                "toolTip":{  
+                                    "password":"Admin password for the virtual machines"
+                                },
+                                "options":{  
+                                    "hideConfirmation":true,
+                                    "hidePassword":false
+                                },
+                                "osPlatform":"Linux",
+                                "visible":"[equals(steps('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                            }
+                        ]
+                    }, 
+                    {  
+                        "name":"ActiveDirectoryCredentials",
+                        "type":"Microsoft.Common.Section",
+                        "label":"Active Directory Credentials",
+                        "elements":[  
+                            {  
+                                "name":"ClientID",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Client ID",
+                                "defaultValue":"",
+                                "toolTip":"Active Directory Client ID",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^",
+                                    "validationMessage":"Format should be valid Client ID"
+                                },
+                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                            },
+                            {  
+                                "name":"ClientSecret",
+                                "type":"Microsoft.Common.PasswordBox",
+                                "label":{  
+                                    "password":"Client Secret",
+                                    "confirmPassword":"Confirm password"
+                                },
+                                "toolTip":"Active Directory Client Secret",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^",
+                                    "validationMessage":"Format should be a valid Client Secret"
+                                },
+                                "options":{  
+                                    "hideConfirmation":true
+                                },
+                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                            },
+                            {  
+                                "name":"TenantID",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Tenant ID",
+                                "defaultValue":"",
+                                "toolTip":"Active Directory Tenant ID",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^",
+                                    "validationMessage":"Format should be a valid Tenant ID"
+                                },
+                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                            }
+                        ],
+                        "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
                     }
                 ]
-            },  
+            },
             {  
                 "name":"SLBSetting",
                 "label":"SLB settings",
