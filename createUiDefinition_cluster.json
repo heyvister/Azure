@@ -29,7 +29,7 @@
                         "name":"EnaDisVmCredentials",
                         "type":"Microsoft.Common.OptionsGroup",
                         "label":"Enable/Disable Alteon use of VM credentias",
-                        "defaultValue":"Disable",
+                        "defaultValue":"Enable",
                         "toolTip":"Enable/Disable Alteon use of VM credentias",
                         "constraints":{  
                             "allowedValues":[  
