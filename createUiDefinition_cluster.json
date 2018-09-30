@@ -17,30 +17,63 @@
                 "visible":true
             },
             {  
-                "name":"adminUsername",
-                "type":"Microsoft.Compute.UserNameTextBox",
-                "label":"Username",
-                "toolTip":"Administrator user name for the Alteon virtual VA machine",
-                "osPlatform":"Linux"
-            },
-            {  
-                "name":"adminPassword",
-                "type":"Microsoft.Compute.CredentialsCombo",
-                "label":{  
-                    "authenticationType":"VM credentials",
-                    "type":"Microsoft.Common.PasswordBox",
-                    "confirmPassword":"Confirm password",
-                    "sshPublicKey":"User Defined"
+                "name":"VmCredentials",
+                "label":"VM Credentials",
+                "subLabel":{  
+                    "preValidation":"Configure VM credentials settings",
+                    "postValidation":"Done"
                 },
-                "toolTip":{  
-                    "password":"Admin password for the virtual machines"
-                },
-                "options":{  
-                    "hideConfirmation":true,
-                    "hidePassword":false
-                },
-                "osPlatform":"Linux"
-            }
+                "bladeTitle":" VM credentials settings",
+                "elements":[  
+                    {  
+                        "name":"EnaDisVmCredentials",
+                        "type":"Microsoft.Common.OptionsGroup",
+                        "label":"Enable/Disable Alteon use of VM credentias",
+                        "defaultValue":"Disable",
+                        "toolTip":"Enable/Disable Alteon use of VM credentias",
+                        "constraints":{  
+                            "allowedValues":[  
+                                {  
+                                    "label":"Enable",
+                                    "value":"Enable"
+                                },
+                                {  
+                                    "label":"Disable",
+                                    "value":"Disable"
+                                }
+                            ]
+                        },
+                        "visible":true
+                    },
+                    {  
+                        "name":"adminUsername",
+                        "type":"Microsoft.Compute.UserNameTextBox",
+                        "label":"Username",
+                        "toolTip":"Administrator user name for the Alteon virtual VA machine",
+                        "osPlatform":"Linux",
+                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                    },
+                    {  
+                        "name":"adminPassword",
+                        "type":"Microsoft.Compute.CredentialsCombo",
+                        "label":{  
+                            "authenticationType":"VM credentials",
+                            "password":"Password",
+                            "confirmPassword":"Confirm password",
+                            "sshPublicKey":"sSH Public Key"
+                        },
+                        "toolTip":{  
+                            "password":"Admin password for the virtual machines"
+                        },
+                        "options":{  
+                            "hideConfirmation":true,
+                            "hidePassword":false
+                        },
+                        "osPlatform":"Linux",
+                        "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
+                    }
+                ]
+            }          
         ],
         "steps":[  
             {  
