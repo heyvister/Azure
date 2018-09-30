@@ -28,9 +28,9 @@
                 "type":"Microsoft.Compute.CredentialsCombo",
                 "label":{  
                     "authenticationType":"VM credentials",
-                    "Default":"Default",
+                    "password":"Default",
                     "confirmPassword":"Confirm password",
-                    "userDefined":"User Defined"
+                    "sshPublicKey":"User Defined"
                 },
                 "toolTip":{  
                     "Default":"Admin password for the virtual machines"
