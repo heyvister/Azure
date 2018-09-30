@@ -15,7 +15,9 @@
                 },
                 "toolTip":"Alteon VA Virtual machine name prefix",
                 "visible":true
-            },
+            } 
+        ],
+        "steps":[ 
             {  
                 "name":"VmCredentials",
                 "label":"VM Credentials",
@@ -73,9 +75,7 @@
                         "visible":"[equals(basics('VmCredentials').EnaDisVmCredentials, 'Enable')]"
                     }
                 ]
-            }             
-        ],
-        "steps":[  
+            },                    
             {  
                 "name":"infrastructureConfig",
                 "label":"Settings",
