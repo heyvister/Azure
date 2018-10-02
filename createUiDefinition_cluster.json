@@ -220,7 +220,99 @@
                         "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
                     }                                                                                                             
               ]
-            },                                  
+            },
+            {  
+                "name":"AdvancedLbSettings",
+                "label":"Advanced LB Settings",
+                "subLabel":{  
+                    "preValidation":"Configure Advanced LB settings",
+                    "postValidation":"Done"
+                },
+                "bladeTitle":"Advanced LB Settings",
+                "elements":[  
+                    {  
+                        "name":"EnaDisLbSettings",
+                        "type":"Microsoft.Common.OptionsGroup",
+                        "label":"Enable/Disable Advanced LB settings",
+                        "defaultValue":"Disable",
+                        "toolTip":"Enable/Disable Advanced LB settings",
+                        "constraints":{  
+                            "allowedValues":[  
+                                {  
+                                    "label":"Enable",
+                                    "value":"Enable"
+                                },
+                                {  
+                                    "label":"Disable",
+                                    "value":"Disable"
+                                }
+                            ]
+                        },
+                        "visible":true
+                    },
+                    {
+                        "name":"LbType",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"Type",
+                        "defaultValue":"Public",
+                        "toolTip":"LB Type",
+                        "constraints":{ 
+                            "allowedValues":[
+                                {
+                                    "label":"Internal",
+                                    "value":"Internal" 
+                                },
+                                {
+                                    "label":"Public",
+                                    "value":"Public" 
+                                }                                          
+                            ]                            
+                        },
+                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                    },
+                    {
+                        "name":"LbSku",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"SKU",
+                        "defaultValue":"Standard",
+                        "toolTip":"LB SKU",
+                        "constraints":{ 
+                            "allowedValues":[
+                                {
+                                    "label":"Standard",
+                                    "value":"Standard" 
+                                },
+                                {
+                                    "label":"Basic",
+                                    "value":"Basic" 
+                                }                                          
+                            ]                            
+                        },
+                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                    },
+                    {
+                        "name":"LbPublicIpAddress",
+                        "type":"Microsoft.Network.PublicIpAddressCombo",
+                        "label": {
+                            "publicIpAddress":"Public IP address for Alteon cluster",
+                            "domainNameLabel":"Hostname name Alteon cluster"
+                        },
+                        "toolTip":{
+                            "publicIpAddress": "Public IP address for Alteon cluster"                     
+                        },
+                        "defaultValue":{  
+                            "publicIpAddressName":"",
+                            "domainNameLabel":""
+                        },
+                        "options":{  
+                            "hideNone":true,
+                            "hideExisting":true,
+                            "hideDomainNameLabel":true
+                        },                                                   
+                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                    }                                                                                 
+                ]
+            },                                             
             {  
                 "name":"ActiveDirSetting",
                 "label":"Active Directory",
