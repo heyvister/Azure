@@ -503,8 +503,8 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",
-            "adminUsername":"[basics('adminUsername')]",
-            "adminPassword":"[basics('adminPassword').password]",
+            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
+            "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "StorageAccountName":"[steps('infrastructureConfig').storageAccount.name]",
             "vmSize":"[steps('infrastructureConfig').vmSize]",
             "vmCount":"[steps('infrastructureConfig').VmCount]",
