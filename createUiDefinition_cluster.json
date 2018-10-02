@@ -19,64 +19,6 @@
         ],
         "steps":[ 
             {  
-                "name":"VmssInstanceCredentials",
-                "label":"VMSS Instance Credentials",
-                "subLabel":{  
-                    "preValidation":"Configure VMSS instance credentials settings",
-                    "postValidation":"Done"
-                },
-                "bladeTitle":" VMSS instance credentials settings",
-                "elements":[  
-                    {  
-                        "name":"EnaDisVmssInstanceCredentials",
-                        "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of VMSS instance credentias",
-                        "defaultValue":"Disable",
-                        "toolTip":"Enable/Disable Alteon use of VMSS instance credentias",
-                        "constraints":{  
-                            "allowedValues":[  
-                                {  
-                                    "label":"Enable",
-                                    "value":"Enable"
-                                },
-                                {  
-                                    "label":"Disable",
-                                    "value":"Disable"
-                                }
-                            ]
-                        },
-                        "visible":true
-                    },
-                    {  
-                        "name":"adminUsername",
-                        "type":"Microsoft.Compute.UserNameTextBox",
-                        "label":"Username",
-                        "toolTip":"Administrator user name for the Alteon virtual VA machine",
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
-                    },
-                    {  
-                        "name":"adminPassword",
-                        "type":"Microsoft.Compute.CredentialsCombo",
-                        "label":{  
-                            "authenticationType":"VMSS instance credentials",
-                            "password":"Password",
-                            "confirmPassword":"Confirm password",
-                            "sshPublicKey":"SSH Public Key"
-                        },
-                        "toolTip":{  
-                            "password":"Admin password for the virtual machines"
-                        },
-                        "options":{  
-                            "hideConfirmation":true,
-                            "hidePassword":false
-                        },
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
-                    }
-                ]
-            },                    
-            {  
                 "name":"infrastructureConfig",
                 "label":"Settings",
                 "subLabel":{  
@@ -179,7 +121,65 @@
                         "visible": "true"
                     }
                 ]
-            },
+            },            
+            {  
+                "name":"VmssInstanceCredentials",
+                "label":"VMSS Instance Credentials",
+                "subLabel":{  
+                    "preValidation":"Configure VMSS instance credentials settings",
+                    "postValidation":"Done"
+                },
+                "bladeTitle":" VMSS instance credentials settings",
+                "elements":[  
+                    {  
+                        "name":"EnaDisVmssInstanceCredentials",
+                        "type":"Microsoft.Common.OptionsGroup",
+                        "label":"Enable/Disable Alteon use of VMSS instance credentias",
+                        "defaultValue":"Disable",
+                        "toolTip":"Enable/Disable Alteon use of VMSS instance credentias",
+                        "constraints":{  
+                            "allowedValues":[  
+                                {  
+                                    "label":"Enable",
+                                    "value":"Enable"
+                                },
+                                {  
+                                    "label":"Disable",
+                                    "value":"Disable"
+                                }
+                            ]
+                        },
+                        "visible":true
+                    },
+                    {  
+                        "name":"adminUsername",
+                        "type":"Microsoft.Compute.UserNameTextBox",
+                        "label":"Username",
+                        "toolTip":"Administrator user name for the Alteon virtual VA machine",
+                        "osPlatform":"Linux",
+                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
+                    },
+                    {  
+                        "name":"adminPassword",
+                        "type":"Microsoft.Compute.CredentialsCombo",
+                        "label":{  
+                            "authenticationType":"VMSS instance credentials",
+                            "password":"Password",
+                            "confirmPassword":"Confirm password",
+                            "sshPublicKey":"SSH Public Key"
+                        },
+                        "toolTip":{  
+                            "password":"Admin password for the virtual machines"
+                        },
+                        "options":{  
+                            "hideConfirmation":true,
+                            "hidePassword":false
+                        },
+                        "osPlatform":"Linux",
+                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
+                    }
+                ]
+            },                    
             {  
                 "name":"ActiveDirSetting",
                 "label":"Active Directory",
