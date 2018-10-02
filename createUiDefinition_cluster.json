@@ -179,7 +179,43 @@
                             "regex":"^\\d+$",
                             "validationMessage":"Format should be valid throughput value in MBS"                            
                         }  
-                    }                                                  
+                    },
+                    {
+                        "name":"DpsPackage",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"DPS Package",
+                        "defaultValue":"Throuput",
+                        "toolTip":"DPS Package",
+                        "constraints":{ 
+                            "allowedValues":[
+                                {  
+                                    "label":"Throughput",
+                                    "value":"Throughput"
+                                },     
+                                {  
+                                    "label":"Secure",
+                                    "value":"Secure"
+                                },
+                                {  
+                                    "label":"Perform",
+                                    "value":"Perform"
+                                }                                                                                           
+                            ],
+                            "required":true
+                        }  
+                    }, 
+                    {
+                        "name":"AddOnSubsciption",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"Add-On Subsciption",
+                        "defaultValue":"",
+                        "toolTip":"Add-On Subsciption",
+                        "constraints":{ 
+                            "allowedValues":[],                             
+                            "required":true
+                        },
+                        "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
+                    }                                                                                                             
               ]
             },                                  
             {  
