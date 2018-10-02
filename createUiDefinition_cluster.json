@@ -207,10 +207,15 @@
                         "name":"AddOnSubsciption",
                         "type":"Microsoft.Common.DropDown",
                         "label":"Add-On Subsciption",
-                        "defaultValue":"",
+                        "defaultValue":"Sub1",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
-                            "allowedValues":[]                            
+                            "allowedValues":[
+                                {
+                                    "label":"Sub1",
+                                    "value":"Sub1" 
+                                }                               
+                            ]                            
                         },
                         "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
                     }                                                                                                             
