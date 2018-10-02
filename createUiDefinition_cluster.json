@@ -184,7 +184,7 @@
                         "name":"DpsPackage",
                         "type":"Microsoft.Common.DropDown",
                         "label":"DPS Package",
-                        "defaultValue":"Throuput",
+                        "defaultValue":"Throughput",
                         "toolTip":"DPS Package",
                         "constraints":{ 
                             "allowedValues":[
@@ -200,8 +200,7 @@
                                     "label":"Perform",
                                     "value":"Perform"
                                 }                                                                                           
-                            ],
-                            "required":true
+                            ]
                         }  
                     }, 
                     {
@@ -211,8 +210,7 @@
                         "defaultValue":"",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
-                            "allowedValues":[],                             
-                            "required":true
+                            "allowedValues":[]                            
                         },
                         "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
                     }                                                                                                             
