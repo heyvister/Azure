@@ -167,7 +167,18 @@
                             "validationMessage":"Format should be a valid IPv4 address"
                         },
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Local')]"     
-                    }                              
+                    },
+                    {
+                        "name":"ThroughputLicense",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"Throughput (MBS)",
+                        "defaultValue":"",
+                        "toolTip":"Throughput (MBS)",
+                        "constraints":{  
+                            "required":true
+                        },
+                        "visible":true      
+                    }                                                  
               ]
             },                                  
             {  
