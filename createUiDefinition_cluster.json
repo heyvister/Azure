@@ -102,7 +102,8 @@
                                     "value":"2"
                                 }
                             ]
-                        }
+                        },
+                        "visible": "true"
                     },
                     {  
                         "name":"storageAccount",
@@ -114,7 +115,8 @@
                         },
                         "options":{  
                             "hideExisting":true
-                        }
+                        },
+                        "visible": "true"
                     },
                     {  
                         "name":"vmSize",
@@ -152,7 +154,8 @@
                             "offer":"radware-alteon-va",
                             "sku":"radware-alteon-ng-va-adc"
                         },
-                        "count":"[steps('infrastructureConfig').vmCount]"
+                        "count":"[steps('infrastructureConfig').vmCount]",
+                        "visible": "true"
                     },
                     {  
                         "name":"dnsAndPublicIP",
@@ -172,7 +175,8 @@
                             "hideNone":true,
                             "hideExisting":true,
                             "hideDomainNameLabel":false
-                        }
+                        },
+                        "visible": "true"
                     }
                 ]
             },
