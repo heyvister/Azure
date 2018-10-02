@@ -175,9 +175,10 @@
                         "defaultValue":"",
                         "toolTip":"Throughput (MBS)",
                         "constraints":{  
-                            "required":true
-                        },
-                        "visible":true      
+                            "required":true,
+                            "regex":"^\\d+$",
+                            "validationMessage":"Format should be valid throughput value in MBS"                            
+                        }  
                     }                                                  
               ]
             },                                  
