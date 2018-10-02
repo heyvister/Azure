@@ -268,7 +268,7 @@
                                 }                                          
                             ]                            
                         },
-                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
                     },
                     {
                         "name":"LbSku",
@@ -288,7 +288,7 @@
                                 }                                          
                             ]                            
                         },
-                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
                     },
                     {
                         "name":"LbPublicIpAddress",
@@ -309,7 +309,7 @@
                             "hideExisting":true,
                             "hideDomainNameLabel":true
                         },                                                   
-                        "visible":"[equals(steps('AdvancedLbSettings').LbType, 'Enable')]"           
+                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
                     }                                                                                 
                 ]
             },                                             
