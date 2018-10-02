@@ -167,59 +167,7 @@
                             "validationMessage":"Format should be a valid IPv4 address"
                         },
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Local')]"     
-                    },
-                    {
-                        "name":"ThroughputLicense",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Throughput (MBS)",
-                        "defaultValue":"",
-                        "toolTip":"Throughput (MBS)",
-                        "constraints":{  
-                            "required":true
-                        },
-                        "visible":true      
-                    },  
-                    {
-                        "name":"DpsPackage",
-                        "type":"Microsoft.Common.DropDown",
-                        "label":"DPS Package",
-                        "defaultValue":"Throuput",
-                        "toolTip":"DPS Package",
-                        "constraints":{ 
-                            "allowedValues":[
-                                {  
-                                    "label":"Throughput",
-                                    "value":"Throughput"
-                                },     
-                                {  
-                                    "label":"Secure",
-                                    "value":"Secure"
-                                },
-                                {  
-                                    "label":"Perform",
-                                    "value":"Perform"
-                                }                                                                                           
-                            ],
-                            "required":true
-                        }  
-                    }, 
-                    {
-                        "name":"AddOnSubsciption",
-                        "type":"Microsoft.Common.DropDown",
-                        "label":"Add-On Subsciption",
-                        "defaultValue":"",
-                        "toolTip":"Add-On Subsciption",
-                        "constraints":{ 
-                            "allowedValues":[
-                                {  
-                                    "label":"Sub1",
-                                    "value":"Sub1"
-                                }                                       
-                            ],                             
-                            "required":true
-                        },
-                        "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
-                    }                                      
+                    }                              
               ]
             },                                  
             {  
