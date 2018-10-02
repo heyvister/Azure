@@ -89,7 +89,7 @@
                         "name":"ClsLlsGelSettings",
                         "type":"Microsoft.Common.OptionsGroup",
                         "label":"Cloud/Local GEL settings",
-                        "defaultValue":"LLS",
+                        "defaultValue":"Local",
                         "toolTip":"Cloud/Local GEL setting",
                         "constraints":{  
                             "allowedValues":[  
@@ -112,8 +112,7 @@
                         "defaultValue": "",
                         "toolTip":"Cloud license server ID",
                         "constraints":{  
-                            "required":true,
-                            "regex":"^"
+                            "required":true
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
                     },
@@ -176,8 +175,7 @@
                         "defaultValue":"",
                         "toolTip":"Throughput (MBS)",
                         "constraints":{  
-                            "required":true,
-                            "regex":"^"
+                            "required":true
                         },
                         "visible":true      
                     },  
@@ -212,7 +210,12 @@
                         "defaultValue":"",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
-                            "allowedValues":[],                             
+                            "allowedValues":[
+                                {  
+                                    "label":"Sub1",
+                                    "value":"Sub1"
+                                }                                       
+                            ],                             
                             "required":true
                         },
                         "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
