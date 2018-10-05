@@ -439,7 +439,19 @@
                               }                            
                         ],
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    }                                                                                                                                                                       
+                    },
+                    {
+                        "name":"VirtualNetwork",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"Virtual network",
+                        "toolTip":"Reals virtual network",
+                        "constraints":{ 
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z]{1,30}$",
+                            "validationMessage": "Only alphanumeric characters are allowed"
+                        },
+                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
+                    },                                                                                                                                                                                           
                 ]
             }                                                      
         ],
