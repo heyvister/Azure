@@ -451,7 +451,7 @@
                             "validationMessage": "Only alphanumeric characters are allowed"
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    },                                                                                                                                                                                           
+                    }                                                                                                                                                                                           
                 ]
             }                                                      
         ],
