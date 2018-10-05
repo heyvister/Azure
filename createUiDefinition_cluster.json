@@ -393,7 +393,30 @@
                             "validationMessage": "Only numeric characters are allowed 1-10"
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    }                                                                                                                 
+                    },
+                    {
+                        "name":"ScaleOut",
+                        "type":"Microsoft.Common.Section",
+                        "label":"Scale out",
+                        "elements": [
+                            {
+                              "name": "ScaleOut1",
+                              "type": "Microsoft.Common.TextBox",
+                              "label": "CPU threshold (%)"
+                            },
+                            {
+                              "name": "ScaleOut2",
+                              "type": "Microsoft.Common.TextBox",
+                              "label": "Inbound traffic (Mbps)"
+                            },
+                            {
+                                "name": "ScaleOut3",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Number of VMS to increase by"
+                              }                            
+                        ],
+                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
+                    }                                                                                                                                        
                 ]
             },                                                       
             {  
