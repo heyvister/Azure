@@ -172,7 +172,7 @@
                         "name":"ThroughputLicense",
                         "type":"Microsoft.Common.TextBox",
                         "label":"Throughput (MBS)",
-                        "defaultValue":"",
+                        "defaultValue":"1",
                         "toolTip":"Throughput (MBS)",
                         "constraints":{  
                             "required":true,
@@ -453,7 +453,235 @@
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     }                                                                                                                                                                                           
                 ]
-            }                                                      
+            },
+            {  
+                "name":"SLBSetting",
+                "label":"SLB settings",
+                "subLabel":{  
+                    "preValidation":"Configure SLB settings",
+                    "postValidation":"Done"
+                },
+                "bladeTitle":"SLB settings",
+                "elements":[  
+                    {  
+                        "name":"RealsCount",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"Number of real servers",
+                        "defaultValue":"2",
+                        "toolTip":"",
+                        "constraints":{  
+                            "allowedValues":[  
+                                {  
+                                    "label":"0",
+                                    "value":0
+                                },
+                                {  
+                                    "label":"1",
+                                    "value":1
+                                },
+                                {  
+                                    "label":"2",
+                                    "value":2
+                                },
+                                {  
+                                    "label":"3",
+                                    "value":3
+                                },
+                                {  
+                                    "label":"4",
+                                    "value":4
+                                },
+                                {  
+                                    "label":"5",
+                                    "value":5
+                                },
+                                {  
+                                    "label":"6",
+                                    "value":6
+                                },
+                                {  
+                                    "label":"7",
+                                    "value":7
+                                },
+                                {  
+                                    "label":"8",
+                                    "value":8
+                                },
+                                {  
+                                    "label":"9",
+                                    "value":9
+                                },
+                                {  
+                                    "label":"10",
+                                    "value":10
+                                }
+                            ]
+                        },
+                        "visible": "[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                    },
+                    {  
+                        "name":"RealServerSection",
+                        "type":"Microsoft.Common.Section",
+                        "label":"Real Servers IP Address",
+                        "elements":[  
+                            {  
+                                "name":"Real1",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 1 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 0), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real2",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 2 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 1), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real3",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 3 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 2), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real4",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 4 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 3), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real5",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 5 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 4), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real6",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 6 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 5), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real7",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 7 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 6), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real8",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 8 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 7), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real9",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 9 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 8), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            },
+                            {  
+                                "name":"Real10",
+                                "type":"Microsoft.Common.TextBox",
+                                "label":"Real 10 IP Address",
+                                "defaultValue":"",
+                                "constraints":{  
+                                    "required":true,
+                                    "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                    "validationMessage":"Format should be a valid IPv4 address"
+                                },
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 9), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                            }
+                        ]
+                    },
+                    {  
+                        "name":"SLBPortNumber",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"Service Port Number",
+                        "defaultValue":"80",
+                        "constraints":{  
+                            "regex":"^\\d+$",
+                            "validationMessage":"Format should be valid tcp port"
+                        },
+                        "toolTip":"The port number of the service you want to load balance"
+                    },
+                    {  
+                        "name":"SLBMetric",
+                        "type":"Microsoft.Common.DropDown",
+                        "label":"Metrics",
+                        "defaultValue":"Least connections",
+                        "toolTip":"The load balancing metrics you want to use",
+                        "constraints":{  
+                            "allowedValues":[  
+                                {  
+                                    "label":"Least connections",
+                                    "value":"leastconns"
+                                },
+                                {  
+                                    "label":"Round robin",
+                                    "value":"roundrobin"
+                                },
+                                {  
+                                    "label":"Response time",
+                                    "value":"response"
+                                }
+                            ]
+                        }
+                    }                   
+                ]
+            }                                                                 
         ],
         "outputs":{  
             "location":"[location()]",
