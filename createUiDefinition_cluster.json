@@ -358,7 +358,7 @@
                     {  
                         "name":"InstanceSize",
                         "type":"Microsoft.Compute.SizeSelector",
-                        "label":"Scaleset virtual machine size",
+                        "label":"Instance size",
                         "toolTip":"The size of scaleset virtual machine/s",
                         "recommendedSizes":[  
                             "Standard_D2",
