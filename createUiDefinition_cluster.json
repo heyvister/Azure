@@ -522,7 +522,8 @@
                                     "value":10
                                 }
                             ]
-                        }
+                        },
+                        "visible": "equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
                     },
                     {  
                         "name":"RealServerSection",
@@ -539,7 +540,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[greater(steps('SLBSetting').RealsCount, 0)]"
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 0), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'))]"
                             },
                             {  
                                 "name":"Real2",
@@ -551,7 +552,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[greater(steps('SLBSetting').RealsCount, 1)]"
+                                "visible":"[and(greater(steps('SLBSetting').RealsCount, 1), equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'))]"
                             },
                             {  
                                 "name":"Real3",
