@@ -106,7 +106,7 @@
                         "visible":true
                     },
                     {  
-                        "name":"cloudLicenseServerId",
+                        "name":"CloudLicenseServerDeviceId",
                         "type":"Microsoft.Common.TextBox",
                         "label":"Cloud License Server ID",
                         "defaultValue": "",
@@ -143,9 +143,9 @@
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"      
                     },                                    
                     {  
-                        "name":"SecondaryLlsIP",
+                        "name":"PrimaryLlsIP",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Secondary LLS IP Address",
+                        "label":"Primary LLS IP Address",
                         "defaultValue":"",
                         "toolTip":"Secondary LLS IP Address",
                         "constraints":{  
@@ -355,19 +355,44 @@
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     },
-                    {
-                        "name":"InstanceSize",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Instance size",
-                        "defaultValue":"Standard_D1",
-                        "toolTip":"Define instances VM size",
-                        "constraints":{ 
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z]{1,30}$",
-                            "validationMessage": "Only alphanumeric characters are allowed"
+                    {  
+                        "name":"InstanceCount",
+                        "type":"Microsoft.Compute.SizeSelector",
+                        "label":"Scaleset virtual machine size",
+                        "toolTip":"The size of scaleset virtual machine/s",
+                        "recommendedSizes":[  
+                            "Standard_D2",
+                            "Standard_A2",
+                            "Standard_D3",
+                            "Standard_A3"
+                        ],
+                        "constraints":{  
+                            "allowedSizes":[  
+                                "Standard_DS1_V2",
+                                "Standard_DS2_V2",
+                                "Standard_DS3_V2",
+                                "Standard_DS4_V2",
+                                "Standard_DS5_V2",
+                                "Standard_DS11_V2",
+                                "Standard_D2",
+                                "Standard_D3",
+                                "Standard_D4",
+                                "Standard_D11",
+                                "Standard_D12",
+                                "Standard_D13",
+                                "Standard_D14",
+                                "Standard_A2",
+                                "Standard_A3"
+                            ]
+                        },				
+                        "osPlatform":"Linux",
+                        "imageReference":{  
+                            "publisher":"radware",
+                            "offer":"radware-alteon-va",
+                            "sku":"radware-alteon-ng-va-adc"
                         },
-                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    },           
+						"visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]" 								
+                    },
                     {
                         "name":"MinNumOfVMs",
                         "type":"Microsoft.Common.TextBox",
@@ -692,8 +717,14 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",
-            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
-            "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
+            "adminUsername":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminUsername, '')]",
+            "adminPassword":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminPassword, '')]",
+            "CloudLicenseServerDeviceId":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').CloudLicenseServerDeviceId, '')]",
+            "PrimaryDnsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').PrimaryDnsIP, '')]",
+            "SecondaryDnsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').SecondaryDnsIP, '')]",
+            "PrimaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').PrimaryLlsIP, '')]",
+            "SecondaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').SecondaryLlsIP, '')]",     
+
             "StorageAccountName":"[steps('infrastructureConfig').storageAccount.name]",
             "vmSize":"[steps('infrastructureConfig').vmSize]",
             "vmCount":"[steps('infrastructureConfig').VmCount]",
