@@ -523,7 +523,7 @@
                                 }
                             ]
                         },
-                        "visible": "equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
+                        "visible": "[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]"
                     },
                     {  
                         "name":"RealServerSection",
