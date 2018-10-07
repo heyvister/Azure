@@ -478,10 +478,11 @@
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
                           "virtualNetwork": "Virtual network",
-                          "subnets": "subnet"
+                          "subnets": "Subnets"
                         },
                         "toolTip": {
-                          "virtualNetwork": ""
+                          "virtualNetwork": "",
+                          "subnets": ""
                         },
                         "defaultValue": {
                           "name": "vnet01",
@@ -493,8 +494,23 @@
                         "options": {
                           "hideExisting": false
                         },
+                        "subnets": {
+                          "subnet1": {
+                            "label": "First subnet",
+                            "defaultValue": {
+                              "name": "subnet-1",
+                              "addressPrefixSize": "/24"
+                            },
+                            "constraints": {
+                              "minAddressPrefixSize": "/24",
+                              "minAddressCount": 12,
+                              "requireContiguousAddresses": true
+                            }
+                          }
+                        },
                          "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]" 
-                      }	                                                                                                                                                                                    
+                      }	
+                                                                                                                                                                                                        
                 ]
             },
             {  
