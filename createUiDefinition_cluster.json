@@ -481,8 +481,8 @@
                           "subnets": "Subnets"
                         },
                         "toolTip": {
-                          "virtualNetwork": "",
-                          "subnets": ""
+                          "virtualNetwork": "Choose reals server virtual network",
+                          "subnets": "Choose reals server subnet"
                         },
                         "defaultValue": {
                           "name": "vnet01",
