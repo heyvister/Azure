@@ -478,7 +478,7 @@
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
                           "virtualNetwork": "Virtual network",
-                          "subnets": ""
+                          "subnets": "subnet"
                         },
                         "toolTip": {
                           "virtualNetwork": ""
