@@ -548,8 +548,7 @@
                                     "value":10
                                 }
                             ]   
-                        },
-                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable')]" 
+                        }
                     },                       
                     {  
                         "name":"RealServerSection",
