@@ -361,7 +361,8 @@
                         "type":"Microsoft.Compute.SizeSelector",
                         "label":"Instance size",
                         "toolTip":"The size of scaleset virtual machine/s",
-                        "recommendedSizes":[  
+                        "recommendedSizes":[
+                            "Standard_D1",  
                             "Standard_D2",
                             "Standard_A2",
                             "Standard_D3",
@@ -729,7 +730,6 @@
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
             "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
             "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
-
             "LbType": "[steps('AdvancedLbSettings').LbType]", 
             "LbSku": "[steps('AdvancedLbSettings').LbSku]",
             "LbPublicIpAddress":"[string(steps('AdvancedLbSettings').LbPublicIpAddress)]",
@@ -739,7 +739,6 @@
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
             "ScaleOut":"[string(steps('ScalesetSettings').ScaleOut)]",            
             "ScaleIn":"[string(steps('ScalesetSettings').ScaleIn)]",            
-           
             "SLBMetric":"[steps('SLBSetting').SLBMetric]",
             "Real1":"[steps('SLBSetting').RealServerSection.Real1]",
             "Real2":"[steps('SLBSetting').RealServerSection.Real2]",
