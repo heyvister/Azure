@@ -489,8 +489,8 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",    
-            "adminUsername":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminUsername, '')]",
-            "adminPassword":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminPassword, '')]"             
+            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername)]",
+            "adminPassword":"[steps('VmssInstanceCredentials').adminPassword)]"             
 
         }
     }
