@@ -51,7 +51,7 @@
                         "name":"adminUsername",
                         "type":"Microsoft.Compute.UserNameTextBox",
                         "label":"Username",
-                        "defaultValue":"admin1",
+                        "defaultValue":"",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
                         "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
