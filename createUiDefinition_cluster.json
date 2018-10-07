@@ -724,15 +724,6 @@
             "SecondaryDnsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').SecondaryDnsIP, '')]",
             "PrimaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').PrimaryLlsIP, '')]",
             "SecondaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').SecondaryLlsIP, '')]",     
-
-            "StorageAccountName":"[steps('infrastructureConfig').storageAccount.name]",
-            "vmSize":"[steps('infrastructureConfig').vmSize]",
-            "vmCount":"[steps('infrastructureConfig').VmCount]",
-            "dnsNameForPublicIP":"[steps('infrastructureConfig').dnsAndPublicIP.domainNameLabel]",
-            "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
-            "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
-            "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
-            "DNSServerIP":"[steps('ActiveDirSetting').DNSServerIP]",
             "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
             "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
             "SLBMetric":"[steps('SLBSetting').SLBMetric]"
