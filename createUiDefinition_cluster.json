@@ -716,14 +716,7 @@
         ],
         "outputs":{  
             "location":"[location()]",
-            "VMPrefixName":"[basics('AlteonClusterName')]",
-            "adminUsername":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminUsername, '')]",
-            "adminPassword":"[if(equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable'), steps('VmssInstanceCredentials').adminPassword, '')]",
-            "CloudLicenseServerDeviceId":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').CloudLicenseServerDeviceId, '')]",
-            "PrimaryDnsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').PrimaryDnsIP, '')]",
-            "SecondaryDnsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud') ,steps('GelSettings').SecondaryDnsIP, '')]",
-            "PrimaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').PrimaryLlsIP, '')]",
-            "SecondaryLlsIP":"[if(equals(steps('GelSettings').ClsLlsGelSettings, 'Local') ,steps('GelSettings').SecondaryLlsIP, '')]",     
+            "VMPrefixName":"[basics('AlteonClusterName')]",     
             "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
             "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
             "SLBMetric":"[steps('SLBSetting').SLBMetric]"
