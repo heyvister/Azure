@@ -489,11 +489,16 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",    
-            "adminUsername": {
-                "value": "[if(equals('a', 'a'), 'radware', 'aaaa')]",
-                "type": "string"
-            },
-            "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]"             
+            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
+            "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
+            "CloudLicenseServerDeviceId":"[steps('GelSettings').CloudLicenseServerDeviceId]",
+            "PrimaryDnsIP":"[steps('GelSettings').PrimaryDnsIP]",
+            "SecondaryDnsIP":"[steps('GelSettings').SecondaryDnsIP]",
+            "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
+            "SecondaryLlsIP":"steps('GelSettings').SecondaryLlsIP]",
+			"RealsCount":"[string(steps('SLBSetting').RealsCount)]",
+            "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
+            "SLBMetric":"[steps('SLBSetting').SLBMetric]"            	                         
 
         }
     }
