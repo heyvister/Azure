@@ -496,7 +496,6 @@
             "SecondaryDnsIP":"[steps('GelSettings').SecondaryDnsIP]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"steps('GelSettings').SecondaryLlsIP]",
-			"RealsCount":"[string(steps('SLBSetting').RealsCount)]",
             "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
             "SLBMetric":"[steps('SLBSetting').SLBMetric]"            	                         
 
