@@ -498,7 +498,7 @@
                         "name":"RealsCount",
                         "type":"Microsoft.Common.DropDown",
                         "label":"Number of real servers",
-                        "defaultValue":"0",
+                        "defaultValue":"[if(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), '2', '0')]",
                         "toolTip":"",
                         "constraints":{  
                             "allowedValues":[  
@@ -722,7 +722,8 @@
             "PrimaryDnsIP":"[steps('GelSettings').PrimaryDnsIP]",
             "SecondaryDnsIP":"[steps('GelSettings').SecondaryDnsIP]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
-            "SecondaryLlsIP":"steps('GelSettings').SecondaryLlsIP]",
+            "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
+            "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
             "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
             "SLBMetric":"[steps('SLBSetting').SLBMetric]"            	                         
 
