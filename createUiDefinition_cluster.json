@@ -477,12 +477,10 @@
                         "name": "VirtualNetwork",
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
-                          "virtualNetwork": "Virtual network",
-                          "subnets": "Subnets"
+                          "virtualNetwork": "Virtual network"
                         },
                         "toolTip": {
-                          "virtualNetwork": "",
-                          "subnets": ""
+                          "virtualNetwork": ""
                         },
                         "defaultValue": {
                           "name": "vnet01",
@@ -493,32 +491,6 @@
                         },
                         "options": {
                           "hideExisting": false
-                        },
-                        "subnets": {
-                          "subnet1": {
-                            "label": "First subnet",
-                            "defaultValue": {
-                              "name": "subnet-1",
-                              "addressPrefixSize": "/24"
-                            },
-                            "constraints": {
-                              "minAddressPrefixSize": "/24",
-                              "minAddressCount": 12,
-                              "requireContiguousAddresses": true
-                            }
-                          },
-                          "subnet2": {
-                            "label": "Second subnet",
-                            "defaultValue": {
-                              "name": "subnet-2",
-                              "addressPrefixSize": "/26"
-                            },
-                            "constraints": {
-                              "minAddressPrefixSize": "/26",
-                              "minAddressCount": 8,
-                              "requireContiguousAddresses": true
-                            }
-                          }
                         },
                          "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]" 
                       }	                                                                                                                                                                                    
