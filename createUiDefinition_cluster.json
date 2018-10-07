@@ -489,7 +489,7 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",    
-            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername.Username)]",
+            "adminUsername":"[steps('VmssInstanceCredentials').adminUsername)]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password)]"             
 
         }
