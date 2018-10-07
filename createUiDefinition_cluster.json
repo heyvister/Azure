@@ -489,7 +489,7 @@
         "outputs":{  
             "location":"[location()]",
             "VMPrefixName":"[basics('AlteonClusterName')]",    
-            "adminUsername":"[if(equals('a', 'a'), 'radware', json('null')]",
+            "adminUsername":"[if(equals('steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials', 'Enable'), 'radware', json('null'))]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]"             
 
         }
