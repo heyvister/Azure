@@ -422,7 +422,7 @@
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     },
                     {
-                        "name":"ScaleOut",
+                        "name":"ScalesetScaleOut",
                         "type":"Microsoft.Common.Section",
                         "label":"Scale out",
                         "elements": [
@@ -448,7 +448,7 @@
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     },
                     {
-                        "name":"ScaleIn",
+                        "name":"ScalesetScaleIn",
                         "type":"Microsoft.Common.Section",
                         "label":"Scale in",
                         "elements": [
@@ -474,7 +474,7 @@
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     },
                     {
-                        "name": "VirtualNetwork",
+                        "name": "RealsVirtualNetwork",
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
                           "virtualNetwork": "Virtual network",
@@ -743,7 +743,7 @@
         ],
         "outputs":{  
             "location":"[location()]",
-            "VMPrefixName":"[basics('AlteonClusterName')]",    
+            "AlteonClusterName":"[basics('AlteonClusterName')]",    
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "CloudLicenseServerDeviceId":"[steps('GelSettings').CloudLicenseServerDeviceId]",
@@ -754,8 +754,6 @@
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
-            "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
-            "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",
             "LbType": "[steps('AdvancedLbSettings').LbType]", 
             "LbSku": "[steps('AdvancedLbSettings').LbSku]",
             "LbPublicIpAddress":"[string(steps('AdvancedLbSettings').LbPublicIpAddress)]",
@@ -763,10 +761,12 @@
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
             "MinNumOfVMs":"[string(steps('ScalesetSettings').MinNumOfVMs)]",
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
-            "ScaleOut": "[string(steps('ScalesetSettings').ScaleOut)]",            
-            "ScaleIn": "[string(steps('ScalesetSettings').ScaleIn)]",  
+            "ScalesetScaleOut": "[string(steps('ScalesetSettings').ScalesetScaleOut)]",            
+            "ScalesetScaleIn": "[string(steps('ScalesetSettings').ScalesetScaleIn)]",  
             "EnaDisScalesetSettings": "[steps('ScalesetSettings').EnaDisScalesetSettings]",
-            "VirtualNetwork": "[steps('ScalesetSettings').VirtualNetwork]",
+            "RealsVirtualNetwork": "[steps('ScalesetSettings').RealsVirtualNetwork]",
+            "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
+            "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",            
             "SLBMetric":"[steps('SLBSetting').SLBMetric]",
             "Real1": "[steps('SLBSetting').RealServerSection.Real1]",
             "Real2": "[steps('SLBSetting').RealServerSection.Real2]",
