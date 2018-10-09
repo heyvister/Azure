@@ -302,8 +302,8 @@
                             "publicIpAddress": "Public IP address for Alteon cluster"                     
                         },
                         "defaultValue":{  
-                            "publicIpAddressName":"[concat(basics('AlteonClusterName'),'IP-')]",
-                            "domainNameLabel":"[concat(basics('AlteonClusterName'),'IP-', string(rand(1, 1000)))]"
+                            "publicIpAddressName":"[concat('alteon-cluster','IP')]",
+                            "domainNameLabel":"[concat('alteon-cluster','IP-', string(rand(1, 1000)))]"
                         },
                         "options":{  
                             "hideNone":true,
@@ -852,7 +852,8 @@
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
             "LbType": "[steps('AdvancedLbSettings').LbType]", 
             "LbSku": "[steps('AdvancedLbSettings').LbSku]",
-            "LbPublicIpAddress":"[string(steps('AdvancedLbSettings').LbPublicIpAddress)]",
+            "PublicIpName":"[string(steps('AdvancedLbSettings').LbPublicIpAddress.publicIpAddressName)]",
+            "PublicIpDomainName":"[string(steps('AdvancedLbSettings').LbPublicIpAddress.domainNameLabel)]",
             "InstanceCount": "[steps('ScalesetSettings').InstanceCount]", 
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
             "MinNumOfVMs":"[string(steps('ScalesetSettings').MinNumOfVMs)]",
