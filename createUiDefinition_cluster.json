@@ -302,8 +302,8 @@
                             "publicIpAddress": "Public IP address for Alteon cluster"                     
                         },
                         "defaultValue":{  
-                            "publicIpAddressName":"",
-                            "domainNameLabel":""
+                            "publicIpAddressName":"[concat(basics('AlteonClusterName'),'IP-')]",
+                            "domainNameLabel":"[concat(basics('AlteonClusterName'),'IP-', string(rand(1, 1000)))]"
                         },
                         "options":{  
                             "hideNone":true,
@@ -427,19 +427,19 @@
                         "label":"Scale out",
                         "elements": [
                             {
-                              "name": "ScaleOut1",
+                              "name": "ScaleOutCpuThreshold",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
                               "label": "CPU threshold (%)"
                             },
                             {
-                              "name": "ScaleOut2",
+                              "name": "ScaleOutInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
                               "label": "Inbound traffic (Mbps)"
                             },
                             {
-                                "name": "ScaleOut3",
+                                "name": "ScaleOutIncreaseBy",
                                 "type": "Microsoft.Common.TextBox",
                                 "defaultValue":"1",
                                 "label": "Number of VMS to increase by"
@@ -453,19 +453,19 @@
                         "label":"Scale in",
                         "elements": [
                             {
-                              "name": "ScaleIn1",
+                              "name": "ScaleInCpuThreshold",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "label": "CPU threshold (%)"
                             },
                             {
-                              "name": "ScaleIn2",
+                              "name": "ScaleInInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "label": "Inbound traffic (Mbps)"
                             },
                             {
-                                "name": "ScaleIn3",
+                                "name": "ScaleInDecreaseBy",
                                 "type": "Microsoft.Common.TextBox",
                                 "defaultValue":"1",
                                 "label": "Number of VMS to increase by"
