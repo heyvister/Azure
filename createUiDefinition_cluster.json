@@ -860,7 +860,7 @@
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
             "ScalesetScaleOut": "[steps('ScalesetSettings').ScalesetScaleOut]",            
             "ScalesetScaleIn": "[steps('ScalesetSettings').ScalesetScaleIn]",  
-            "IsScalesetEna":"[if(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable'), true, false)]",
+            "IsScalesetEna":"[if(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable'), bool('true'), bool('false')]",
             "RealsVirtualNetwork": "[steps('ScalesetSettings').RealsVirtualNetwork]",
             "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
             "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
