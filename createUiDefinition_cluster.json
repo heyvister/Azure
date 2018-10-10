@@ -15,7 +15,30 @@
                 },
                 "toolTip":"Alteon VA Cluster name",
                 "visible":true
-            } 
+            },
+            {  
+                "name":"AlteonClusterOwnerTagName",
+                "type":"Microsoft.Common.TextBox",
+                "label":"Alteon Cluster Owner Tag Name",
+                "defaultValue":"",
+                "constraints":{  
+                    "regex":"^[a-z0-9A-Z]{1,100}$",
+                    "validationMessage":"Alteon cluster owner tag must start with an alphanumeric characters"
+                },
+                "toolTip":"Alteon VA Cluster name",
+                "visible":true
+            },
+            {  
+                "name":"AlteonClusterExpiredTag",
+                "type":"Microsoft.Common.TextBox",
+                "label":"Alteon Cluster Owner Tag Name",
+                "defaultValue":"",
+                "constraints":{  
+                    "validationMessage":"Alteon cluster expired tag should qualify YYYY-MM-DD"
+                },
+                "toolTip":"Alteon VA Cluster name",
+                "visible":true
+            }                                    
         ],
         "steps":[         
             {  
@@ -51,7 +74,6 @@
                         "name":"adminUsername",
                         "type":"Microsoft.Compute.UserNameTextBox",
                         "label":"Username",
-                        "defaultValue":"",
                         "toolTip":"Administrator user name for the Alteon virtual VA machine",
                         "osPlatform":"Linux",
                         "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
@@ -820,6 +842,8 @@
         "outputs":{  
             "location":"[location()]",
             "AlteonClusterName":"[basics('AlteonClusterName')]",    
+            "tagOwnerName":"[basics('AlteonClusterOwnerTagName')]",
+            "tagExpired":"[basics('AlteonClusterExpiredTag')]",
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "CloudLicenseServerDeviceId":"[steps('GelSettings').CloudLicenseServerDeviceId]",
