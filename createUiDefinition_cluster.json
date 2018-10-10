@@ -22,7 +22,6 @@
                 "label":"Alteon Cluster Owner Tag Name",
                 "defaultValue":"",
                 "constraints":{  
-                    "regex":"^[a-z0-9A-Z]{1,100}$",
                     "validationMessage":"Alteon cluster owner tag must start with an alphanumeric characters"
                 },
                 "toolTip":"Alteon VA Cluster name",
