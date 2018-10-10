@@ -172,13 +172,13 @@
                     {
                         "name":"ThroughputLicense",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Throughput (MBS)",
+                        "label":"Throughput (Mbps)",
                         "defaultValue":"1",
-                        "toolTip":"Throughput (MBS)",
+                        "toolTip":"Throughput (Mbps)",
                         "constraints":{  
                             "required":true,
                             "regex":"^\\d+$",
-                            "validationMessage":"Format should be valid throughput value in MBS"                            
+                            "validationMessage":"Format should be valid throughput value in Mbps"                            
                         }  
                     },
                     {
@@ -523,26 +523,6 @@
                 "bladeTitle":"Active Directory settings",
                 "elements":[  
                     {  
-                        "name":"EnaDisActiveDir",
-                        "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of Active Directory   (Relevant for GSLB/HA)",
-                        "defaultValue":"Disable",
-                        "toolTip":"Enable/Disable Alteon use of Active Directory - relevant for GSLB/HA",
-                        "constraints":{  
-                            "allowedValues":[  
-                                {  
-                                    "label":"Enable",
-                                    "value":"Enable"
-                                },
-                                {  
-                                    "label":"Disable",
-                                    "value":"Disable"
-                                }
-                            ]
-                        },
-                        "visible":true
-                    },
-                    {  
                         "name":"DNSServerIP",
                         "type":"Microsoft.Common.TextBox",
                         "label":"DNS Server IP Address",
@@ -571,7 +551,7 @@
                                     "regex":"^",
                                     "validationMessage":"Format should be valid Client ID"
                                 },
-                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                                "visible":true
                             },
                             {  
                                 "name":"ClientSecret",
@@ -589,7 +569,7 @@
                                 "options":{  
                                     "hideConfirmation":true
                                 },
-                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                                "visible":true
                             },
                             {  
                                 "name":"TenantID",
@@ -602,10 +582,10 @@
                                     "regex":"^",
                                     "validationMessage":"Format should be a valid Tenant ID"
                                 },
-                                "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                                "visible":true
                             }
                         ],
-                        "visible":"[equals(steps('ActiveDirSetting').EnaDisActiveDir, 'Enable')]"
+                        "visible":true
                     }
                 ]
             },            
