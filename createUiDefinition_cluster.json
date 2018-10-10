@@ -22,7 +22,7 @@
                 "label":"Alteon Cluster Owner Tag Name",
                 "defaultValue":"",
                 "constraints":{  
-                    "validationMessage":"Alteon cluster owner tag must start with an alphanumeric characters"
+                    "validationMessage":"Alteon cluster owner tag"
                 },
                 "toolTip":"Alteon VA Cluster name",
                 "visible":true
