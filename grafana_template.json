@@ -173,7 +173,7 @@
                         }
                     },
                     "imageReference": {
-                        "id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/yanivr-20180925/providers/Microsoft.Compute/images/analytics-image-20180925112455"
+                        "id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/yanivr-analytics/providers/Microsoft.Compute/images/analytics-image-20180906132441"
                     }
                 },
                 "networkProfile": {
