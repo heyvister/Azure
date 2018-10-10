@@ -22,7 +22,7 @@
                 "label":"Alteon Cluster Owner Tag Name",
                 "defaultValue":"",
                 "constraints":{  
-                    "validationMessage":"Alteon cluster owner tag"
+                    "validationMessage":"Alteon cluster Owner Tag Name"
                 },
                 "toolTip":"Alteon VA Cluster name",
                 "visible":true
@@ -30,7 +30,7 @@
             {  
                 "name":"AlteonClusterExpiredTag",
                 "type":"Microsoft.Common.TextBox",
-                "label":"Alteon Cluster Owner Tag Name",
+                "label":"Alteon Cluster Expired Tag Date",
                 "defaultValue":"",
                 "constraints":{  
                     "validationMessage":"Alteon cluster expired tag should qualify YYYY-MM-DD"
