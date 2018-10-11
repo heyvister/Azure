@@ -495,6 +495,19 @@
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
                     },
                     {
+                        "name":"RealsScalesetName",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"Reals Scaleset Name",
+                        "defaultValue":"",
+                        "toolTip":"Set Reals Scaleset Name",
+                        "constraints":{ 
+                            "required": true,
+                            "regex":"^[a-z0-9A-Z]{1,100}$",
+                            "validationMessage": "Only alphanumeric characters are allowed"
+                        },
+                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
+                    },                    
+                    {
                         "name": "RealsVirtualNetwork",
                         "type": "Microsoft.Network.VirtualNetworkCombo",
                         "label": {
@@ -530,8 +543,7 @@
                           }
                         },
                          "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]" 
-                      }	
-                                                                                                                                                                                                        
+                      }	                                                                                                                                                                              
                 ]
             },
             {  
@@ -865,6 +877,7 @@
             "ScalesetScaleIn": "[steps('ScalesetSettings').ScalesetScaleIn]",  
             "EnaDisScalesetSettings":"[steps('ScalesetSettings').EnaDisScalesetSettings]",
             "RealsVirtualNetwork": "[steps('ScalesetSettings').RealsVirtualNetwork]",
+            "RealsScalesetName": "[steps('ScalesetSettings').]",
             "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
             "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
             "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
