@@ -246,8 +246,8 @@
                         "constraints":{ 
                             "allowedValues":[
                                 {  
-                                    "label":"Throughput",
-                                    "value":"Throughput"
+                                    "label":"Deliver",
+                                    "value":"Deliver"
                                 },     
                                 {  
                                     "label":"Secure",
