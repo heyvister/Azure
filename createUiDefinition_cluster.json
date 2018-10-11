@@ -17,6 +17,26 @@
                 "visible":true
             },
             {  
+                "name":"EnaDisAlteonClusterTag",
+                "type":"Microsoft.Common.OptionsGroup",
+                "label":"Enable/Disable Alteon VMSS instance tagging",
+                "defaultValue":"Disable",
+                "toolTip":"Enable/Disable Alteon VMSS instance tagging",
+                "constraints":{  
+                    "allowedValues":[  
+                        {  
+                            "label":"Enable",
+                            "value":"Enable"
+                        },
+                        {  
+                            "label":"Disable",
+                            "value":"Disable"
+                        }
+                    ]
+                },
+                "visible":true
+            },
+            {  
                 "name":"AlteonClusterOwnerTagName",
                 "type":"Microsoft.Common.TextBox",
                 "label":"Alteon Cluster Owner Tag Name",
@@ -25,7 +45,7 @@
                     "validationMessage":"Alteon cluster Owner Tag Name"
                 },
                 "toolTip":"Alteon VA Cluster name",
-                "visible":true
+                "visible":"[equals(basic('EnaDisAlteonClusterTag'), 'Enable')]"
             },
             {  
                 "name":"AlteonClusterExpiredTag",
@@ -36,7 +56,7 @@
                     "validationMessage":"Alteon cluster expired tag should qualify YYYY-MM-DD"
                 },
                 "toolTip":"Alteon VA Cluster name",
-                "visible":true
+                "visible":"[equals(basic('EnaDisAlteonClusterTag'), 'Enable')]"
             }                                    
         ],
         "steps":[         
