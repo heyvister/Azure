@@ -269,9 +269,13 @@
                         "constraints":{ 
                             "allowedValues":[
                                 {
-                                    "label":"Sub1",
-                                    "value":"Sub1" 
-                                }                               
+                                    "label":"true",
+                                    "value":"true" 
+                                },
+                                {
+                                    "label":"false",
+                                    "value":"false" 
+                                }                                                                  
                             ]                            
                         },
                         "visible":"[equals(steps('GelSettings').DpsPackage, 'Secure')]"           
