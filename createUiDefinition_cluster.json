@@ -213,9 +213,9 @@
                     {
                         "name":"ThroughputLicense",
                         "type":"Microsoft.Common.DropDown",
-                        "label":"Licence Server Available Throughput",
+                        "label":"Licence Server Available Throughput (Mbps)",
                         "defaultValue":"Throughput",
-                        "toolTip":"Choose licence server available throughput",
+                        "toolTip":"Choose licence server available throughput (Mbps)",
                         "constraints":{ 
                             "allowedValues":[
                                 {  
