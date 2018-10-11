@@ -45,7 +45,7 @@
                     "validationMessage":"Alteon cluster Owner Tag Name"
                 },
                 "toolTip":"Alteon VA Cluster name",
-                "visible":"[equals(basic('EnaDisAlteonClusterTag'), 'Enable')]"
+                "visible":"[equals(basics('EnaDisAlteonClusterTag'), 'Enable')]"
             },
             {  
                 "name":"AlteonClusterExpiredTag",
@@ -56,7 +56,7 @@
                     "validationMessage":"Alteon cluster expired tag should qualify YYYY-MM-DD"
                 },
                 "toolTip":"Alteon VA Cluster name",
-                "visible":"[equals(basic('EnaDisAlteonClusterTag'), 'Enable')]"
+                "visible":"[equals(basics('EnaDisAlteonClusterTag'), 'Enable')]"
             }                                    
         ],
         "steps":[         
