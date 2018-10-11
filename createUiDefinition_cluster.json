@@ -877,7 +877,7 @@
             "ScalesetScaleIn": "[steps('ScalesetSettings').ScalesetScaleIn]",  
             "EnaDisScalesetSettings":"[steps('ScalesetSettings').EnaDisScalesetSettings]",
             "RealsVirtualNetwork": "[steps('ScalesetSettings').RealsVirtualNetwork]",
-            "RealsScalesetName": "[steps('ScalesetSettings').]",
+            "RealsScalesetName": "[steps('ScalesetSettings').RealsScalesetName]",
             "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
             "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
             "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
