@@ -213,9 +213,9 @@
                     {
                         "name":"ThroughputLicense",
                         "type":"Microsoft.Common.DropDown",
-                        "label":"DPS Package",
+                        "label":"Licence Server Available Throughput",
                         "defaultValue":"Throughput",
-                        "toolTip":"Licence Server available throughput",
+                        "toolTip":"Choose licence server available throughput",
                         "constraints":{ 
                             "allowedValues":[
                                 {  
