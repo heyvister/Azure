@@ -178,7 +178,6 @@
                         "defaultValue":"",
                         "toolTip":"Secondary DNS IP Address",
                         "constraints":{  
-                            "required":true,
                             "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                             "validationMessage":"Format should be a valid IPv4 address"
                         },
@@ -191,6 +190,7 @@
                         "defaultValue":"",
                         "toolTip":"Secondary LLS IP Address",
                         "constraints":{  
+                            "required":true,
                             "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                             "validationMessage":"Format should be a valid IPv4 address"
                         },
@@ -273,17 +273,17 @@
                         "name":"AddOnSubsciption",
                         "type":"Microsoft.Common.DropDown",
                         "label":"Add-On Subsciption",
-                        "defaultValue":"Sub1",
+                        "defaultValue":"no",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
                             "allowedValues":[
                                 {
-                                    "label":"true",
-                                    "value":"true" 
+                                    "label":"yes",
+                                    "value":"yes" 
                                 },
                                 {
-                                    "label":"false",
-                                    "value":"false" 
+                                    "label":"no",
+                                    "value":"no" 
                                 }                                                                  
                             ]                            
                         },
@@ -376,7 +376,7 @@
                         },
                         "options":{  
                             "hideNone":true,
-                            "hideExisting":true,
+                            "hideExisting":false,
                             "hideDomainNameLabel":true
                         },                                                   
                         "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
@@ -505,7 +505,7 @@
                               "name": "ScaleOutInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
-                              "label": "Inbound traffic (Mbps)"
+                              "label": "Inbound traffic (%)"
                             },
                             {
                                 "name": "ScaleOutIncreaseBy",
@@ -531,13 +531,13 @@
                               "name": "ScaleInInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
-                              "label": "Inbound traffic (Mbps)"
+                              "label": "Inbound traffic (%)"
                             },
                             {
                                 "name": "ScaleInDecreaseBy",
                                 "type": "Microsoft.Common.TextBox",
                                 "defaultValue":"1",
-                                "label": "Number of VMS to increase by"
+                                "label": "Number of VMS to decreased by"
                               }                            
                         ],
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
