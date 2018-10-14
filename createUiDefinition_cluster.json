@@ -72,9 +72,9 @@
                     {  
                         "name":"EnaDisVmssInstanceCredentials",
                         "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Alteon use of VMSS instance credentias",
+                        "label":"Enable Alteon use of VMSS instance credentias",
                         "defaultValue":"Disable",
-                        "toolTip":"Enable/Disable Alteon use of VMSS instance credentias",
+                        "toolTip":"Enable Alteon use of VMSS instance credentias",
                         "constraints":{  
                             "allowedValues":[  
                                 {  
