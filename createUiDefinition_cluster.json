@@ -468,7 +468,7 @@
                         "name":"MinNumOfVMs",
                         "type":"Microsoft.Common.TextBox",
                         "label":"Minimum number of VMs",
-                        "defaultValue":"1",
+                        "defaultValue":"2",
                         "toolTip":"Define minimum of scaleset VMs",
                         "constraints":{ 
                             "required": true,
