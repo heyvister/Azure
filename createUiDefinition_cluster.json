@@ -355,10 +355,10 @@
                                 {
                                     "label":"Basic",
                                     "value":"Basic" 
-                                }                                          
+                                }                                         
                             ]                            
                         },
-                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
+                        "visible":"[and(equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable'), equals(steps('AdvancedLbSettings').LbType, 'Internal'))]"           
                     },
                     {
                         "name":"LbPublicIpAddress",
