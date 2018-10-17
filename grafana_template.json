@@ -76,10 +76,10 @@
 		"ClientSecret": "txEiP0oTOLBnIgHkWdyKvr6sBw8UqeEedfgrR4bIWR0=",
 		"TenantID": "36361a21-c721-4248-9748-8848b2573f18",
         "monitorImagePublisher": "radware",
-		"monitorImageOffer": "alteon-va-cluster-monitoring-preview",
+		"monitorImageOffer": "alteon-va-cluster-monitor-preview",
 		"monitor_radware_sku": "alteon-va-cluster-monitoring",	
 		"plan": "[variables(concat('plan-', variables('monitorImageOffer')))]",
-		"plan-alteon-va-cluster-monitoring-preview": {
+		"plan-alteon-va-cluster-monitor-preview": {
 			"name": "[variables('monitor_radware_sku')]",
 			"product": "[variables('monitorImageOffer')]",
 			"publisher": "[variables('monitorImagePublisher')]"
