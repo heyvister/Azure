@@ -67,6 +67,7 @@
             "type": "SecureString"
         },
 		"subnetId":{
+            "value": "none",
 			"type": "String"
 		}
     },
