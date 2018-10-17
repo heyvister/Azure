@@ -24,37 +24,34 @@
 		},
         "adminUsername": {
             "type": "string",
+            "defaultValue": "radware",
             "metadata": {
                 "description": "Admin username"
             }
         },
         "adminPassword": {
             "type": "securestring",
+            "defaultValue": "radware12345!",
             "metadata": {
                 "description": "Admin password"
             }
         },
         "tagOwnerName": {
             "type": "string",
+            "defaultValue": "none",
             "metadata": {
                 "description": "owner name tag"
             }
         },
         "tagExpired": {
             "type": "string",
+            "defaultValue": "none",
             "metadata": {
                 "description": "expired date tag"
             }
         },                
-        "realsResourceGroupName": {
-            "defaultValue": "IdoRealsSS",
-            "type": "string",
-            "metadata": {
-                "description": "Exsisting reals resource group"
-            }
-        },    
-		"realsScalesetName": {
-            "defaultValue": "testVmss",
+		"RealsScalesetName": {
+            "defaultValue": "",
             "type": "string",
             "metadata": {
                 "description": "Reals Scaleset name"
@@ -74,7 +71,7 @@
             }
         },
         "PublicIpDomainName": {
-            "defaultValue": "",
+            "defaultValue": "alteon-clusterIP",
             "type": "string",
             "metadata": {
                 "description": "Public IP Domain Name"
@@ -282,19 +279,21 @@
         "storageAccountNameRef": "[ uniqueString(resourceGroup().id)]",
         "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
         "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
-        "virtualMachineScaleSetsName": "[concat(variables('resourceGroupName'), 'Vmss')]",
+        "virtualMachineScaleSetsName": "[concat(parameters('AlteonClusterName'), 'Vmss')]",
         "realsFullSubnetName": "[concat(parameters('RealsVirtualNetwork').vnetPickerData.id, '/subnets/', parameters('RealsVirtualNetwork').vnetPickerData.subnetName)]",
+        "realsResourceGroupName": "[parameters('RealsVirtualNetwork').resourceGroup]",
 		"loadBalancerFrontEnd": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/frontendIPConfigurations/loadBalancerFrontEnd')]",
-		"backendAddressPools": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/backendAddressPools/', variables('virtualMachineScaleSetsName'), 'LBBEPool')]",
-		"loadBalancersProbes": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/probes/Probe_8080')]",
+        "backendAddressPools": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/backendAddressPools/', variables('virtualMachineScaleSetsName'), 'LBBEPool')]",
+        "loadBalancersProbes": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/probes/Probe_8080')]",
+        "loadBalancerNatRule": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'), '/inboundNatPools/lbNatPool', '.1')]",
         "alteonsAzureFuncName": "[concat(variables('resourceGroupName'), 'Func')]",
         "alteonAzureFuncUrl": "DummyURL",
         "dpmReportInterval": "15",
         "alteonAzureFuncConfigPath": "/disk/Alteon/config/alteon_flags",
 		"alteonAzureFuncServerfarmsPlanName" : "[concat(variables('resourceGroupName'), 'Plan')]", 
         "alteonAzureFuncHostNameBindingsName": "[concat(toLower(variables('alteonsAzureFuncName')), '.azurewebsites.net')]",
-		"alteonsAzureFuncServerFarmId": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', variables('alteonAzureFuncServerfarmsPlanName'))]", 				
-        "customData": "[concat('#!/usr/bin/env python\r\n', '\r\n', '###########################\r\n', '# Originally written by:\r\n', '# nissimn@radware.com\r\n', '#Nissim Nisimov\r\n', '###########################\r\n', '# Version 1.0 - 19/Sep/2016\r\n', '###########################\r\n', 'import fileinput\r\n', '\r\n', '#make sure each parameters is in new line - only parameters and vaiables attributes are supported\r\n', '#if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py\r\n', '\r\n', 'server_dict = {}\r\n', 'server_dict[\"SLB_PORT\"] =     \"', parameters('SLBPortNumber'), '\"\r', '\n', 'server_dict[\"REAL_1\"] =       \"', parameters('Real1'), '\"\r', '\n', 'server_dict[\"CLIENTID\"] =     \"', parameters('ClientID'), '\"\r', '\n', 'server_dict[\"CLIENTSECRET\"] = \"', parameters('ClientSecret'), '\"\r', '\n', 'server_dict[\"TENANTID\"] =     \"', parameters('TenantID'), '\"\r', '\n', 'server_dict[\"DNSSERVERIP\"] =  \"', parameters('DNSServerIP'), '\"\r', '\n', 'server_dict[\"RSRCGRP\"] =      \"', variables('resourceGroupName'), '\"\r', '\n', 'server_dict[\"SUBSCRIP\"] =     \"', variables('subscripID'), '\"\r', '\n', 'server_dict[\"SLB_METRIC\"] =   \"', parameters('SLBMetric'), '\"\r', '\n', 'server_dict[\"SS_NAME\"] =      \"scaleset1\"\r\n', 'server_dict[\"REAL_SS_NAME\"] = \"', parameters('realsScalesetName'), '\"\r', '\n', 'server_dict[\"REALS_SS_RG\"] =  \"', parameters('realsResourceGroupName'), '\"\r', '\n', 'server_dict[\"FUNC_URL\"] =     \"', variables('alteonAzureFuncUrl'), '\"\r', '\n', 'server_dict[\"VM_ID\"] =        VM_ID\r\n', 'server_dict[\"DPM_REPORT_INTERVAL\"] =        \"', variables('dpmReportInterval'), '\"\r', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] =  \"', variables('PrivateIPAddressPrefix'), '\"\r', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"] =  ', variables('PrivateIPAddressPosixStart'), '\r', '\n', '\r\n', '#file which will hold the generated configuration\r\n', 'output_file=open(\"/mnt/cf/Alteon/config/azure_converted_config.txt\", \"a+\")\r\n', '\r\n', '#convert  DNS server to Alteon if needed\"\r\n', 'def convert_DNS_menu_to_config():\r\n', '    if \"DNSSERVERIP\" in server_dict:\r\n', '        if len(server_dict[\"DNSSERVERIP\"]) > 1:\r\n', '              if server_dict[\"DNSSERVERIP\"] != \"none\":\r\n', '                 output_file.write(\"/c/l3/dns\\n\\tprima \" + server_dict[\"DNSSERVERIP\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#convert ActiveDirecory parameters and add DNS server to Alteon if needed\"\r\n', 'def convert_AZURE_menu_to_config():\r\n', '    azure_menu_on = 0;\r\n', '    if \"SUBSCRIP\" in server_dict:\r\n', '        if len(server_dict[\"SUBSCRIP\"]) > 1:\r\n', '              if server_dict[\"SUBSCRIP\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 # the format is /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98 we need to skip the prefix and get only the ID\r\n', '                 string_location = server_dict[\"SUBSCRIP\"].find(\"/subscriptions/\")\r\n', '                 string_size  = string_location + 15\r\n', '                 output_file.write(\"\\tsubscrip \" + server_dict[\"SUBSCRIP\"][string_size:len(server_dict[\"SUBSCRIP\"])]+\"\\n\")\r\n', '    if \"CLIENTID\" in server_dict:\r\n', '        if len(server_dict[\"CLIENTID\"]) > 1:\r\n', '              if server_dict[\"CLIENTID\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\tclient \" + server_dict[\"CLIENTID\"]+\"\\n\")\r\n', '    if \"CLIENTSECRET\" in server_dict:\r\n', '        if len(server_dict[\"CLIENTSECRET\"]) > 1:\r\n', '              if server_dict[\"CLIENTSECRET\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\tsecret\\n\\t\" + server_dict[\"CLIENTSECRET\"] + \"\\n\")\r\n', '    if \"TENANTID\" in server_dict:\r\n', '        if len(server_dict[\"TENANTID\"]) > 1:\r\n', '              if server_dict[\"TENANTID\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\ttenant \" + server_dict[\"TENANTID\"]+\"\\n\")\r\n', '    if \"RSRCGRP\" in server_dict:\r\n', '        if len(server_dict[\"RSRCGRP\"]) > 1:\r\n', '              if server_dict[\"RSRCGRP\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\trsrcgp \" + server_dict[\"RSRCGRP\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#convert slb port to \"/c/slb/virt 1/service X http\"\r\n', 'def convert_service_to_config():\r\n', '    if (server_dict[\"VM_ID\"]) == 1:\r\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])\r\n', '    else:\r\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1)\r\n', '\r\n', '    output_file.write(\"/c/slb/virt 1\\n\\tena\\n\\tvip \" + private_ip +\"\\n\")\r\n', '  \r\n', '    if \"SLB_PORT\" in server_dict:\r\n', '       if len(server_dict[\"SLB_PORT\"]) > 0:\r\n', '          output_file.write(\"/c/slb/virt 1/service \"+ server_dict[\"SLB_PORT\"] + \" http\\n\")\r\n', '\r\n', '\r\n', '\r\n', '#convert reals to \"/c/slb/real x/rip y.y.y.y/ena\"\r\n', 'def convert_reals_to_config():\r\n', '    if len(server_dict[\"REAL_1\"]) > 1:\r\n', '        if server_dict[\"REAL_1\"] != \"none\":\r\n', '            output_file.write(\"/c/slb/real \" + \"1\" + \"\\n\\tdis\\n \"+\"\\trip \"+ server_dict[\"REAL_1\"]+\"\\n\")\r\n', '\r\n', '\r\n', '\r\n', '#add reals and metric to group \"/c/slb/group 1/add x /c/slb/group 1/metric x\"\r\n', 'def convert_group_to_config():\r\n', '    output_file.write(\"/c/slb/group 1\\n\")\r\n', '    if \"SLB_METRIC\" in server_dict:\r\n', '        if len(server_dict[\"SLB_METRIC\"]) > 0:\r\n', '\t    if server_dict[\"SLB_METRIC\"] != \"none\":\r\n', '                output_file.write(\"\\tmetric \"+ server_dict[\"SLB_METRIC\"]+ \"\\n\")\r\n', '\r\n', '    if len(server_dict[\"REAL_1\"]) > 1:\r\n', '        if server_dict[\"REAL_1\"] != \"none\":\r\n', '\t    output_file.write(\"\\tadd \" + \"1\" + \"\\n\")\r\n', '\r\n', '\r\n', '#convert reals scaleset configuration\"\r\n', 'def convert_reals_scaleset_to_config():\r\n', '    fqdn_menu_on = 0\r\n', '    if \"REAL_SS_NAME\" in server_dict:\r\n', '        if len(server_dict[\"REAL_SS_NAME\"]) > 1:\r\n', '              if server_dict[\"REAL_SS_NAME\"] != \"none\":\r\n', '                 if (fqdn_menu_on == 0):\r\n', '                     fqdn_menu_on = 1\r\n', '                     output_file.write(\"/c/slb/adv/fqdnreal \" + server_dict[\"SS_NAME\"] + \"\\n\" )\r\n', '                     output_file.write(\"\\tgroup 1\\n\")\r\n', '                     output_file.write(\"\\tmode cscale\\n\")\r\n', '                     output_file.write(\"\\tena\\n\")\r\n', '\r\n', '                 output_file.write(\"\\tfqdn \" + server_dict[\"REAL_SS_NAME\"]+\"\\n\")\r\n', '\r\n', '    if \"REALS_SS_RG\" in server_dict:\r\n', '        if len(server_dict[\"REALS_SS_RG\"]) > 1:\r\n', '              if server_dict[\"REALS_SS_RG\"] != \"none\":\r\n', '                 if (fqdn_menu_on == 0):\r\n', '                     fqdn_menu_on = 1\r\n', '                     output_file.write(\"/c/slb/adv/fqdnreal \" + server_dict[\"SS_NAME\"] + \"\\n\" )\r\n', '                     output_file.write(\"\\tgroup 1\\n\")\r\n', '                     output_file.write(\"\\tmode cscale\\n\")\r\n', '                     output_file.write(\"\\tena\\n\")\r\n', '\r\n', '                 output_file.write(\"\\trsrcgrp \" + server_dict[\"REALS_SS_RG\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#Add HC probe 8080\"\r\n', 'def add_hc_probe_to_config():\r\n', '    output_file.write(\"/c/sys/health\\n\\ton\\n\\tadd 8080\\n\")\r\n', '\r\n', '#convert_DPM_report\"\r\n', 'def convert_DPM_report__to_config():\r\n', '    output_file.write(\"/cfg/sys/report/trigger\\n\\talways\\n\")\r\n', '    output_file.write(\"/cfg/sys/report/interval\\n\\t\" + server_dict[\"DPM_REPORT_INTERVAL\"] + \"\\n\")\r\n', '\r\n', '#convert to Azure function URL\"\r\n', 'def convert_azure_function_url_to_config():\r\n', '     output_file.write(\"/c/sys/azure/funcurl \\n\\t\"+ server_dict[\"FUNC_URL\"]+ \"\\n\")\r\n', '\r\n', '#convert to interface configuration\"\r\n', 'def convert_interface_peer_to_config():\r\n', '    private_ip_master_peer = server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1\r\n', '    #we need to edit the interface ip and enable it so Alteon accept the config\r\n', '    if (server_dict[\"VM_ID\"]) == 1:\r\n', '        output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr 192.168.2.1\"  + \"\\n\")\r\n', ' \r\n', '\r\n', 'convert_interface_peer_to_config()\r\n', 'convert_DNS_menu_to_config()\r\n', 'convert_reals_to_config()\r\n', 'convert_group_to_config()\r\n', 'convert_service_to_config()\r\n', 'convert_reals_scaleset_to_config()\r\n', 'add_hc_probe_to_config()\r\n', 'convert_DPM_report__to_config()\r\n', 'convert_azure_function_url_to_config()\r\n', 'convert_AZURE_menu_to_config()\r\n')]"
+        "alteonsAzureFuncServerFarmId": "[concat(variables('subscripID'), '/resourceGroups/', variables('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', variables('alteonAzureFuncServerfarmsPlanName'))]", 				
+        "customData": "[concat('#!/usr/bin/env python\r\n', '\r\n', '###########################\r\n', '# Originally written by:\r\n', '# nissimn@radware.com\r\n', '#Nissim Nisimov\r\n', '###########################\r\n', '# Version 1.0 - 19/Sep/2016\r\n', '###########################\r\n', 'import fileinput\r\n', '\r\n', '#make sure each parameters is in new line - only parameters and vaiables attributes are supported\r\n', '#if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py\r\n', '\r\n', 'server_dict = {}\r\n', 'server_dict[\"SLB_PORT\"] =     \"', parameters('SLBPortNumber'), '\"\r', '\n', 'server_dict[\"REAL_1\"] =       \"', parameters('Real1'), '\"\r', '\n', 'server_dict[\"CLIENTID\"] =     \"', parameters('ClientID'), '\"\r', '\n', 'server_dict[\"CLIENTSECRET\"] = \"', parameters('ClientSecret'), '\"\r', '\n', 'server_dict[\"TENANTID\"] =     \"', parameters('TenantID'), '\"\r', '\n', 'server_dict[\"DNSSERVERIP\"] =  \"', parameters('DNSServerIP'), '\"\r', '\n', 'server_dict[\"RSRCGRP\"] =      \"', variables('resourceGroupName'), '\"\r', '\n', 'server_dict[\"SUBSCRIP\"] =     \"', variables('subscripID'), '\"\r', '\n', 'server_dict[\"SLB_METRIC\"] =   \"', parameters('SLBMetric'), '\"\r', '\n', 'server_dict[\"SS_NAME\"] =      \"scaleset1\"\r\n', 'server_dict[\"REAL_SS_NAME\"] = \"', parameters('RealsScalesetName'), '\"\r', '\n', 'server_dict[\"REALS_SS_RG\"] =  \"', variables('realsResourceGroupName'), '\"\r', '\n', 'server_dict[\"FUNC_URL\"] =     \"', variables('alteonAzureFuncUrl'), '\"\r', '\n', 'server_dict[\"VM_ID\"] =        VM_ID\r\n', 'server_dict[\"DPM_REPORT_INTERVAL\"] =        \"', variables('dpmReportInterval'), '\"\r', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] =  \"', variables('PrivateIPAddressPrefix'), '\"\r', '\n', 'server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"] =  ', variables('PrivateIPAddressPosixStart'), '\r', '\n', '\r\n', '#file which will hold the generated configuration\r\n', 'output_file=open(\"/mnt/cf/Alteon/config/azure_converted_config.txt\", \"a+\")\r\n', '\r\n', '#convert  DNS server to Alteon if needed\"\r\n', 'def convert_DNS_menu_to_config():\r\n', '    if \"DNSSERVERIP\" in server_dict:\r\n', '        if len(server_dict[\"DNSSERVERIP\"]) > 1:\r\n', '              if server_dict[\"DNSSERVERIP\"] != \"none\":\r\n', '                 output_file.write(\"/c/l3/dns\\n\\tprima \" + server_dict[\"DNSSERVERIP\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#convert ActiveDirecory parameters and add DNS server to Alteon if needed\"\r\n', 'def convert_AZURE_menu_to_config():\r\n', '    azure_menu_on = 0;\r\n', '    if \"SUBSCRIP\" in server_dict:\r\n', '        if len(server_dict[\"SUBSCRIP\"]) > 1:\r\n', '              if server_dict[\"SUBSCRIP\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 # the format is /subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98 we need to skip the prefix and get only the ID\r\n', '                 string_location = server_dict[\"SUBSCRIP\"].find(\"/subscriptions/\")\r\n', '                 string_size  = string_location + 15\r\n', '                 output_file.write(\"\\tsubscrip \" + server_dict[\"SUBSCRIP\"][string_size:len(server_dict[\"SUBSCRIP\"])]+\"\\n\")\r\n', '    if \"CLIENTID\" in server_dict:\r\n', '        if len(server_dict[\"CLIENTID\"]) > 1:\r\n', '              if server_dict[\"CLIENTID\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\tclient \" + server_dict[\"CLIENTID\"]+\"\\n\")\r\n', '    if \"CLIENTSECRET\" in server_dict:\r\n', '        if len(server_dict[\"CLIENTSECRET\"]) > 1:\r\n', '              if server_dict[\"CLIENTSECRET\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\tsecret\\n\\t\" + server_dict[\"CLIENTSECRET\"] + \"\\n\")\r\n', '    if \"TENANTID\" in server_dict:\r\n', '        if len(server_dict[\"TENANTID\"]) > 1:\r\n', '              if server_dict[\"TENANTID\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\ttenant \" + server_dict[\"TENANTID\"]+\"\\n\")\r\n', '    if \"RSRCGRP\" in server_dict:\r\n', '        if len(server_dict[\"RSRCGRP\"]) > 1:\r\n', '              if server_dict[\"RSRCGRP\"] != \"none\":\r\n', '                 if (azure_menu_on == 0):\r\n', '                     azure_menu_on = 1\r\n', '                     output_file.write(\"/c/sys/azure\\n\" )\r\n', '                 output_file.write(\"\\trsrcgp \" + server_dict[\"RSRCGRP\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#convert slb port to \"/c/slb/virt 1/service X http\"\r\n', 'def convert_service_to_config():\r\n', '    if (server_dict[\"VM_ID\"]) == 1:\r\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"])\r\n', '    else:\r\n', '        private_ip = server_dict[\"PRIVATE_IP_ADDRESS_PREFIX\"] + str(server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1)\r\n', '\r\n', '    output_file.write(\"/c/slb/virt 1\\n\\tena\\n\\tvip \" + private_ip +\"\\n\")\r\n', '  \r\n', '    if \"SLB_PORT\" in server_dict:\r\n', '       if len(server_dict[\"SLB_PORT\"]) > 0:\r\n', '          output_file.write(\"/c/slb/virt 1/service \"+ server_dict[\"SLB_PORT\"] + \" http\\n\")\r\n', '\r\n', '\r\n', '\r\n', '#convert reals to \"/c/slb/real x/rip y.y.y.y/ena\"\r\n', 'def convert_reals_to_config():\r\n', '    if len(server_dict[\"REAL_1\"]) > 1:\r\n', '        if server_dict[\"REAL_1\"] != \"none\":\r\n', '            output_file.write(\"/c/slb/real \" + \"1\" + \"\\n\\tdis\\n \"+\"\\trip \"+ server_dict[\"REAL_1\"]+\"\\n\")\r\n', '\r\n', '\r\n', '\r\n', '#add reals and metric to group \"/c/slb/group 1/add x /c/slb/group 1/metric x\"\r\n', 'def convert_group_to_config():\r\n', '    output_file.write(\"/c/slb/group 1\\n\")\r\n', '    if \"SLB_METRIC\" in server_dict:\r\n', '        if len(server_dict[\"SLB_METRIC\"]) > 0:\r\n', '\t    if server_dict[\"SLB_METRIC\"] != \"none\":\r\n', '                output_file.write(\"\\tmetric \"+ server_dict[\"SLB_METRIC\"]+ \"\\n\")\r\n', '\r\n', '    if len(server_dict[\"REAL_1\"]) > 1:\r\n', '        if server_dict[\"REAL_1\"] != \"none\":\r\n', '\t    output_file.write(\"\\tadd \" + \"1\" + \"\\n\")\r\n', '\r\n', '\r\n', '#convert reals scaleset configuration\"\r\n', 'def convert_reals_scaleset_to_config():\r\n', '    fqdn_menu_on = 0\r\n', '    if \"REAL_SS_NAME\" in server_dict:\r\n', '        if len(server_dict[\"REAL_SS_NAME\"]) > 1:\r\n', '              if server_dict[\"REAL_SS_NAME\"] != \"none\":\r\n', '                 if (fqdn_menu_on == 0):\r\n', '                     fqdn_menu_on = 1\r\n', '                     output_file.write(\"/c/slb/adv/fqdnreal \" + server_dict[\"SS_NAME\"] + \"\\n\" )\r\n', '                     output_file.write(\"\\tgroup 1\\n\")\r\n', '                     output_file.write(\"\\tmode cscale\\n\")\r\n', '                     output_file.write(\"\\tena\\n\")\r\n', '\r\n', '                 output_file.write(\"\\tfqdn \" + server_dict[\"REAL_SS_NAME\"]+\"\\n\")\r\n', '\r\n', '    if \"REALS_SS_RG\" in server_dict:\r\n', '        if len(server_dict[\"REALS_SS_RG\"]) > 1:\r\n', '              if server_dict[\"REALS_SS_RG\"] != \"none\":\r\n', '                 if (fqdn_menu_on == 0):\r\n', '                     fqdn_menu_on = 1\r\n', '                     output_file.write(\"/c/slb/adv/fqdnreal \" + server_dict[\"SS_NAME\"] + \"\\n\" )\r\n', '                     output_file.write(\"\\tgroup 1\\n\")\r\n', '                     output_file.write(\"\\tmode cscale\\n\")\r\n', '                     output_file.write(\"\\tena\\n\")\r\n', '\r\n', '                 output_file.write(\"\\trsrcgrp \" + server_dict[\"REALS_SS_RG\"]+\"\\n\")\r\n', '\r\n', '\r\n', '#Add HC probe 8080\"\r\n', 'def add_hc_probe_to_config():\r\n', '    output_file.write(\"/c/sys/health\\n\\ton\\n\\tadd 8080\\n\")\r\n', '\r\n', '#convert_DPM_report\"\r\n', 'def convert_DPM_report__to_config():\r\n', '    output_file.write(\"/cfg/sys/report/trigger\\n\\talways\\n\")\r\n', '    output_file.write(\"/cfg/sys/report/interval\\n\\t\" + server_dict[\"DPM_REPORT_INTERVAL\"] + \"\\n\")\r\n', '\r\n', '#convert to Azure function URL\"\r\n', 'def convert_azure_function_url_to_config():\r\n', '     output_file.write(\"/c/sys/azure/funcurl \\n\\t\"+ server_dict[\"FUNC_URL\"]+ \"\\n\")\r\n', '\r\n', '#convert to interface configuration\"\r\n', 'def convert_interface_peer_to_config():\r\n', '    private_ip_master_peer = server_dict[\"PRIVATE_IP_ADDRESS_POSIX_START\"]+1\r\n', '    #we need to edit the interface ip and enable it so Alteon accept the config\r\n', '    if (server_dict[\"VM_ID\"]) == 1:\r\n', '        output_file.write(\"/c/l3/if 1\\n\\tena\\n\\taddr 192.168.2.1\"  + \"\\n\")\r\n', ' \r\n', '\r\n', 'convert_interface_peer_to_config()\r\n', 'convert_DNS_menu_to_config()\r\n', 'convert_reals_to_config()\r\n', 'convert_group_to_config()\r\n', 'convert_service_to_config()\r\n', 'convert_reals_scaleset_to_config()\r\n', 'add_hc_probe_to_config()\r\n', 'convert_DPM_report__to_config()\r\n', 'convert_azure_function_url_to_config()\r\n', 'convert_AZURE_menu_to_config()\r\n')]"
 	},
     "resources": [
         {
@@ -312,13 +311,14 @@
             "name": "[variables('publicIPAddressNameref')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
+            "sku":
+            {
+                    "name": "Standard"
+            },
             "properties": {
-                "publicIPAllocationMethod": "Static",
-				"dnsSettings": {
-                     "domainNameLabel": "[toLower(parameters('PublicIpDomainName'))]"
-                }
-            }
-        },
+                "publicIPAllocationMethod": "Static"
+            }            
+        },  
 		{
 		  "apiVersion": "2018-04-01",
 		  "type": "Microsoft.Network/networkSecurityGroups",
@@ -374,7 +374,7 @@
 			]
 		  }
 				
-		},
+        },    
         {
             "type": "Microsoft.Compute/virtualMachineScaleSets",
             "sku": {
@@ -388,7 +388,9 @@
             "plan" : "[variables('plan')]",
             "tags": {
                 "owner": "[parameters('tagOwnerName')]",
-                "expired_date": "[parameters('tagExpired')]"
+                "expired_date": "[parameters('tagExpired')]",
+                "alteon": "true"
+
             },
             "scale": null,
             "properties": {
@@ -412,7 +414,7 @@
 							"publisher": "[variables('imagePublisher')]",
 							"offer": "[variables('imageOffer')]",
 							"sku" : "[variables('radware_sku')]",
-							"version": "32.1.0000003"
+							"version": "latest"
                         },
 			            "osDisk": {
                             "createOption": "FromImage",
@@ -447,9 +449,13 @@
                                                 "loadBalancerBackendAddressPools": [
                                                     {
                                                         "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName')), concat('/backendAddressPools/', variables('virtualMachineScaleSetsName'),'LBBEPool'))]"
-                                                    }
+                                                    }                                       
                                                 ],
-                                                "loadBalancerInboundNatPools": []
+                                                "loadBalancerInboundNatPools": [
+                                                    {
+                                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName')), concat('/inboundNatPools/','lbNatPool'))]"
+                                                    }                                                                                                       
+                                                ]          
                                             }
                                         }
                                     ]
@@ -467,7 +473,7 @@
                               "typeHandlerVersion": "2.0",
                               "autoUpgradeMinorVersion": true,
                               "settings": {
-                                      "script": "[base64(concat('#!/bin/bash\r\n',  'echo \"azure_function_url\" ',  listsecrets(resourceId('Microsoft.Web/sites/functions', variables('alteonsAzureFuncName'), 'TestFunctionCM'),'2016-08-01').trigger_url,   '>> ', variables('alteonAzureFuncConfigPath')))]"
+                                "script": "[base64(concat('#!/bin/bash\r\n',  'echo \"azure_function_url\" ',  listsecrets(resourceId('Microsoft.Web/sites/functions', variables('alteonsAzureFuncName'), 'TestFunctionCM'),'2016-08-01').trigger_url, '/r/n', variables('loadBalancerNatRule'),  '>> ', variables('alteonAzureFuncConfigPath')))]"
                                }
                               }
                             }
@@ -531,7 +537,7 @@
                                     "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]",
                                     "operator": "GreaterThan",
                                     "statistic": "Average",
-                                    "threshold": "[parameters('ScalesetScaleOut').ScaleOutInboundTraffic]",
+                                    "threshold": "[mul(int(parameters('ScalesetScaleOut').ScaleOutInboundTraffic), 60)]",
                                     "timeAggregation": "Minimum",
                                     "timeGrain": "PT1M",
                                     "timeWindow": "PT5M"
@@ -569,7 +575,7 @@
                                     "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('virtualMachineScaleSetsName'))]",
                                     "operator": "LessThan",
                                     "statistic": "Average",
-                                    "threshold": "[parameters('ScalesetScaleIn').ScaleInInboundTraffic]",
+                                    "threshold": "[mul(int(parameters('ScalesetScaleIn').ScaleInInboundTraffic), 60)]",
                                     "timeAggregation": "Minimum",
                                     "timeGrain": "PT1M",
                                     "timeWindow": "PT5M"
@@ -589,23 +595,18 @@
         {
             "type": "Microsoft.Network/loadBalancers",
             "sku": {
-                "name": "Basic",
+                "name": "Standard",
                 "tier": "Regional"
             },
             "name": "[variables('loadBalancersName')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
-            "tags": {
-                "owner": "idohe@radware.com",
-                "expired_date": "2018-12-31"
-            },
             "scale": null,
             "properties": {
                 "resourceGuid": "e408cdf7-d30a-40d6-8d50-c0f9c20d82f6",
                 "frontendIPConfigurations": [
                     {
                         "name": "loadBalancerFrontEnd",
-                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
@@ -617,7 +618,6 @@
                 "backendAddressPools": [
                     {
                         "name": "[concat(variables('virtualMachineScaleSetsName'),'LBBEPool')]",
-                        "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
                         "properties": {
                         }
                     }
@@ -699,7 +699,20 @@
                     }
                 ],
                 "inboundNatRules": [],
-                "inboundNatPools": []
+                "inboundNatPools": [
+                    {
+                        "name": "lbNatPool",
+                        "properties": {
+                          "frontendIPConfiguration": {
+                            "id": "[variables('loadBalancerFrontEnd')]"
+                          },
+                          "protocol": "Tcp",       
+                          "frontendPortRangeStart": 50000,
+                          "frontendPortRangeEnd": 50119,
+                          "backendPort": 8445
+                        }
+                    }                    
+                ]
             },
             "dependsOn": [
 				"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressNameref'))]"
