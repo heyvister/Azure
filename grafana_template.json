@@ -65,7 +65,7 @@
         "adminPassword": {
 			"defaultValue": "radware12345!",
             "type": "SecureString"
-        }
+        },
 		"subnetId":{
 			"type": "String"
 		}
