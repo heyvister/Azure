@@ -67,13 +67,12 @@
             "type": "SecureString"
         },
 		"subnetId":{
-            "defaultValue": "Idotestvnet",
+            "defaultValue": "none",
 			"type": "String"
 		}
     },
     "variables": {
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
-        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetRef": "[parameters('subnetId')]",
 		"subscripID": "[subscription().id]",
 		"ClientID": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34",
@@ -119,7 +118,6 @@
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
-                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
             ]
         },
