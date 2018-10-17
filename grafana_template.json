@@ -67,7 +67,7 @@
             "type": "SecureString"
         },
 		"subnetId":{
-            "value": "Idotestvnet",
+            "defaultValue": "Idotestvnet",
 			"type": "String"
 		}
     },
