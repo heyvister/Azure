@@ -76,7 +76,6 @@
         }
     },
     "variables": {
-        "nsgId": "[parameters('securityGroupId')]",
         "subnetRef": "[parameters('subnetId')]",
 		"subscripID": "[subscription().id]",
 		"ClientID": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34",
@@ -117,7 +116,7 @@
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[variables('nsgId')]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
                 }
             },
             "dependsOn": [
