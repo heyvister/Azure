@@ -69,10 +69,14 @@
 		"subnetId":{
             "defaultValue": "none",
 			"type": "String"
-		}
+        },
+        "securityGroupId":{
+            "defaultValue": "none",
+            "type": "String"
+        }
     },
     "variables": {
-        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
+        "nsgId": "[parameters('securityGroupId')]",
         "subnetRef": "[parameters('subnetId')]",
 		"subscripID": "[subscription().id]",
 		"ClientID": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34",
@@ -117,21 +121,9 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
             ]
         },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[parameters('networkSecurityGroupName')]",
-            "apiVersion": "2018-08-01",
-            "location": "[parameters('location')]",
-            "tags": {},
-            "properties": {
-                
-            }
-        },
- 
         {
             "type": "Microsoft.Network/publicIpAddresses",
             "sku": {
