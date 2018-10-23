@@ -57,14 +57,23 @@
 		"clusterSecurityGroupName":{
             "defaultValue": "none",
 			"type": "String"
-        }        
+        },
+        "ClientID":{
+            "defaultValue": "none",
+            "type": "String"
+        },
+        "ClientSecret":{
+            "defaultValue": "none",
+            "type": "String"
+        },
+        "TenantID":{
+            "defaultValue": "none",
+            "type": "String"
+        }              
     },
     "variables": {
         "subnetRef": "[parameters('subnetId')]",
 		"subscripID": "[subscription().id]",
-		"ClientID": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34",
-		"ClientSecret": "txEiP0oTOLBnIgHkWdyKvr6sBw8UqeEedfgrR4bIWR0=",
-		"TenantID": "36361a21-c721-4248-9748-8848b2573f18",
         "monitorImagePublisher": "radware",
 		"monitorImageOffer": "alteon-va-cluster-monitor-preview",
 		"monitor_radware_sku": "alteon-va-cluster-monitoring",	
