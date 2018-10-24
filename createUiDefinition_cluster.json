@@ -31,7 +31,8 @@
                     "confirmPassword":"Confirm password"
                 },
                 "toolTip":{  
-                    "password":"Admin password for the virtual machines\\nNote that SSH key isn't supported"
+                    "password":"Admin password for the virtual machines",
+                    "sshPublicKey":"Note that SSH key isn't supported"
                 },
                 "options":{  
                     "hideConfirmation":false,
