@@ -10,16 +10,39 @@
                 "label":"Alteon Cluster Name",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
-                    "regex":"^([a-z0-9A-Z]*[-]{1}[a-z0-9A-Z]{1,}$)",
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters"
                 },
                 "toolTip":"Alteon VA Cluster name",
                 "visible":true
             },
             {  
+                "name":"adminUsername",
+                "type":"Microsoft.Compute.UserNameTextBox",
+                "label":"Username",
+                "toolTip":"Administrator user name for the Alteon virtual VA machine",
+                "osPlatform":"Linux"
+            },
+            {  
+                "name":"adminPassword",
+                "type":"Microsoft.Compute.CredentialsCombo",
+                "label":{  
+                    "authenticationType":"VMSS instance credentials",
+                    "password":"Password",
+                    "confirmPassword":"Confirm password"
+                },
+                "toolTip":{  
+                    "password":"Admin password for the virtual machines\\nNote that SSH key isn't supported"
+                },
+                "options":{  
+                    "hideConfirmation":false,
+                    "hidePassword":false
+                },
+                "osPlatform":"Linux"
+            },            
+            {  
                 "name":"EnaDisAlteonClusterTag",
                 "type":"Microsoft.Common.OptionsGroup",
-                "label":"Enable/Disable Alteon VMSS instance tagging",
+                "label":"Enable Alteon VMSS instance tagging",
                 "defaultValue":"Disable",
                 "toolTip":"Enable/Disable Alteon VMSS instance tagging",
                 "constraints":{  
@@ -50,74 +73,16 @@
             {  
                 "name":"AlteonClusterExpiredTag",
                 "type":"Microsoft.Common.TextBox",
-                "label":"Alteon Cluster Expired Tag Date",
+                "label":"User defined Tag name",
                 "defaultValue":"",
                 "constraints":{  
-                    "validationMessage":"Alteon cluster expired tag should qualify YYYY-MM-DD"
+                    "validationMessage":"User defined Tag name"
                 },
-                "toolTip":"Alteon VA Cluster name",
+                "toolTip":"User defined Tag name",
                 "visible":"[equals(basics('EnaDisAlteonClusterTag'), 'Enable')]"
             }                                    
         ],
         "steps":[         
-            {  
-                "name":"VmssInstanceCredentials",
-                "label":"VMSS Instance Credentials",
-                "subLabel":{  
-                    "preValidation":"Configure VMSS instance credentials settings",
-                    "postValidation":"Done"
-                },
-                "bladeTitle":" VMSS instance credentials settings",
-                "elements":[  
-                    {  
-                        "name":"EnaDisVmssInstanceCredentials",
-                        "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable Alteon use of VMSS instance credentias",
-                        "defaultValue":"Disable",
-                        "toolTip":"Enable Alteon use of VMSS instance credentias",
-                        "constraints":{  
-                            "allowedValues":[  
-                                {  
-                                    "label":"Enable",
-                                    "value":"Enable"
-                                },
-                                {  
-                                    "label":"Disable",
-                                    "value":"Disable"
-                                }
-                            ]
-                        },
-                        "visible":true
-                    },
-                    {  
-                        "name":"adminUsername",
-                        "type":"Microsoft.Compute.UserNameTextBox",
-                        "label":"Username",
-                        "toolTip":"Administrator user name for the Alteon virtual VA machine",
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
-                    },
-                    {  
-                        "name":"adminPassword",
-                        "type":"Microsoft.Compute.CredentialsCombo",
-                        "label":{  
-                            "authenticationType":"VMSS instance credentials",
-                            "password":"Password",
-                            "confirmPassword":"Confirm password",
-                            "sshPublicKey":"SSH Public Key"
-                        },
-                        "toolTip":{  
-                            "password":"Admin password for the virtual machines"
-                        },
-                        "options":{  
-                            "hideConfirmation":true,
-                            "hidePassword":false
-                        },
-                        "osPlatform":"Linux",
-                        "visible":"[equals(steps('VmssInstanceCredentials').EnaDisVmssInstanceCredentials, 'Enable')]"
-                    }
-                ]
-            },
             {  
                 "name":"GelSettings",
                 "label":"GEL Settings",
@@ -216,7 +181,7 @@
                         "toolTip":"Set Entitlement ID",
                         "constraints":{  
                             "required":true,
-                            "validationMessage":"Format should be a valid IPv4 address"
+                            "validationMessage":"Format should be a valid Entitlement Id value"
                         } 
                     },                    
                     {
@@ -227,10 +192,6 @@
                         "toolTip":"Choose licence server available throughput (Mbps)",
                         "constraints":{ 
                             "allowedValues":[
-                                {  
-                                    "label":"1",
-                                    "value":"1"
-                                }, 
                                 {  
                                     "label":"25",
                                     "value":"25"
@@ -321,26 +282,6 @@
                         "visible":true
                     },
                     {
-                        "name":"LbType",
-                        "type":"Microsoft.Common.DropDown",
-                        "label":"Type",
-                        "defaultValue":"Public",
-                        "toolTip":"LB Type",
-                        "constraints":{ 
-                            "allowedValues":[
-                                {
-                                    "label":"Internal",
-                                    "value":"Internal" 
-                                },
-                                {
-                                    "label":"Public",
-                                    "value":"Public" 
-                                }                                          
-                            ]                            
-                        },
-                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
-                    },
-                    {
                         "name":"LbSku",
                         "type":"Microsoft.Common.DropDown",
                         "label":"SKU",
@@ -358,7 +299,7 @@
                                 }                                         
                             ]                            
                         },
-                        "visible":"[and(equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable'), equals(steps('AdvancedLbSettings').LbType, 'Internal'))]"           
+                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]" 
                     },
                     {
                         "name":"LbPublicIpAddress",
@@ -541,57 +482,7 @@
                               }                            
                         ],
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    },
-                    {
-                        "name":"RealsScalesetName",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Reals Scaleset Name",
-                        "defaultValue":"",
-                        "toolTip":"Set Reals Scaleset Name",
-                        "constraints":{ 
-                            "required": true,
-                            "regex":"^[a-z0-9A-Z]{1,100}$",
-                            "validationMessage": "Only alphanumeric characters are allowed"
-                        },
-                        "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
-                    },                    
-                    {
-                        "name": "RealsVirtualNetwork",
-                        "type": "Microsoft.Network.VirtualNetworkCombo",
-                        "label": {
-                          "virtualNetwork": "Virtual network",
-                          "subnets": "Subnets"
-                        },
-                        "toolTip": {
-                          "virtualNetwork": "Choose reals server virtual network",
-                          "subnets": "Choose reals server subnet"
-                        },
-                        "defaultValue": {
-                          "name": "vnet01",
-                          "addressPrefixSize": "/16"
-                        },
-                        "constraints": {
-                          "minAddressPrefixSize": "/16"
-                        },
-                        "options": {
-                          "hideExisting": false
-                        },
-                        "subnets": {
-                          "subnet1": {
-                            "label": "First subnet",
-                            "defaultValue": {
-                              "name": "subnet-1",
-                              "addressPrefixSize": "/24"
-                            },
-                            "constraints": {
-                              "minAddressPrefixSize": "/24",
-                              "minAddressCount": 12,
-                              "requireContiguousAddresses": true
-                            }
-                          }
-                        },
-                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]" 
-                      }	                                                                                                                                                                              
+                    }                                                                                                                                                                          
                 ]
             },
             {  
@@ -614,7 +505,7 @@
                             "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                             "validationMessage":"Format should be a valid IPv4 address"
                         },
-                        "visible":true
+                        "visible": "[equals(steps('GelSettings').ClsLlsGelSettings, 'Local')]"
                     },
                     {  
                         "name":"ActiveDirectoryCredentials",
@@ -678,7 +569,77 @@
                     "postValidation":"Done"
                 },
                 "bladeTitle":"SLB settings",
-                "elements":[  
+                "elements":[ 
+                {
+                    "name":"EnaDisAutoscaleSettings",
+                    "type":"Microsoft.Common.OptionsGroup",
+                    "label":"Enable/Disable advanced Autoscale settings",
+                    "defaultValue":"Disable",
+                    "toolTip":"Enable/Disable advanced Autoscale settings",
+                    "constraints":{  
+                        "allowedValues":[  
+                            {  
+                                "label":"Enable",
+                                "value":"Enable"
+                            },
+                            {  
+                                "label":"Disable",
+                                "value":"Disable"
+                            }
+                        ]
+                    },
+                    "visible":true
+                },                     
+                    {
+                        "name":"RealsScalesetName",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"Reals Scaleset Name",
+                        "defaultValue":"",
+                        "toolTip":"Set Reals Scaleset Name",
+                        "constraints":{ 
+                            "required": true,
+                            "regex":"^[a-z0-9A-Z]{1,100}$",
+                            "validationMessage": "Only alphanumeric characters are allowed"
+                        },
+                        "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Enable')]"           
+                    },                    
+                    {
+                        "name": "RealsVirtualNetwork",
+                        "type": "Microsoft.Network.VirtualNetworkCombo",
+                        "label": {
+                          "virtualNetwork": "Virtual network",
+                          "subnets": "Subnets"
+                        },
+                        "toolTip": {
+                          "virtualNetwork": "Choose reals server virtual network",
+                          "subnets": "Choose reals server subnet"
+                        },
+                        "defaultValue": {
+                          "name": "vnet01",
+                          "addressPrefixSize": "/16"
+                        },
+                        "constraints": {
+                          "minAddressPrefixSize": "/16"
+                        },
+                        "options": {
+                          "hideExisting": false
+                        },
+                        "subnets": {
+                          "subnet1": {
+                            "label": "First subnet",
+                            "defaultValue": {
+                              "name": "subnet-1",
+                              "addressPrefixSize": "/24"
+                            },
+                            "constraints": {
+                              "minAddressPrefixSize": "/24",
+                              "minAddressCount": 12,
+                              "requireContiguousAddresses": true
+                            }
+                          }
+                        },
+                        "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Enable')]"  
+                    },	                        
                     {  
                         "name":"RealsCount",
                         "type":"Microsoft.Common.DropDown",
@@ -749,7 +710,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 0))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 0))]"
                             },
                             {  
                                 "name":"Real2",
@@ -761,7 +722,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 1))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 1))]"
                             },
                             {  
                                 "name":"Real3",
@@ -773,7 +734,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 2))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 2))]"
                             },
                             {  
                                 "name":"Real4",
@@ -785,7 +746,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 3))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 3))]"
                             },
                             {  
                                 "name":"Real5",
@@ -797,7 +758,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 4))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 4))]"
                             },
                             {  
                                 "name":"Real6",
@@ -809,7 +770,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 5))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 5))]"
                             },
                             {  
                                 "name":"Real7",
@@ -821,7 +782,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 6))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 6))]"
                             },
                             {  
                                 "name":"Real8",
@@ -833,7 +794,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 7))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 7))]"
                             },
                             {  
                                 "name":"Real9",
@@ -845,7 +806,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 8))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 8))]"
                             },
                             {  
                                 "name":"Real10",
@@ -857,7 +818,7 @@
                                     "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
                                     "validationMessage":"Format should be a valid IPv4 address"
                                 },
-                                "visible":"[and(equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 9))]"
+                                "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 9))]"
                             }
                         ]
                     },
@@ -870,7 +831,8 @@
                             "regex":"^\\d+$",
                             "validationMessage":"Format should be valid tcp port"
                         },
-                        "toolTip":"The port number of the service you want to load balance"
+                        "toolTip":"The port number of the service you want to load balance",
+                        "visible": "[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
                     },
                     {  
                         "name":"SLBMetric",
@@ -893,7 +855,8 @@
                                     "value":"response"
                                 }
                             ]
-                        }
+                        },
+                        "visible": "[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
                     }                    
                 ]
             }                                                                        
@@ -913,11 +876,9 @@
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
-            "LbType": "[steps('AdvancedLbSettings').LbType]", 
             "LbSku": "[steps('AdvancedLbSettings').LbSku]",
             "PublicIpName":"[steps('AdvancedLbSettings').LbPublicIpAddress.publicIpAddressName]",
             "PublicIpDomainName":"[steps('AdvancedLbSettings').LbPublicIpAddress.domainNameLabel]",
-            "InstanceCount": "[steps('ScalesetSettings').InstanceCount]", 
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
             "MinNumOfVMs":"[steps('ScalesetSettings').MinNumOfVMs]",
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
