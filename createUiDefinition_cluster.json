@@ -10,7 +10,8 @@
                 "label":"Alteon Cluster Name",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
-                    "validationMessage":"Alteon cluster must start with an alphanumeric characters"
+                    "validationMessage":"Alteon cluster must start with an alphanumeric characters",
+                    "required": true
                 },
                 "toolTip":"Alteon VA Cluster name",
                 "visible":true
@@ -20,7 +21,10 @@
                 "type":"Microsoft.Compute.UserNameTextBox",
                 "label":"Username",
                 "toolTip":"Administrator user name for the Alteon virtual VA machine",
-                "osPlatform":"Linux"
+                "osPlatform":"Linux",
+                "constraints": {
+                    "required": true
+                }
             },
             {  
                 "name":"adminPassword",
@@ -37,6 +41,9 @@
                 "options":{  
                     "hideConfirmation":false,
                     "hidePassword":false
+                },
+                "constraints": {
+                    "required": true
                 },
                 "osPlatform":"Linux"
             },            
