@@ -688,7 +688,8 @@
                                     "value":10
                                 }
                             ]   
-                        }
+                        },
+                        "visible": "[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
                     },                       
                     {  
                         "name":"RealServerSection",
