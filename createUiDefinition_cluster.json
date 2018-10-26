@@ -7,7 +7,7 @@
             {  
                 "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
-                "label":"Alteon Cluster Name v4",
+                "label":"Alteon Cluster Name",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
@@ -453,7 +453,7 @@
                               "name": "ScaleOutInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
-                              "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense)]"
+                              "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
                             {
                                 "name": "ScaleOutIncreaseBy",
@@ -479,7 +479,7 @@
                               "name": "ScaleInInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
-                              "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense)]"
+                              "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
                             {
                                 "name": "ScaleInDecreaseBy",
