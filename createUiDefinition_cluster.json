@@ -7,7 +7,7 @@
             {  
                 "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
-                "label":"Alteon Cluster Name v1",
+                "label":"Alteon Cluster Name v2",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
@@ -876,7 +876,7 @@
             "tagExpired":"[basics('AlteonClusterExpiredTag')]",
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
-            "CloudDeviceId":"[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', steps('GelSettings').CloudDeviceId), '/request')]",
+            "CloudDeviceId":"[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', steps('GelSettings').CloudDeviceId, '/request')]",
             "PrimaryDnsIP":"[steps('GelSettings').PrimaryDnsIP]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
