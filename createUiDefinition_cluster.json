@@ -85,7 +85,8 @@
                         "label":{  
                             "authenticationType":"VMSS instance credentials",
                             "password":"Password",
-                            "confirmPassword":"Confirm password"
+                            "confirmPassword":"Confirm password",
+                            "sshPublicKey":"Note that SSH key isn't supported"
                         },
                         "toolTip":{  
                             "password":"Admin password for the virtual machines",
