@@ -48,14 +48,25 @@
                 "visible":"[equals(basics('EnaDisAlteonClusterTag'), 'Enable')]"
             },
             {  
-                "name":"AlteonClusterExpiredTag",
-                "type":"Microsoft.Common.TextBox",
+                "name":"AlteonClusterUserDefinedTag",
+                "type":"Microsoft.Common.Section",
                 "label":"User defined Tag name",
-                "defaultValue":"",
-                "constraints":{  
-                    "validationMessage":"User defined Tag name"
-                },
-                "toolTip":"User defined Tag name",
+                "elements": [
+                    {
+                        "name": "TagName",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Add user defined tag name",
+                        "toolTip":"Add user defined tag name",
+                        "defaultValue":""
+                      },
+                      {
+                        "name": "TagValue",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Add user defined tag value",
+                        "toolTip":"Add user defined tag value",
+                        "defaultValue":""
+                      }                   
+                ],
                 "visible":"[equals(basics('EnaDisAlteonClusterTag'), 'Enable')]"
             }                                    
         ],
@@ -447,12 +458,18 @@
                               "name": "ScaleOutCpuThreshold",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
+                              "constraints":{ 
+                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                              },                              
                               "label": "CPU threshold (%)"
                             },
                             {
                               "name": "ScaleOutInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
+                              "constraints":{ 
+                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                              },                              
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
                             {
@@ -473,12 +490,18 @@
                               "name": "ScaleInCpuThreshold",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
+                              "constraints":{ 
+                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                              },                              
                               "label": "CPU threshold (%)"
                             },
                             {
                               "name": "ScaleInInboundTraffic",
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
+                              "constraints":{ 
+                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                              },
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
                             {
@@ -840,7 +863,7 @@
                         "validationMessage":"Format should be valid tcp port"
                     },
                     "toolTip":"The port number of the service you want to load balance",
-                    "visible": "[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
+                    "visible": true
                 },
                 {  
                     "name":"SLBMetric",
@@ -864,7 +887,7 @@
                             }
                         ]
                     },
-                    "visible": "[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
+                    "visible": true
                 }                    
                 ]
             }                                                                        
@@ -873,7 +896,8 @@
             "location":"[location()]",
             "AlteonClusterName":"[basics('AlteonClusterName')]",    
             "tagOwnerName":"[basics('AlteonClusterOwnerTagName')]",
-            "tagExpired":"[basics('AlteonClusterExpiredTag')]",
+            "tagUserDefinedName": "[basics('AlteonClusterUserDefinedTag').TagName]",
+            "tagUserDefinedValue": "[basics('AlteonClusterUserDefinedTag').TagValue]",
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "CloudDeviceId":"[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', steps('GelSettings').CloudDeviceId, '/request')]",
