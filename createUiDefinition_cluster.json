@@ -459,7 +459,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
                               "constraints":{ 
-                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                                "regex": ""
                               },                              
                               "label": "CPU threshold (%)"
                             },
@@ -468,7 +468,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
                               "constraints":{ 
-                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                                "regex": ""
                               },                              
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
@@ -491,7 +491,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "constraints":{ 
-                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                                "regex": ""
                               },                              
                               "label": "CPU threshold (%)"
                             },
@@ -500,7 +500,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "constraints":{ 
-                                "regex": "^100$|^\\d{0,2}(\\.\\d{1,2})? *%?$"
+                                "regex": ""
                               },
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
