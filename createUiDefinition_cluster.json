@@ -10,7 +10,6 @@
                 "label":"Alteon Cluster Name",
                 "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
                 "constraints":{  
-                    "regex": "^100(\\.0{0,2}?)?$|^\\d{0,2}(\\.\\d{0,2})?$",
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
                     "required": true
                 },
@@ -469,7 +468,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"80",
                               "constraints":{ 
-                                "regex": ""
+                                "regex": "^100(\\.0{0,2}?)?$|^\\d{0,2}(\\.\\d{0,2})?$"
                               },                              
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
@@ -492,7 +491,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "constraints":{ 
-                                "regex": ""
+                                "regex": "^100(\\.0{0,2}?)?$|^\\d{0,2}(\\.\\d{0,2})?$"
                               },                              
                               "label": "CPU threshold (%)"
                             },
@@ -501,7 +500,7 @@
                               "type": "Microsoft.Common.TextBox",
                               "defaultValue":"60",
                               "constraints":{ 
-                                "regex": ""
+                                "regex": "^100(\\.0{0,2}?)?$|^\\d{0,2}(\\.\\d{0,2})?$"
                               },
                               "label": "[concat('Inbound traffic (%) of ', steps('GelSettings').ThroughputLicense, 'Mbps')]"
                             },
