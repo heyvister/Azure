@@ -316,7 +316,7 @@
                         "name":"LbSku",
                         "type":"Microsoft.Common.DropDown",
                         "label":"SKU",
-                        "defaultValue":"Standard",
+                        "defaultValue":"Basic",
                         "toolTip":"LB SKU",
                         "constraints":{ 
                             "allowedValues":[
