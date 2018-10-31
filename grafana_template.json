@@ -145,7 +145,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[parameters('publicIpAddressName')]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
                         }
                     ]
                 },
