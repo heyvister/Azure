@@ -6,10 +6,14 @@
 			"defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
-        "networkInterfaceName": {
+        "monitorLbBackendPool": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
+        "monitorLbNatPool": {
+			"defaultValue": "nisnisgraph",
+            "type": "String"
+        },        
         "networkSecurityGroupName": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
@@ -109,12 +113,12 @@
                             },                         
                             "loadBalancerBackendAddressPools": [
                                 {
-                                    "id": "[parameters('networkInterfaceName')]"
+                                    "id": "[parameters('monitorLbBackendPool')]"
                                 }
                             ],
                             "loadBalancerInboundNatPools": [
                                 {
-
+                                    "id": "[parameters('monitorLbNatPool')]"
                                 }                                                   
                             ]
                         }
