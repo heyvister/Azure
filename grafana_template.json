@@ -89,36 +89,6 @@
 		},
     "resources": [
         {
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaceName')]",
-            "apiVersion": "2018-04-01",
-            "location": "[parameters('location')]",
-            "tags": {},
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "subnet": {
-                                "id": "[variables('subnetRef')]"
-                            },
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIpAddress": {
-                                "id": "[parameters('publicIpAddressName')]"
-                                
-                            }
-                        }
-                    }
-                ],
-                "networkSecurityGroup": {
-                    "id": "[parameters('clusterSecurityGroupName')]"
-                }
-            },
-            "dependsOn": [
-		
-            ]
-        },
-        {
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('virtualMachineName')]",
             "apiVersion": "2018-04-01",
@@ -158,7 +128,7 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+              
             ]
         }
     ],
