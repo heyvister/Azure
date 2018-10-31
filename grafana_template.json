@@ -115,7 +115,7 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
+                "[parameters('publicIpAddressName'))]"
             ]
         },
         {
