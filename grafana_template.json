@@ -111,10 +111,11 @@
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[parameters('publicIpAddressName')]"
+                    "id": "[parameters('clusterSecurityGroupName')]"
                 }
             },
             "dependsOn": [
+		
             ]
         },
         {
