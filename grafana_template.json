@@ -90,7 +90,7 @@
     "resources": [
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaceName')]",
+            "name": "[concat(resourceGroup().name, 'MonitorIface')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
             "tags": {},
@@ -114,7 +114,7 @@
                             ],
                             "loadBalancerInboundNatPools": [
                                 {
-                                    
+
                                 }                                                   
                             ]
                         }
@@ -168,7 +168,6 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
             ]
         }
     ],
