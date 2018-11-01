@@ -147,7 +147,7 @@
                         "name":"CloudDeviceId",
                         "type":"Microsoft.Common.TextBox",
                         "label":"CLS Device ID",
-                        "defaultValue": "",
+                        "defaultValue": "abcd-1234",
                         "toolTip":"Cloud license server ID",
                         "constraints":{  
                             "required":true
