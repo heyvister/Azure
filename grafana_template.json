@@ -6,7 +6,11 @@
 			"defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
-        "networkInterfaceName": {
+        "monitorLbBackendPool": {
+			"defaultValue": "nisnisgraph",
+            "type": "String"
+        },
+        "monitorLbNatPool": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
@@ -16,14 +20,6 @@
         },
         "publicIpAddressName": {
 			"defaultValue": "nisnisgraph",
-            "type": "String"
-        },
-        "publicIpAddressType": {
-			"defaultValue": "Static",
-            "type": "String"
-        },
-        "publicIpAddressSku": {
-			"defaultValue": "standard",
             "type": "String"
         },
         "virtualMachineName": {
@@ -92,29 +88,39 @@
 			"product": "[variables('monitorImageOffer')]",
 			"publisher": "[variables('monitorImagePublisher')]"
 		},
-		"customData": "[concat('#!/usr/bin/env python3\n', 'import fileinput\n', 'import os\n', '\n', '\n', 'def main():\n', '    filename = ''/etc/prometheus/prometheus.yml''\n', '    with fileinput.FileInput(filename, inplace=True, backup=''.bak'') as file:\n', '        check_words = (\n', '            \"''subscription_id''\",\n', '            \"''tenant_id''\",\n', '            \"''client_id''\",\n', '            \"''client_secret''\",\n', '            \"''resource_group''\"\n', '        )\n', '        rep_words = (\n', '            \"''', variables('subscripID'), '''\",\n', '            \"''', parameters('TenantID'), '''\",\n', '            \"''', parameters('ClientID'), '''\",\n', '            \"''', parameters('ClientSecret'), '''\",\n', '            \"''', parameters('virtualMachineRG'), ';true''\"\n', '        )\n', '        for line in file:\n', '            for check, rep in zip(check_words, rep_words):\n', '                line = line.replace(check, rep).rstrip()\n', '            if ''subscription_id:'' in line:\n', '                line = line.replace(''/subscriptions/'', '''')\n', '            print(line)\n', '    os.system(\"service prometheus restart\")\n', '\n', '\n', 'if __name__ == \"__main__\":\n', '    main()\n', '\n')]"
+        "customData": "[concat('#!/usr/bin/env python3\n', 'import fileinput\n', 'import os\n', '\n', '\n', 'def main():\n', '    filename = ''/etc/prometheus/prometheus.yml''\n', '    with fileinput.FileInput(filename, inplace=True, backup=''.bak'') as file:\n', '        check_words = (\n', '            \"''subscription_id''\",\n', '            \"''tenant_id''\",\n', '            \"''client_id''\",\n', '            \"''client_secret''\",\n', '            \"''resource_group''\"\n', '        )\n', '        rep_words = (\n', '            \"''', variables('subscripID'), '''\",\n', '            \"''', parameters('TenantID'), '''\",\n', '            \"''', parameters('ClientID'), '''\",\n', '            \"''', parameters('ClientSecret'), '''\",\n', '            \"''(?i:(', variables('resourceGroupName'), ';true))''\"\n', '        )\n', '        for line in file:\n', '            for check, rep in zip(check_words, rep_words):\n', '                line = line.replace(check, rep).rstrip()\n', '            if ''subscription_id:'' in line:\n', '                line = line.replace(''/subscriptions/'', '''')\n', '            print(line)\n', '    os.system(\"service prometheus restart\")\n', '\n', '\n', 'if __name__ == \"__main__\":\n', '    main()\n')]"
 
 		},
     "resources": [
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[parameters('networkInterfaceName')]",
+            "name": "[concat(resourceGroup().name, 'MonitorIface')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
             "tags": {},
             "properties": {
                 "ipConfigurations": [
                     {
-                        "name": "ipconfig1",
+                        "name": "monitorVmIPConfig",
                         "properties": {
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAddressVersion": "IPv4",
                             "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                                "id": "[parameters('publicIpAddressName')]"
                                 
-                            }
+                            },                         
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[parameters('monitorLbBackendPool')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatPools": [
+                                {
+                                    "id": "[parameters('monitorLbNatPool')]"
+                                }                                                   
+                            ]
                         }
                     }
                 ],
@@ -123,21 +129,8 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
+		
             ]
-        },
-        {
-            "type": "Microsoft.Network/publicIpAddresses",
-            "sku": {
-                "name": "[parameters('publicIpAddressSku')]"
-            },
-            "name": "[parameters('publicIpAddressName')]",
-            "apiVersion": "2018-08-01",
-            "location": "[parameters('location')]",
-            "tags": {},
-            "properties": {
-                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
-            }
         },
         {
             "type": "Microsoft.Compute/virtualMachines",
