@@ -153,18 +153,7 @@
                             "required":true
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
-                    },
-                    {  
-                        "name":"CloudDeviceIdUrl",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"CLS Device ID",
-                        "defaultValue": "[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', steps('GelSettings').CloudDeviceId, '/request')]",
-                        "toolTip":"Cloud license server ID Url",
-                        "constraints":{  
-                            "required":true
-                        },                      
-                        "visible":false
-                    },                    
+                    },             
                     {
                         "name":"PrimaryDnsIP",
                         "type":"Microsoft.Common.TextBox",
@@ -911,7 +900,7 @@
             "tagUserDefinedValue": "[basics('AlteonClusterUserDefinedTag').TagValue]",
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
-            "CloudDeviceId":"[steps('GelSettings').CloudDeviceIdUrl]",
+            "CloudDeviceId":"[steps('GelSettings').CloudDeviceId]",
             "PrimaryDnsIP":"[steps('GelSettings').PrimaryDnsIP]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
