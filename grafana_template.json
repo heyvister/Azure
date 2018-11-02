@@ -131,7 +131,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]"
+                "[concat(variables('subscripID'), '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancersName'))]"
             ]
         },
         {
