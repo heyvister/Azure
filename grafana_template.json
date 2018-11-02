@@ -110,8 +110,6 @@
                             },
                             "privateIPAddressVersion": "IPv4",
                             "publicIpAddress": {
-                                "id": "[parameters('publicIpAddressName')]"
-                                
                             },                         
                             "loadBalancerBackendAddressPools": [
                                 {
