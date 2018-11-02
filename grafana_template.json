@@ -107,7 +107,8 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAddressVersion": "IPv4",              
+                            "privateIPAddressVersion": "IPv4",  
+                            "privateIPAllocationMethod": "Dynamic",            
                             "loadBalancerBackendAddressPools": [
                                 {
                                     "id": "[parameters('monitorLbBackendPool')]"
