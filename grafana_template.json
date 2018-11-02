@@ -80,6 +80,7 @@
         "subnetRef": "[parameters('subnetId')]",
         "subscripID": "[subscription().id]",
         "networkInterfaceName": "[concat(resourceGroup().name, 'MonitorIface')]",
+        "loadBalancersName": "[concat(resourceGroup().name, 'VmssLB')]",
         "monitorImagePublisher": "radware",
 		"monitorImageOffer": "alteon-va-cluster-monitor-preview",
         "monitor_radware_sku": "alteon-va-cluster-monitoring",	
@@ -130,9 +131,7 @@
                 }
             },
             "dependsOn": [
-                "[parameters('monitorLbBackendPool')]",
-                "[parameters('monitorLbNatRules')]"
-
+                "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]"
             ]
         },
         {
