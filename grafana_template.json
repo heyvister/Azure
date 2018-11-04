@@ -10,18 +10,6 @@
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
-        "monitorLbNatRules": {
-			"defaultValue": "nisnisgraph",
-            "type": "String"
-        },
-        "networkSecurityGroupName": {
-			"defaultValue": "nisnisgraph",
-            "type": "String"
-        },
-        "publicIpAddressName": {
-			"defaultValue": "nisnisgraph",
-            "type": "String"
-        },
         "virtualMachineName": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
@@ -113,11 +101,6 @@
                                 {
                                     "id": "[parameters('monitorLbBackendPool')]"
                                 }
-                            ],
-                            "loadBalancerInboundNatRules": [
-                                {
-                                    "id": "[parameters('monitorLbNatRules')]"
-                                }                                                   
                             ]
                         }
                     }
