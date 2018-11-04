@@ -19,9 +19,9 @@
             {  
                 "name":"EnaDisAlteonClusterTag",
                 "type":"Microsoft.Common.OptionsGroup",
-                "label":"Enable Alteon VMSS instance tagging",
+                "label":"Enable Alteon instance tagging",
                 "defaultValue":"Disable",
-                "toolTip":"Enable/Disable Alteon VMSS instance tagging",
+                "toolTip":"Enable/Disable Alteon instance tagging",
                 "constraints":{  
                     "allowedValues":[  
                         {  
@@ -73,12 +73,12 @@
         "steps":[         
             {  
                 "name":"VmssInstanceCredentials",
-                "label":"VMSS Instance Credentials",
+                "label":"Alteon Instance Credentials",
                 "subLabel":{  
-                    "preValidation":"Configure VMSS instance credentials settings",
+                    "preValidation":"Configure Alteon instance credentials settings",
                     "postValidation":"Done"
                 },
-                "bladeTitle":" VMSS instance credentials settings",
+                "bladeTitle":" Alteon instance credentials settings",
                 "elements":[  
                     {  
                         "name":"adminUsername",
@@ -158,7 +158,7 @@
                         "name":"PrimaryDnsIP",
                         "type":"Microsoft.Common.TextBox",
                         "label":"Primary DNS IP Address",
-                        "defaultValue":"",
+                        "defaultValue":"168.63.129.16",
                         "toolTip":"Primary DNS IP Address",
                         "constraints":{  
                             "required":true,
@@ -517,7 +517,7 @@
                         "name":"DNSServerIP",
                         "type":"Microsoft.Common.TextBox",
                         "label":"DNS Server IP Address",
-                        "defaultValue":"",
+                        "defaultValue":"168.63.129.16",
                         "toolTip":"DNS Server IP Address",
                         "constraints":{  
                             "required":true,
