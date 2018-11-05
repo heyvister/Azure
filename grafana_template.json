@@ -62,7 +62,14 @@
             "metadata": {
                 "description": "AD Tenant ID"
             }
-        }                
+        },  
+		"vmTags": {
+            "defaultValue": "none",
+            "type": "string",
+            "metadata": {
+                "description": "VM tags"
+            }
+        }                             
     },
     "variables": {
         "subnetRef": "[parameters('subnetId')]",
@@ -118,7 +125,7 @@
             "name": "[parameters('virtualMachineName')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
-            "tags": {},
+            "tags": "[parameters('vmTags')]",
 			"plan": "[variables('plan')]",
             "properties": {
                 "hardwareProfile": {
