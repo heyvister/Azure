@@ -64,8 +64,8 @@
             }
         },  
 		"vmTags": {
-            "defaultValue": "none",
-            "type": "string",
+            "type": "object",
+            "defaultValue": {},
             "metadata": {
                 "description": "VM tags"
             }
