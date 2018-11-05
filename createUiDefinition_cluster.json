@@ -147,7 +147,7 @@
                         "name":"CloudDeviceId",
                         "type":"Microsoft.Common.TextBox",
                         "label":"CLS Device ID",
-                        "defaultValue": "abcd-1234",
+                        "defaultValue": "",
                         "toolTip":"Cloud license server ID",
                         "constraints":{  
                             "required":true
@@ -305,7 +305,7 @@
                         "name":"LbSku",
                         "type":"Microsoft.Common.DropDown",
                         "label":"SKU",
-                        "defaultValue":"Basic",
+                        "defaultValue":"Standard",
                         "toolTip":"LB SKU",
                         "constraints":{ 
                             "allowedValues":[
@@ -332,8 +332,8 @@
                             "publicIpAddress": "Public IP address for Alteon cluster"                     
                         },
                         "defaultValue":{  
-                            "publicIpAddressName":"[concat('alteon-cluster','IP')]",
-                            "domainNameLabel":"[concat('alteon-cluster','IP-', string(rand(1, 1000)))]"
+                            "publicIpAddressName":"[concat(basics('AlteonClusterName'), 'IP')]",
+                            "domainNameLabel":"[concat(basics('AlteonClusterName'), 'IP-')]"
                         },
                         "options":{  
                             "hideNone":true,
