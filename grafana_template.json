@@ -182,7 +182,7 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
             ]
-        }
+        } 
     ],
     "outputs": {
         "adminUsername": {
