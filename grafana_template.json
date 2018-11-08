@@ -6,7 +6,15 @@
 			"defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
-        "monitorLbBackendPool": {
+        "networkInterfaceName": {
+			"defaultValue": "nisnisgraph",
+            "type": "String"
+        },
+        "networkSecurityGroupName": {
+			"defaultValue": "nisnisgraph",
+            "type": "String"
+        },
+        "publicIpAddressName": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
@@ -62,53 +70,43 @@
             "metadata": {
                 "description": "AD Tenant ID"
             }
-        },  
-		"vmTags": {
-            "type": "object",
-            "defaultValue": {},
-            "metadata": {
-                "description": "VM tags"
-            }
-        }                             
+        }                    
     },
     "variables": {
         "subnetRef": "[parameters('subnetId')]",
-        "subscripID": "[subscription().id]",
-        "networkInterfaceName": "[concat(resourceGroup().name, 'MonitorIface')]",
+		"subscripID": "[subscription().id]",
         "monitorImagePublisher": "radware",
 		"monitorImageOffer": "alteon-va-cluster-monitor-preview",
-        "monitor_radware_sku": "alteon-va-cluster-monitoring",	
+		"monitor_radware_sku": "alteon-va-cluster-monitoring",	
 		"plan": "[variables(concat('plan-', variables('monitorImageOffer')))]",
 		"plan-alteon-va-cluster-monitor-preview": {
 			"name": "[variables('monitor_radware_sku')]",
 			"product": "[variables('monitorImageOffer')]",
 			"publisher": "[variables('monitorImagePublisher')]"
 		},
-        "customData": "[concat('#!/usr/bin/env python3\n', 'import fileinput\n', 'import os\n', '\n', '\n', 'def main():\n', '    filename = ''/etc/prometheus/prometheus.yml''\n', '    with fileinput.FileInput(filename, inplace=True, backup=''.bak'') as file:\n', '        check_words = (\n', '            \"''subscription_id''\",\n', '            \"''tenant_id''\",\n', '            \"''client_id''\",\n', '            \"''client_secret''\",\n', '            \"''resource_group''\"\n', '        )\n', '        rep_words = (\n', '            \"''', variables('subscripID'), '''\",\n', '            \"''', parameters('TenantID'), '''\",\n', '            \"''', parameters('ClientID'), '''\",\n', '            \"''', parameters('ClientSecret'), '''\",\n', '            \"''(?i:(', parameters('virtualMachineRG'), ';true))''\"\n', '        )\n', '        for line in file:\n', '            for check, rep in zip(check_words, rep_words):\n', '                line = line.replace(check, rep).rstrip()\n', '            if ''subscription_id:'' in line:\n', '                line = line.replace(''/subscriptions/'', '''')\n', '            print(line)\n', '    os.system(\"service prometheus restart\")\n', '\n', '\n', 'if __name__ == \"__main__\":\n', '    main()\n')]"
+		"customData": "[concat('#!/usr/bin/env python3\n', 'import fileinput\n', 'import os\n', '\n', '\n', 'def main():\n', '    filename = ''/etc/prometheus/prometheus.yml''\n', '    with fileinput.FileInput(filename, inplace=True, backup=''.bak'') as file:\n', '        check_words = (\n', '            \"''subscription_id''\",\n', '            \"''tenant_id''\",\n', '            \"''client_id''\",\n', '            \"''client_secret''\",\n', '            \"''resource_group''\"\n', '        )\n', '        rep_words = (\n', '            \"''', variables('subscripID'), '''\",\n', '            \"''', parameters('TenantID'), '''\",\n', '            \"''', parameters('ClientID'), '''\",\n', '            \"''', parameters('ClientSecret'), '''\",\n', '            \"''', parameters('virtualMachineRG'), ';true''\"\n', '        )\n', '        for line in file:\n', '            for check, rep in zip(check_words, rep_words):\n', '                line = line.replace(check, rep).rstrip()\n', '            if ''subscription_id:'' in line:\n', '                line = line.replace(''/subscriptions/'', '''')\n', '            print(line)\n', '    os.system(\"service prometheus restart\")\n', '\n', '\n', 'if __name__ == \"__main__\":\n', '    main()\n', '\n')]"
 
 		},
     "resources": [
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('networkInterfaceName')]",
+            "name": "[parameters('networkInterfaceName')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
             "tags": {},
             "properties": {
                 "ipConfigurations": [
                     {
-                        "name": "monitorVmIPConfig",
+                        "name": "ipconfig1",
                         "properties": {
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAddressVersion": "IPv4",  
-                            "privateIPAllocationMethod": "Dynamic",            
-                            "loadBalancerBackendAddressPools": [
-                                {
-                                    "id": "[parameters('monitorLbBackendPool')]"
-                                }
-                            ]
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[parameters('publicIpAddressName')]"
+                                
+                            }
                         }
                     }
                 ],
@@ -117,7 +115,7 @@
                 }
             },
             "dependsOn": [
-               
+		
             ]
         },
         {
@@ -125,7 +123,7 @@
             "name": "[parameters('virtualMachineName')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
-            "tags": "[parameters('vmTags')]",
+            "tags": {},
 			"plan": "[variables('plan')]",
             "properties": {
                 "hardwareProfile": {
@@ -148,7 +146,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
                         }
                     ]
                 },
@@ -161,7 +159,7 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
             ]
         }
     ],
