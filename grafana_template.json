@@ -6,7 +6,7 @@
 			"defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
-        "monitorLbBackendPool": {
+        "monitorLbBackendPool": { 
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
