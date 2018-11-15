@@ -553,7 +553,7 @@
                     "name":"EnaDisAutoscaleSettings",
                     "type":"Microsoft.Common.OptionsGroup",
                     "label":"Enable/Disable advanced Autoscale settings",
-                    "defaultValue":"Disable",
+                    "defaultValue":"Enable",
                     "toolTip":"Enable/Disable advanced Autoscale settings",
                     "constraints":{  
                         "allowedValues":[  
@@ -616,7 +616,8 @@
                               "requireContiguousAddresses": true
                             }
                           }
-                        }
+                        },
+                        "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Enable')]"  
                 },	                        
                 {  
                     "name":"RealsCount",
@@ -672,8 +673,7 @@
                                 "value":10
                             }
                         ]   
-                    },
-                    "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
+                    }
                 },                       
                 {  
                     "name":"RealServerSection",
