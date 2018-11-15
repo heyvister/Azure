@@ -616,13 +616,12 @@
                               "requireContiguousAddresses": true
                             }
                           }
-                        },
-                        "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Enable')]"  
+                        }
                 },	                        
                 {  
                     "name":"RealsCount",
                     "type":"Microsoft.Common.DropDown",
-                    "label":"Number of real servers",
+                    "label":"Number of discrete real servers",
                     "defaultValue":"0",
                     "toolTip":"",
                     "constraints":{  
