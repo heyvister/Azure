@@ -94,7 +94,7 @@
                         "name":"adminPassword",
                         "type":"Microsoft.Compute.CredentialsCombo",
                         "label":{  
-                            "authenticationType":"VMSS instance credentials",
+                            "authenticationType":"Alteon instance credentials",
                             "password":"Password",
                             "confirmPassword":"Confirm password",
                             "sshPublicKey":"Note that SSH key isn't supported"
@@ -281,46 +281,6 @@
                 },
                 "bladeTitle":"Advanced LB Settings",
                 "elements":[  
-                    {  
-                        "name":"EnaDisLbSettings",
-                        "type":"Microsoft.Common.OptionsGroup",
-                        "label":"Enable/Disable Advanced LB settings",
-                        "defaultValue":"Disable",
-                        "toolTip":"Enable/Disable Advanced LB settings",
-                        "constraints":{  
-                            "allowedValues":[  
-                                {  
-                                    "label":"Enable",
-                                    "value":"Enable"
-                                },
-                                {  
-                                    "label":"Disable",
-                                    "value":"Disable"
-                                }
-                            ]
-                        },
-                        "visible":true
-                    },
-                    {
-                        "name":"LbSku",
-                        "type":"Microsoft.Common.DropDown",
-                        "label":"SKU",
-                        "defaultValue":"Standard",
-                        "toolTip":"LB SKU",
-                        "constraints":{ 
-                            "allowedValues":[
-                                {
-                                    "label":"Standard",
-                                    "value":"Standard" 
-                                },
-                                {
-                                    "label":"Basic",
-                                    "value":"Basic" 
-                                }                                         
-                            ]                            
-                        },
-                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]" 
-                    },
                     {
                         "name":"LbPublicIpAddress",
                         "type":"Microsoft.Network.PublicIpAddressCombo",
@@ -340,7 +300,7 @@
                             "hideExisting":false,
                             "hideDomainNameLabel":true
                         },                                                   
-                        "visible":"[equals(steps('AdvancedLbSettings').EnaDisLbSettings, 'Enable')]"           
+                        "visible":true           
                     }                                                                                 
                 ]
             },    
@@ -878,19 +838,41 @@
                     },
                     "visible": true
                 },
+                {  
+                    "name":"sslPassphrase",
+                    "type":"Microsoft.Compute.CredentialsCombo",
+                    "label":{  
+                        "authenticationType":"SSL private key passphrase",
+                        "password":"Password",
+                        "confirmPassword":"Confirm password",
+                        "sshPublicKey":"Note that SSH key isn't supported"
+                    },
+                    "toolTip":{  
+                        "password":"Entel ssl key passphrase",
+                        "sshPublicKey":"Note that SSH key isn't supported for this action"
+                    },
+                    "options":{  
+                        "hideConfirmation":true,
+                        "hidePassword":false
+                    },
+                    "constraints": {
+                        "required": true
+                    },
+                    "osPlatform":"Linux"
+                },                      
                 {
-                    "name": "sslCertFile",
+                    "name": "sslCertKeyBundleFile",
                     "type": "Microsoft.Common.FileUpload",
-                    "label": "upload ssl cert + private key file",
+                    "label": "Key and certificate",
                     "toolTip": "",
                     "constraints": {
                       "required": true,
-                      "accept": ".txt,.xml"
+                      "accept": ".txt"
                     },
                     "options": {
                       "multiple": false,
                       "uploadMode": "file",
-                      "openMode": "binary",
+                      "openMode": "text",
                       "encoding": "UTF-8"
                     },
                     "visible": true
@@ -914,7 +896,6 @@
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
-            "LbSku": "[steps('AdvancedLbSettings').LbSku]",
             "PublicIpName":"[steps('AdvancedLbSettings').LbPublicIpAddress.publicIpAddressName]",
             "PublicIpDomainName":"[steps('AdvancedLbSettings').LbPublicIpAddress.domainNameLabel]",
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
@@ -942,7 +923,7 @@
             "Real8": "[steps('SLBSetting').RealServerSection.Real8]",
             "Real9": "[steps('SLBSetting').RealServerSection.Real9]",
             "Real10": "[steps('SLBSetting').RealServerSection.Real10]",
-            "sslCertFile": "[steps('SLBSetting').sslCertFile]"                        	                         
+            "sslCertFile": "[steps('SLBSetting').sslCertKeyBundleFile]"                        	                         
 
         }
     }
