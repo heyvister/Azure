@@ -840,26 +840,22 @@
                 },
                 {  
                     "name":"sslPassphrase",
-                    "type":"Microsoft.Compute.CredentialsCombo",
+                    "type":"Microsoft.Common.PasswordBox",
                     "label":{  
-                        "authenticationType":"SSL private key passphrase",
-                        "password":"Password",
-                        "confirmPassword":"Confirm password",
-                        "sshPublicKey":"Note that SSH key isn't supported"
+                        "password":"SSL passphrase",
+                        "confirmPassword":"Confirm password"
                     },
-                    "toolTip":{  
-                        "password":"Entel ssl key passphrase",
-                        "sshPublicKey":"Note that SSH key isn't supported for this action"
+                    "toolTip":"Enter ssl key passphrase",
+                    "constraints":{  
+                        "required":true,
+                        "regex":"^",
+                        "validationMessage":"Format should be a valid SSL passphrase"
                     },
                     "options":{  
-                        "hideConfirmation":true,
-                        "hidePassword":false
+                        "hideConfirmation":true
                     },
-                    "constraints": {
-                        "required": true
-                    },
-                    "osPlatform":"Linux"
-                },                      
+                    "visible":true
+                },                              
                 {
                     "name": "sslCertKeyBundleFile",
                     "type": "Microsoft.Common.FileUpload",
