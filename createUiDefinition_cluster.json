@@ -332,8 +332,8 @@
                             "publicIpAddress": "Public IP address for Alteon cluster"                     
                         },
                         "defaultValue":{  
-                            "publicIpAddressName":"[concat(basics('AlteonClusterName'), 'IP')]",
-                            "domainNameLabel":"[concat(basics('AlteonClusterName'), 'IP-')]"
+                            "publicIpAddressName":"[concat(basics('AlteonClusterName'), '-ip')]",
+                            "domainNameLabel":"[concat(basics('AlteonClusterName'), '-ip')]"
                         },
                         "options":{  
                             "hideNone":true,
@@ -877,7 +877,24 @@
                         ]
                     },
                     "visible": true
-                }                    
+                },
+                {
+                    "name": "sslCertFile",
+                    "type": "Microsoft.Common.FileUpload",
+                    "label": "upload ssl cert + private key file",
+                    "toolTip": "",
+                    "constraints": {
+                      "required": true,
+                      "accept": ".txt,.xml"
+                    },
+                    "options": {
+                      "multiple": false,
+                      "uploadMode": "file",
+                      "openMode": "text",
+                      "encoding": "UTF-8"
+                    },
+                    "visible": true
+                  }                                    
                 ]
             }                                                                        
         ],
