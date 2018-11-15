@@ -273,14 +273,14 @@
               ]
             },
             {  
-                "name":"AdvancedLbSettings",
-                "label":"Advanced LB Settings",
+                "name":"ScalesetSettings",
+                "label":"Scaleset Settings",
                 "subLabel":{  
-                    "preValidation":"Configure Advanced LB settings",
+                    "preValidation":"Configure Alteon cluster settings",
                     "postValidation":"Done"
                 },
-                "bladeTitle":"Advanced LB Settings",
-                "elements":[  
+                "bladeTitle":"Advanced Scaleset Settings",
+                "elements":[
                     {
                         "name":"LbPublicIpAddress",
                         "type":"Microsoft.Network.PublicIpAddressCombo",
@@ -301,18 +301,7 @@
                             "hideDomainNameLabel":true
                         },                                                   
                         "visible":true           
-                    }                                                                                 
-                ]
-            },    
-            {  
-                "name":"ScalesetSettings",
-                "label":"Scaleset Settings",
-                "subLabel":{  
-                    "preValidation":"Configure Scaleset settings",
-                    "postValidation":"Done"
-                },
-                "bladeTitle":"Advanced Scaleset Settings",
-                "elements":[  
+                    },                           
                     {  
                         "name":"EnaDisScalesetSettings",
                         "type":"Microsoft.Common.OptionsGroup",
@@ -893,8 +882,8 @@
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
-            "PublicIpName":"[steps('AdvancedLbSettings').LbPublicIpAddress.publicIpAddressName]",
-            "PublicIpDomainName":"[steps('AdvancedLbSettings').LbPublicIpAddress.domainNameLabel]",
+            "PublicIpName":"[steps('ScalesetSettings').LbPublicIpAddress.publicIpAddressName]",
+            "PublicIpDomainName":"[steps('ScalesetSettings').LbPublicIpAddress.domainNameLabel]",
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
             "MinNumOfVMs":"[steps('ScalesetSettings').MinNumOfVMs]",
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
