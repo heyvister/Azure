@@ -110,6 +110,21 @@
             }
         
         ]
-    }
+    },
+    {
+        "type": "Microsoft.Web/sites/hostNameBindings",
+        "name": "[concat(parameters('alteonsAzureFuncName'), '/', parameters('alteonAzureFuncHostNameBindingsName'))]",
+        "apiVersion": "2018-02-01",
+        "location": "[parameters('location')]",
+        "scale": null,
+        "properties": {
+            "siteName": "[parameters('alteonsAzureFuncName')]",
+            "domainId": null,
+            "hostNameType": "Verified"
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]"
+        ]
+    }    
 ]
 }
