@@ -29,7 +29,11 @@
         "blobContainerName": { 
 			"defaultValue": "blobcontainername",
             "type": "String"
-        }                             
+        },
+        "alteonAzureFuncHostNameBindingsName": { 
+			"defaultValue": "hostbindingname",
+            "type": "String"
+        }                                      
     }, 
     "resources": [    
         {
