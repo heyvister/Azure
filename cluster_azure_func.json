@@ -26,8 +26,8 @@
 			"defaultValue": "storageaccountname",
             "type": "String"
         },
-        "storageAccountId": { 
-			"defaultValue": "storageaccountid",
+        "storageAccountType": { 
+			"defaultValue": "storageaccounttype",
             "type": "String"
         },        
         "blobContainerName": { 
@@ -92,16 +92,44 @@
         ],
         "resources": [
             {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[parameters('storageAccountName')]",
+                "apiVersion": "2018-07-01",
+                "location": "[parameters('location')]",
+                "kind": "BlobStorage",
+                "sku": {
+                    "name": "[parameters('storageAccountType')]",
+                    "tier": "Standard"
+                },
+                "properties": 
+                {
+                    "accessTier": "Hot"
+                },
+                "resources": [
+                    {
+                      "name": "[concat('default/', parameters('blobContainerName'))]",
+                      "type": "blobServices/containers",
+                      "apiVersion": "2018-03-01-preview",
+                      "dependsOn": [
+                        "[parameters('storageAccountName')]"
+                      ],
+                      "properties": {
+                        "publicAccess": "None"
+                      }                   
+                    }  
+                ]            
+            },            
+            {
                 "apiVersion": "2018-02-01",
                 "name": "appsettings",
                 "type": "config",
                 "dependsOn": [
                     "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]",
-                    "[parameters('storageAccountId')]"
+                    "[parameters('storageAccountName')]"
                 ],
                 "properties": {
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
-                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
                     "FUNCTIONS_EXTENSION_VERSION": "~2",
                     "AzureWebJobsSecretStorageType": "Files"
                 }
