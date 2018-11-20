@@ -35,7 +35,7 @@
             "type": "String"
         },
         "EntitlementId": {
-            "value": "blabla",
+            "defaultValue": "",
             "type": "String"
         },   
         "alteonAzureFuncHostNameBindingsName": { 
