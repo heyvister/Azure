@@ -36,7 +36,33 @@
         }                                      
     }, 
     "resources": [    
-        {
+    {
+        "type": "Microsoft.Web/serverfarms",
+        "sku": {
+            "name": "Y1",
+            "tier": "Dynamic",
+            "size": "Y1",
+            "family": "Y",
+            "capacity": 0
+        },
+        "kind": "functionapp",
+        "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
+        "apiVersion": "2017-08-01",
+        "location": "[parameters('location')]",
+        "scale": null,
+        "properties": {
+            "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
+            "workerTierName": null,
+            "adminSiteName": null,
+            "hostingEnvironmentProfile": null,
+            "perSiteScaling": false,
+            "reserved": false,
+            "targetWorkerCount": 0,
+            "targetWorkerSizeId": 0
+        },
+        "dependsOn": []
+    },      
+    {
         "type": "Microsoft.Web/sites",
         "kind": "functionapp",
         "name": "[parameters('alteonsAzureFuncName')]",
@@ -58,35 +84,9 @@
             "cloningInfo": null
         },
         "dependsOn": [
-            "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]" 
+            "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]"
         ],
         "resources": [
-            {
-                "type": "Microsoft.Web/serverfarms",
-                "sku": {
-                    "name": "Y1",
-                    "tier": "Dynamic",
-                    "size": "Y1",
-                    "family": "Y",
-                    "capacity": 0
-                },
-                "kind": "functionapp",
-                "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
-                "apiVersion": "2017-08-01",
-                "location": "[parameters('location')]",
-                "scale": null,
-                "properties": {
-                    "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
-                    "workerTierName": null,
-                    "adminSiteName": null,
-                    "hostingEnvironmentProfile": null,
-                    "perSiteScaling": false,
-                    "reserved": false,
-                    "targetWorkerCount": 0,
-                    "targetWorkerSizeId": 0
-                },
-                "dependsOn": []
-            },                 
             {
                 "apiVersion": "2018-02-01",
                 "name": "appsettings",
@@ -101,59 +101,37 @@
                     "FUNCTIONS_EXTENSION_VERSION": "~2",
                     "AzureWebJobsSecretStorageType": "Files"
                 }
-            },             
-            {        
-                "apiVersion": "2018-02-01",
-                "name": "TestFunctionCM",
-                "type": "functions",
-                "dependsOn": [
-                    "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]"
-                ],
-                "properties": {
-                    "config": {
-                        "bindings": [
-                            {
-                                "authLevel": "anonymous",
-                                "name": "req",
-                                "type": "httpTrigger",
-                                "direction": "in"
-                            },
-                            {
-                                "name": "res",
-                                "type": "http",
-                                "direction": "out"
-                            },
-                            {
-                                "name": "blob",
-                                "type": "blob",
-                                "direction": "in",
-                                "path": "[concat(parameters('blobContainerName'), '/clusterConfiguration.tgz')]",
-                                "connection": "AzureWebJobsStorage"
-                        }
-                    ]
-                },
-                "files": {}
-                    
+            },
+            {
+            "apiVersion": "2018-02-01",
+            "name": "TestFunctionCM",
+            "type": "functions",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]"
+            ],
+            "properties": {
+                "config": {
+                "bindings": [
+                    {
+                    "authLevel": "anonymous",
+                    "name": "req",
+                    "type": "httpTrigger",
+                    "direction": "in"
+                    },
+                    {
+                    "name": "res",
+                    "type": "http",
+                    "direction": "out"
+                    }
+                ]
+              },
+              "files": {
+                "run.csx": "using System.Net;\r\n\r\n public static HttpResponseMessage Run(HttpRequestMessage req, TraceWriter log)\r\n\r\n {\r\n\r\n     return req.CreateResponse(HttpStatusCode.OK, \"Hello from MyFunction\");\r\n\r\n }"
+              }
             }
-            }
-        
-        ]
-    },
-    {
-        "type": "Microsoft.Web/sites/hostNameBindings",
-        "name": "[concat(parameters('alteonsAzureFuncName'), '/', parameters('alteonAzureFuncHostNameBindingsName'))]",
-        "apiVersion": "2018-02-01",
-        "location": "[parameters('location')]",
-        "scale": null,
-        "properties": {
-            "siteName": "[parameters('alteonsAzureFuncName')]",
-            "domainId": null,
-            "hostNameType": "Verified"
-        },
-        "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]"
-        ]
-    }    
+          }
+       ]                        
+    }
 ],
 "outputs": {
     "alteonsAzureFuncName": {
