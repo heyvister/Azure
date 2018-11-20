@@ -134,7 +134,7 @@
 "outputs": {
     "alteonsAzureFuncName": {
         "type": "String",
-        "value": "[reference(parameters('alteonsAzureFuncName'))]"
+        "value": "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]"
     }
 }
 }
