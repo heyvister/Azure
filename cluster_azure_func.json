@@ -54,7 +54,6 @@
             "cloningInfo": null
         },
         "dependsOn": [
-            "[parameters('alteonsAzureFuncServerFarmId')]"
         ],
         "resources": [
             {
