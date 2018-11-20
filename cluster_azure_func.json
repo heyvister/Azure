@@ -168,7 +168,7 @@
 "outputs": {
     "alteonsAzureFuncName": {
         "type": "String",
-        "value": "[concat(resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName')), '/', 'TestFunctionCM')]"
+        "value": "[listsecrets(reference(concat('Microsoft.Web/sites/functions/', parameters('alteonsAzureFuncName')), 'TestFunctionCM'),'2016-08-01').trigger_url]"
     }
 }
 }
