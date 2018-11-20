@@ -14,10 +14,14 @@
 			"defaultValue": "func",
             "type": "String"
         },
+        "alteonAzureFuncServerfarmsPlanName": { 
+			"defaultValue": "serverfarmname",
+            "type": "String"
+        },
         "alteonsAzureFuncServerFarmId": { 
 			"defaultValue": "serverfarm",
             "type": "String"
-        },
+        },        
         "storageAccountNameRef": { 
 			"defaultValue": "storageaccountname",
             "type": "String"
@@ -71,6 +75,32 @@
                     "AzureWebJobsSecretStorageType": "Files"
                 }
             },
+            {
+                "type": "Microsoft.Web/serverfarms",
+                "sku": {
+                    "name": "Y1",
+                    "tier": "Dynamic",
+                    "size": "Y1",
+                    "family": "Y",
+                    "capacity": 0
+                },
+                "kind": "functionapp",
+                "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
+                "apiVersion": "2017-08-01",
+                "location": "[parameters('location')]",
+                "scale": null,
+                "properties": {
+                    "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
+                    "workerTierName": null,
+                    "adminSiteName": null,
+                    "hostingEnvironmentProfile": null,
+                    "perSiteScaling": false,
+                    "reserved": false,
+                    "targetWorkerCount": 0,
+                    "targetWorkerSizeId": 0
+                },
+                "dependsOn": []
+            },                  
             {        
                 "apiVersion": "2018-02-01",
                 "name": "TestFunctionCM",
