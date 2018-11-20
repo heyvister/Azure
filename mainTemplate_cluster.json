@@ -125,7 +125,7 @@
             "metadata": {
                 "description": "Lisence acount entitlement id"
             }
-        },        
+        },      		
 		"ThroughputLicense": {
             "defaultValue": "1000",
             "type": "string",
@@ -264,6 +264,21 @@
                 "description": "ip for server 1"
             }
         },
+		"_artifactsLocation": {
+			  "type": "string",
+			  "metadata": {
+				  "description": "The base URI where artifacts required by this template are located including a trailing '/'"
+			  },
+			  "defaultValue": "https://raw.githubusercontent.com/heyvister/Azure/master/"  
+			 
+		},	
+		"_artifactsLocationSasToken": {
+          "type": "securestring",
+          "metadata": {
+              "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated. Use the defaultValue if the staging location is not secured."
+          },
+          "defaultValue": ""
+		},
         "userVmObjectTag": {
             "type": "object",
             "defaultValue": {
@@ -271,13 +286,13 @@
               "[parameters('tagUserDefinedName')]": "[parameters('tagUserDefinedValue')]",
               "alteon": "true"
             }
-          },
-          "defaultVmObjectTag": {
-            "type": "object",
-            "defaultValue": {
-                "alteon": "true"
-            }
-          }            
+        },
+		"defaultVmObjectTag": {
+			"type": "object",
+			"defaultValue": {
+				"alteon": "true"
+			}
+		}            
     },
     "variables": {
 		"securityGroupName": "[concat(resourceGroup().name, 'SG')]",
@@ -314,6 +329,7 @@
         "cloudDeviceId": "[concat('https://flex1336-uat.compliance.flexnetoperations.com:443/instances/', parameters('CloudDeviceId'), '/request')]",
         "monitorVmName": "[concat(variables('resourceGroupName'), 'MonitorVm')]",
         "monitorBackendPoolFullName": "[concat(variables('loadBalancerId'), concat('/backendAddressPools/', variables('monitorVmName'),'LBBEMonitorPool'))]",
+		"monitorTemplateLink": "[uri(deployment().properties.templateLink.uri, 'nested/grafana_template.json')]",
         "InstanceCount": "[parameters('MinNumOfVMs')]",
         "DNSServerIP": "[if(empty(parameters('PrimaryDnsIP')), parameters('DNSServerIP'), parameters('PrimaryDnsIP'))]",
         "alteonAzureFuncConfigPath": "/disk/Alteon/config/cluster_va_flags",
@@ -337,6 +353,34 @@
             } 
         },       
         {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountNameRef')]",
+            "apiVersion": "2018-07-01",
+            "location": "[parameters('location')]",
+            "kind": "BlobStorage",
+            "sku": {
+                "name": "[parameters('storageAccountType')]",
+                "tier": "Standard"
+            },
+            "properties": 
+            {
+                "accessTier": "Hot"
+            },
+            "resources": [
+                {
+                  "name": "[concat('default/', variables('blobContainerName'))]",
+                  "type": "blobServices/containers",
+                  "apiVersion": "2018-03-01-preview",
+                  "dependsOn": [
+                    "[variables('storageAccountNameRef')]"
+                  ],
+                  "properties": {
+                    "publicAccess": "None"
+                  }                   
+                }  
+            ]            
+        },
+        {
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[variables('publicIPAddressNameref')]",
             "apiVersion": "2018-04-01",
@@ -358,7 +402,7 @@
             "properties": {
               "mode": "Incremental",
               "templateLink": {
-                 "uri":"https://raw.githubusercontent.com/heyvister/Azure/master/grafana_template.json",
+                 "uri":"[variables('monitorTemplateLink')]",
                  "contentVersion":"1.0.0.0"
               },
               "parameters": {
@@ -555,7 +599,7 @@
                               "typeHandlerVersion": "2.0",
                               "autoUpgradeMinorVersion": true,
                               "settings": {
-                                "script": "[base64(concat('#!/bin/bash\r\n',  'echo \"azure_function_url\" ',  reference('functionlinkedTemplate').outputs.alteonsAzureFuncName.value,   '>> ', variables('alteonAzureFuncConfigPath')))]"
+                                      "script": "[base64(concat('#!/bin/bash\r\n',  'echo \"azure_function_url\" ',  listsecrets(resourceId('Microsoft.Web/sites/functions', variables('alteonsAzureFuncName'), 'TestFunctionCM'),'2016-08-01').trigger_url,   '>> ', variables('alteonAzureFuncConfigPath')))]"
                                }
                               }
                             }
@@ -567,9 +611,9 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]",
                 "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancersName'))]",
-                "functionlinkedTemplate"               			                   
+                "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]"               			                   
             ]  
-        },                  
+        },                         
         {
             "type": "microsoft.insights/autoscalesettings",
             "name": "[variables('autoscalesettingsName')]",
@@ -838,34 +882,126 @@
             ]
         },
         {
-            "apiVersion": "2017-05-10",
-            "name": "functionlinkedTemplate",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri":"https://raw.githubusercontent.com/heyvister/Azure/master/cluster_azure_func.json",
-                    "contentVersion":"1.0.0.0"
-                },
-                "parameters": {
-                    "loadBalancersName":                    {"value": "[variables('loadBalancersName')]"},
-                    "alteonsAzureFuncName":                 {"value": "[variables('alteonsAzureFuncName')]"},
-                    "alteonAzureFuncServerfarmsPlanName":   {"value": "[variables('alteonAzureFuncServerfarmsPlanName')]"},
-                    "alteonsAzureFuncServerFarmId":         {"value": "[variables('alteonsAzureFuncServerFarmId')]"},
-                    "storageAccountName":                   {"value": "[variables('storageAccountNameRef')]"},
-                    "storageAccountType":                   {"value": "[parameters('storageAccountType')]"},
-                    "blobContainerName":                    {"value": "[variables('blobContainerName')]"},
-                    "EntitlementId":                        {"value": "[parameters('EntitlementId')]"},
-                    "ThroughputLicense":                    {"value": "[parameters('ThroughputLicense')]"},
-                    "AddOnSubsciption":                     {"value": "[parameters('ThroughputLicense')]"},
-                    "alteonAzureFuncHostNameBindingsName":  {"value": "[variables('alteonAzureFuncHostNameBindingsName')]"}     
-                }
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
             },
-            "dependsOn":[
-            ]  
-        }                  
+            "kind": "functionapp",
+            "name": "[variables('alteonAzureFuncServerfarmsPlanName')]",
+            "apiVersion": "2017-08-01",
+            "location": "[parameters('location')]",
+            "scale": null,
+            "properties": {
+                "name": "[variables('alteonAzureFuncServerfarmsPlanName')]",
+                "workerTierName": null,
+                "adminSiteName": null,
+                "hostingEnvironmentProfile": null,
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            },
+            "dependsOn": []
+        },      
+        {
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "name": "[variables('alteonsAzureFuncName')]",
+            "apiVersion": "2016-08-01",
+            "location": "[parameters('location')]",
+            "scale": null,
+            "properties": {
+   
+                "serverFarmId": "[variables('alteonsAzureFuncServerFarmId')]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]"
+            ],
+            "resources": [
+                {
+                    "apiVersion": "2018-02-01",
+                    "name": "appsettings",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]",
+                        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef'))]"
+                    ],
+                    "properties": {
+                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                        "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                        "FUNCTIONS_EXTENSION_VERSION": "~2",
+                        "AzureWebJobsSecretStorageType": "Files"
+                    }
+                },
+                {
+                "apiVersion": "2018-02-01",
+                "name": "TestFunctionCM",
+                "type": "functions",
+                "dependsOn": [
+                    "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]"
+                ],
+                "properties": {
+                    "config": {
+                    "bindings": [
+                        {
+                        "authLevel": "anonymous",
+                        "name": "req",
+                        "type": "httpTrigger",
+                        "direction": "in"
+                        },
+                        {
+                        "name": "res",
+                        "type": "http",
+                        "direction": "out"
+                        }
+                    ]
+                  },
+                  "files": {
+                    "run.csx": "using System.Net;\r\n\r\n public static HttpResponseMessage Run(HttpRequestMessage req, TraceWriter log)\r\n\r\n {\r\n\r\n     return req.CreateResponse(HttpStatusCode.OK, \"Hello from MyFunction\");\r\n\r\n }"
+                  }
+                }
+              }
+		   ]                        
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[concat(variables('alteonsAzureFuncName'), '/', variables('alteonAzureFuncHostNameBindingsName'))]",
+            "apiVersion": "2018-02-01",
+            "location": "[parameters('location')]",
+            "scale": null,
+            "properties": {
+                "siteName": "[variables('alteonsAzureFuncName')]",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('alteonsAzureFuncName'))]"
+            ]
+        }
     ],
     "outputs": {
+	   "basetemplateuri": {
+				"type": "String",
+				"value": "[deployment().properties.templateLink.uri]"
+			},
+		   "linkedtemplateuri": {
+				"type": "String",
+				"value": "[uri(deployment().properties.templateLink.uri, 'grafana_template')]"
+			}	
 	}
 }
 
