@@ -27,7 +27,7 @@
             "type": "String"
         },
         "storageAccountId": { 
-			"defaultValue": "storageaccountif",
+			"defaultValue": "storageaccountid",
             "type": "String"
         },        
         "blobContainerName": { 
@@ -100,8 +100,8 @@
                     "[parameters('storageAccountId')]"
                 ],
                 "properties": {
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(concat(parameters('storageAccountId'), '/', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
-                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(concat(parameters('storageAccountId'), '/', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
                     "FUNCTIONS_EXTENSION_VERSION": "~2",
                     "AzureWebJobsSecretStorageType": "Files"
                 }
