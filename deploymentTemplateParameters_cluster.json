@@ -1,0 +1,147 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+        "value": "East US"   
+    },
+    "AlteonClusterName": {
+        "value": "alteon-cluster"  
+    },    		
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    },		    
+    "adminUsername": {
+        "value": "radware"
+    },
+    "adminPassword": {
+        "value": "radware12345!"
+    },
+    "tagOwnerName": {
+        "value": "idohe@radware.com"
+    },
+    "tagUserDefinedName":{
+        "value": "user_tag"
+    }, 
+    "tagUserDefinedValue":{
+        "value": "radware"
+    },            
+    "RealsScalesetName": {
+      "value": "testVmss"
+    },
+    "RealsVirtualNetwork": {
+        "value":{
+            "vnetPickerData": {
+                "id": "/subscriptions/6c5564e0-54db-4d63-aa7b-1a7d78dd6f98/resourceGroups/IdoRealsSS/providers/Microsoft.Network/virtualNetworks/IdoRealSSvnet",
+                "name": "IdoRealSSvnet",
+                "addressPrefixes": [
+                "10.0.0.0/16"
+                ],
+                "subnetName": "testVmssSubnet",
+                "subnetAddressPrefix": "10.0.0.0/24",
+                "location": "eastus"
+            },
+            "name": "IdoRealSSvnet",
+            "resourceGroup": "IdoRealsSS",
+            "addressPrefixes": [
+                "10.0.0.0/16"
+            ],
+            "newOrExisting": "existing",
+            "subnets": {
+                "subnet1": {
+                "name": "testVmssSubnet",
+                "addressPrefix": "10.0.0.0/24",
+                "startAddress": "10.0.0.12"
+                }
+            },
+            "isSubnetConfigured": true
+        }
+    },     		
+    "PublicIpName": {
+      "value": "demoPublicIP"
+    },
+    "PublicIpDomainName": {
+        "value": "demoPublicIP624"
+    },
+    "CloudDeviceId": {
+        "value": "none"
+    },
+    "PrimaryDnsIP": {
+        "value": "168.63.129.16"
+    },
+    "SecondaryDnsIP": {
+        "value": "none"
+    },    
+    "PrimaryLlsIP": {
+        "value": "none"
+    },
+    "SecondaryLlsIP": {
+        "value": "none"
+    },
+    "ThroughputLicense": {
+        "value": "1000"
+    },
+    "AddOnSubsciption": {
+        "value": "no"
+    },      
+    "LbSku": {
+        "value": "Standard"
+    },          
+    "EntitlementId": {
+        "value": "blabla"
+    },                        
+    "ClientID": {
+      "value": "0c46a7db-cf3d-475d-ab18-e0601a94fde5"
+    },
+    "ClientSecret": {
+      "value": "OvPYiakHZ9WFRres6dLAtub54Y52LO3WeEqKzrCEVys="
+    },
+    "TenantID": {
+      "value": "36361a21-c721-4248-9748-8848b2573f18"
+    },
+    "DNSServerIP": {
+      "value": "168.63.129.16"
+    },  
+    "AcceleratedNetworking": {
+        "value": false
+    },        
+    "SLBPortNumber": {
+      "value": "80"
+    },
+    "SLBMetric": {
+      "value": "none"
+    },
+    "EnaDisScalesetSettings": {
+        "value": "Enable"
+    },    
+    "ScalesetScaleIn": {
+        "value": {
+            "ScaleInCpuThreshold": "60",
+            "ScaleInInboundTraffic": "60",
+            "ScaleInDecreaseBy": "1"
+        }
+    },	 	 
+    "ScalesetScaleOut": {
+        "value": {
+            "ScaleOutCpuThreshold": "80",
+            "ScaleOutInboundTraffic": "80",
+            "ScaleOutIncreaseBy": "1"
+        }            
+    },	 	   
+    "InstanceSize": {
+        "value": "Standard_D1"
+    },                            
+    "MaxNumOfVMs": {
+        "value": "10"
+    },	
+    "MinNumOfVMs": {
+        "value": "2"
+    },     
+    "RealsCount": {
+        "value": "1"
+    },                                 
+     "Real1": {
+        "value": "1.1.1.1"
+    } 
+  }
+}
