@@ -18,10 +18,6 @@
 			"defaultValue": "serverfarm",
             "type": "String"
         },
-        "alteonAzureFuncServerfarmsPlanName": { 
-			"defaultValue": "serverfarmplan",
-            "type": "String"
-        },
         "storageAccountNameRef": { 
 			"defaultValue": "storageaccountname",
             "type": "String"
@@ -58,7 +54,7 @@
             "cloningInfo": null
         },
         "dependsOn": [
-            "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]"
+            "[parameters('alteonsAzureFuncServerFarmId')]"
         ],
         "resources": [
             {
