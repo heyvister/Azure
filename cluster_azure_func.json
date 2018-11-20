@@ -41,6 +41,34 @@
     }, 
     "resources": [    
     {
+        "type": "Microsoft.Storage/storageAccounts",
+        "name": "[parameters('storageAccountName')]",
+        "apiVersion": "2018-07-01",
+        "location": "[parameters('location')]",
+        "kind": "BlobStorage",
+        "sku": {
+            "name": "[parameters('storageAccountType')]",
+            "tier": "Standard"
+        },
+        "properties": 
+        {
+            "accessTier": "Hot"
+        },
+        "resources": [
+            {
+                "name": "[concat('default/', parameters('blobContainerName'))]",
+                "type": "blobServices/containers",
+                "apiVersion": "2018-03-01-preview",
+                "dependsOn": [
+                    "[parameters('storageAccountName')]"
+                ],
+                "properties": {
+                "publicAccess": "None"
+                }                   
+            }  
+        ]            
+    },         
+    {
         "type": "Microsoft.Web/serverfarms",
         "sku": {
             "name": "Y1",
@@ -90,35 +118,7 @@
         "dependsOn": [
             "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]"
         ],
-        "resources": [
-            {
-                "type": "Microsoft.Storage/storageAccounts",
-                "name": "[parameters('storageAccountName')]",
-                "apiVersion": "2018-07-01",
-                "location": "[parameters('location')]",
-                "kind": "BlobStorage",
-                "sku": {
-                    "name": "[parameters('storageAccountType')]",
-                    "tier": "Standard"
-                },
-                "properties": 
-                {
-                    "accessTier": "Hot"
-                },
-                "resources": [
-                    {
-                      "name": "[concat('default/', parameters('blobContainerName'))]",
-                      "type": "blobServices/containers",
-                      "apiVersion": "2018-03-01-preview",
-                      "dependsOn": [
-                        "[parameters('storageAccountName')]"
-                      ],
-                      "properties": {
-                        "publicAccess": "None"
-                      }                   
-                    }  
-                ]            
-            },            
+        "resources": [           
             {
                 "apiVersion": "2018-02-01",
                 "name": "appsettings",
