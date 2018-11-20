@@ -58,23 +58,9 @@
             "cloningInfo": null
         },
         "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]" 
         ],
         "resources": [
-            {
-                "apiVersion": "2018-02-01",
-                "name": "appsettings",
-                "type": "config",
-                "dependsOn": [
-                    "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]",
-                    "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef'))]"
-                ],
-                "properties": {
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
-                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
-                    "FUNCTIONS_EXTENSION_VERSION": "~2",
-                    "AzureWebJobsSecretStorageType": "Files"
-                }
-            },
             {
                 "type": "Microsoft.Web/serverfarms",
                 "sku": {
@@ -100,7 +86,22 @@
                     "targetWorkerSizeId": 0
                 },
                 "dependsOn": []
-            },                  
+            },                 
+            {
+                "apiVersion": "2018-02-01",
+                "name": "appsettings",
+                "type": "config",
+                "dependsOn": [
+                    "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]",
+                    "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef'))]"
+                ],
+                "properties": {
+                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                    "FUNCTIONS_EXTENSION_VERSION": "~2",
+                    "AzureWebJobsSecretStorageType": "Files"
+                }
+            },             
             {        
                 "apiVersion": "2018-02-01",
                 "name": "TestFunctionCM",
