@@ -22,10 +22,14 @@
 			"defaultValue": "serverfarm",
             "type": "String"
         },        
-        "storageAccountNameRef": { 
+        "storageAccountName": { 
 			"defaultValue": "storageaccountname",
             "type": "String"
         },
+        "storageAccountId": { 
+			"defaultValue": "storageaccountif",
+            "type": "String"
+        },        
         "blobContainerName": { 
 			"defaultValue": "blobcontainername",
             "type": "String"
@@ -93,11 +97,11 @@
                 "type": "config",
                 "dependsOn": [
                     "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]",
-                    "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef'))]"
+                    "[parameters('storageAccountId')]"
                 ],
                 "properties": {
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
-                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountNameRef'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountNameRef')), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
+                    "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(parameters('storageAccountId'), '2018-02-01').keys[0].value)]", 
                     "FUNCTIONS_EXTENSION_VERSION": "~2",
                     "AzureWebJobsSecretStorageType": "Files"
                 }
