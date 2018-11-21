@@ -267,11 +267,9 @@
 		"_artifactsLocation": {
 			  "type": "string",
 			  "metadata": {
-				  "description": "The base URI where artifacts required by this template are located including a trailing '/'"
+				  "description": "Use: defaultValue to be https://raw.githubusercontent.com/heyvister/Azure/master/ if you're not using Marketplace templates"
 			  },
-              "defaultValue": "[deployment().properties.templateLink.uri]",
-              "defaultValue": "https://raw.githubusercontent.com/heyvister/Azure/master/" 
-			 
+              "defaultValue": "[deployment().properties.templateLink.uri]"
 		},	
 		"_artifactsLocationSasToken": {
           "type": "securestring",

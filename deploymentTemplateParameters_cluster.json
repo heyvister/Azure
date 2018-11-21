@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP633"
+        "value": "demoPublicIP634"
     },
     "CloudDeviceId": {
         "value": "none"
@@ -142,6 +142,9 @@
     },                                 
      "Real1": {
         "value": "1.1.1.1"
-    } 
+    },
+    "_artifactsLocation": {
+        "value": "https://raw.githubusercontent.com/heyvister/Azure/master/"
+    }	     
   }
 }
