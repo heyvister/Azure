@@ -993,14 +993,6 @@
         }
     ],
     "outputs": {
-	   "basetemplateuri": {
-				"type": "String",
-				"value": "[deployment().properties.templateLink.uri]"
-			},
-		   "linkedtemplateuri": {
-				"type": "String",
-				"value": "[uri(deployment().properties.templateLink.uri, 'nested/grafana_template')]"
-			}	
 	}
 }
 
