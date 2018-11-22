@@ -33,29 +33,13 @@
         "blobContainerName": { 
 			"defaultValue": "blobcontainername",
             "type": "String"
-        },
-        "EntitlementId": {
-            "defaultValue": "",
-            "type": "String"
         },   
-		"ThroughputLicense": {
-            "defaultValue": "1000",
-            "type": "string",
-            "metadata": {
-                "description": "Cluster total throughput"
-            }
-        },
-        "AddOnSubsciption": {
-            "defaultValue": "none",
-            "type": "string",
+        "azureFunctionJsonParams": {
+            "type": "object",
             "metadata": {
                 "description": ""
             }
-        },            
-        "alteonAzureFuncHostNameBindingsName": { 
-			"defaultValue": "hostbindingname",
-            "type": "String"
-        }                                      
+        }                                                     
     }, 
     "resources": [    
     {
