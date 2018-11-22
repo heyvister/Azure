@@ -288,7 +288,7 @@
 		"_artifactsLocation": {
 			  "type": "string",
 			  "metadata": {
-				  "description": "Use: defaultValue to be https://raw.githubusercontent.com/heyvister/Azure/master/ if you're not using Marketplace templates"
+				  "description": "Use: defaultValue to be https://raw.githubusercontent.com/<project folder>/master/ if you're not using Marketplace templates"
 			  },
               "defaultValue": "[deployment().properties.templateLink.uri]"
 		},	
@@ -352,7 +352,6 @@
         "loadBalancersMonitorProbes": "[concat(variables('loadBalancerId'), '/probes/Monitor_Probe_3000')]",
         "alteonsAzureFuncName": "[concat(variables('resourceGroupName'), 'Func')]",
         "alteonAzureFuncUrl": "DummyURL",
-        "azureFunctionJsonParams": "[concat('{\n\t\"Azure\":\n\t{\n\t\t\"LoadBalancerName\":', '\"', variables('loadBalancersName'), '\"\n\t},',  '\n\t\"GelLicense\":\n\t{\n\t\t\"EntitlementId\": \"', parameters('EntitlementId'), '\",',   '\n\t\t\"Throughput\": \"', parameters('ThroughputLicense'), '\",',   '\n\t\t\"Subscriber\": \"', parameters('AddOnSubsciption'), '\"\n\t},',    '\n\t\"Certificate\":\n\t{\n\t\t\"id\": \"Cert1\",',   '\n\t\t\"Passphrase\": \"', parameters('SslPrivateKeyPassphrase'), '\",',   '\n\t\t\"Key\": \"', parameters('SslPrivateKey'), '\",',    '\n\t\t\"Data\": \"', parameters('SslCertificate'), '\"\n\t}   \n}')]",
         "alteonAzureFuncConfigPath": "/disk/Alteon/config/cluster_va_flags",
 		"alteonAzureFuncServerfarmsPlanName" : "[concat(variables('resourceGroupName'), 'Plan')]", 
         "alteonsAzureFuncServerFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]", 
@@ -901,7 +900,7 @@
                     "alteonAzureFuncParams":                {"value": {
                                                                  "loadBalancersName": "[variables('loadBalancersName')]",
                                                                      "Gel": {
-                                                                        "EntitlementId": "[variables('loadBalancersName')]",
+                                                                        "EntitlementId": "[parameters('EntitlementId')]",
                                                                         "ThroughputLicense":"[parameters('ThroughputLicense')]",
                                                                         "AddOnSubsciption": "[parameters('AddOnSubsciption')]"
                                                                     },
