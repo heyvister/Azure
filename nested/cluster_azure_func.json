@@ -41,7 +41,7 @@
         "azureFunctionJsonParams": {
             "type": "object",
             "metadata": {
-                "description": ""
+                "description": "" 
             }
         }                                                     
     }, 
