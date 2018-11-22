@@ -39,49 +39,7 @@
             "metadata": {
                 "description": "" 
             }
-        },           
-        "loadBalancersName": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },   
-        "EntitlementId": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },        
-        "ThroughputLicense": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },
-        "AddOnSubsciption": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },
-        "SslPrivateKeyPassphrase": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },
-        "SslPrivateKey": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        },
-        "SslCertificate": {
-            "type": "string",
-            "metadata": {
-                "description": "" 
-            }
-        }                                                                                                    
+        }                                                                                              
     }, 
     "variables":
     {
