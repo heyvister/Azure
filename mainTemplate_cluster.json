@@ -898,14 +898,20 @@
                     "storageAccountType":                   {"value": "[parameters('storageAccountType')]"},
                     "blobContainerName":                    {"value": "[variables('blobContainerName')]"},
                     "alteonAzureFuncHostNameBindingsName":  {"value": "[variables('alteonAzureFuncHostNameBindingsName')]"},
-                    "loadBalancersName":                    {"value": "[variables('loadBalancersName')]"},
-                    "EntitlementId":                        {"value": "[parameters('EntitlementId')]"},    
-                    "ThroughputLicense":                    {"value": "[parameters('ThroughputLicense')]"},    
-                    "AddOnSubsciption":                     {"value": "[parameters('AddOnSubsciption')]"},    
-                    "SslPrivateKeyPassphrase":              {"value": "[parameters('SslPrivateKeyPassphrase')]"},    
-                    "SslPrivateKey":                        {"value": "[parameters('SslPrivateKey')]"},    
-                    "SslCertificate":                       {"value": "[parameters('SslCertificate')]"}                                                                                                                                
-                    
+                    "alteonAzureFuncParams":                {"value": {
+                                                                 "loadBalancersName": "[variables('loadBalancersName')]",
+                                                                     "Gel": {
+                                                                        "EntitlementId": "[variables('loadBalancersName')]",
+                                                                        "ThroughputLicense":"[parameters('ThroughputLicense')]",
+                                                                        "AddOnSubsciption": "[parameters('AddOnSubsciption')]"
+                                                                    },
+                                                                    "SsL":{
+                                                                        "SslPrivateKeyPassphrase": "[parameters('SslPrivateKeyPassphrase')]",
+                                                                        "SslPrivateKey": "[parameters('SslPrivateKey')]",
+                                                                        "SslCertificate": "[parameters('SslCertificate')]"
+                                                                    }
+                                                                }
+                                                            }
                 }
             },
             "dependsOn":[
