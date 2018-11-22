@@ -31,7 +31,7 @@
             "type": "String"
         },
         "alteonAzureFuncHostNameBindingsName": {
-            "defaultValue": "hostbindingname",
+        "defaultValue": "hostbindingname",
            "type": "String"
         },  
         "alteonAzureFuncParams": {
