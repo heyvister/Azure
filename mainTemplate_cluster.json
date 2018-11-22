@@ -352,7 +352,7 @@
         "loadBalancersMonitorProbes": "[concat(variables('loadBalancerId'), '/probes/Monitor_Probe_3000')]",
         "alteonsAzureFuncName": "[concat(variables('resourceGroupName'), 'Func')]",
         "alteonAzureFuncUrl": "DummyURL",
-        "azureFunctionJsonParams": "[json(concat('{\n\t\"Azure\":\n\t{\n\t\t\"LoadBalancerName\":', '\"', variables('loadBalancersName'), '\"\n\t},',  '\n\t\"GelLicense\":\n\t{\n\t\t\"EntitlementId\": \"', parameters('EntitlementId'), '\",',   '\n\t\t\"Throughput\": \"', parameters('ThroughputLicense'), '\",',   '\n\t\t\"Subscriber\": \"', parameters('AddOnSubsciption'), '\"\n\t},',    '\n\t\"Certificate\":\n\t{\n\t\t\"id\": \"Cert1\",',   '\n\t\t\"Passphrase\": \"', parameters('SslPrivateKeyPassphrase'), '\",',   '\n\t\t\"Key\": \"', parameters('SslPrivateKey'), '\",',    '\n\t\t\"Data\": \"', parameters('SslCertificate'), '\"\n\t}   \n}'))]",
+        "azureFunctionJsonParams": "[concat('{\n\t\"Azure\":\n\t{\n\t\t\"LoadBalancerName\":', '\"', variables('loadBalancersName'), '\"\n\t},',  '\n\t\"GelLicense\":\n\t{\n\t\t\"EntitlementId\": \"', parameters('EntitlementId'), '\",',   '\n\t\t\"Throughput\": \"', parameters('ThroughputLicense'), '\",',   '\n\t\t\"Subscriber\": \"', parameters('AddOnSubsciption'), '\"\n\t},',    '\n\t\"Certificate\":\n\t{\n\t\t\"id\": \"Cert1\",',   '\n\t\t\"Passphrase\": \"', parameters('SslPrivateKeyPassphrase'), '\",',   '\n\t\t\"Key\": \"', parameters('SslPrivateKey'), '\",',    '\n\t\t\"Data\": \"', parameters('SslCertificate'), '\"\n\t}   \n}')]",
         "alteonAzureFuncConfigPath": "/disk/Alteon/config/cluster_va_flags",
 		"alteonAzureFuncServerfarmsPlanName" : "[concat(variables('resourceGroupName'), 'Plan')]", 
         "alteonsAzureFuncServerFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]", 
@@ -898,7 +898,14 @@
                     "storageAccountType":                   {"value": "[parameters('storageAccountType')]"},
                     "blobContainerName":                    {"value": "[variables('blobContainerName')]"},
                     "alteonAzureFuncHostNameBindingsName":  {"value": "[variables('alteonAzureFuncHostNameBindingsName')]"},
-                    "azureFunctionJsonParams":              {"value": "[variables('azureFunctionJsonParams')]"}     
+                    "loadBalancersName":                    {"value": "[variables('loadBalancersName')]"},
+                    "EntitlementId":                        {"value": "[parameters('EntitlementId')]"},    
+                    "ThroughputLicense":                    {"value": "[parameters('ThroughputLicense')]"},    
+                    "AddOnSubsciption":                     {"value": "[parameters('AddOnSubsciption')]"},    
+                    "SslPrivateKeyPassphrase":              {"value": "[parameters('SslPrivateKeyPassphrase')]"},    
+                    "SslPrivateKey":                        {"value": "[parameters('SslPrivateKey')]"},    
+                    "SslCertificate":                       {"value": "[parameters('SslCertificate')]"}                                                                                                                                
+                    
                 }
             },
             "dependsOn":[
