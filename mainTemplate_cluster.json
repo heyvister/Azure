@@ -389,7 +389,7 @@
                   "TenantID":  {"value": "[parameters('TenantID')]"},
                   "ClientSecret":  {"value": "[parameters('ClientSecret')]"},
                   "ClientID":  {"value": "[parameters('ClientID')]"},
-                  "vmTags": {"value": "[if(equals(parameters('tagUserDefinedName'), 'none'),  intersection(parameters('defaultVmObjectTag'), parameters('userMonitorVmObjectTag')), union(parameters('defaultVmObjectTag'), parameters('userMonitorVmObjectTag')))]"}
+                  "vmTags": {"value": "[if(equals(parameters('tagUserDefinedName'), 'none'),  '', parameters('userMonitorVmObjectTag'))]"}
                }
             },
             "dependsOn":[
