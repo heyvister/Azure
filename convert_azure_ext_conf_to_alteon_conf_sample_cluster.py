@@ -18,15 +18,17 @@ server_dict["REAL_1"] =       "parameters('Real1')"
 server_dict["CLIENTID"] =     "parameters('ClientID')"
 server_dict["CLIENTSECRET"] = "parameters('ClientSecret')"
 server_dict["TENANTID"] =     "parameters('TenantID')"
-server_dict["DNSSERVERIP"] =  "parameters('DNSServerIP')"
+server_dict["DNSSERVERIP"] =  "variables('DNSServerIP')"
 server_dict["RSRCGRP"] =      "variables('resourceGroupName')"
 server_dict["SUBSCRIP"] =     "variables('subscripID')"
 server_dict["SLB_METRIC"] =   "parameters('SLBMetric')"
 server_dict["SS_NAME"] =      "scaleset1"
-server_dict["REAL_SS_NAME"] = "parameters('realsScalesetName')"
-server_dict["REALS_SS_RG"] =  "parameters('realsResourceGroupName')"
+server_dict["REAL_SS_NAME"] = "parameters('RealsScalesetName')"
+server_dict["REALS_SS_RG"] =  "variables('realsResourceGroupName')"
 server_dict["FUNC_URL"] =     "variables('alteonAzureFuncUrl')"
+server_dict["GEL_DEVID"] =    "variables('cloudDeviceId')"
 server_dict["VM_ID"] =        VM_ID
+server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
 server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
 server_dict["PRIVATE_IP_ADDRESS_POSIX_START"] =  variables('PrivateIPAddressPosixStart')
 
@@ -152,9 +154,20 @@ def convert_reals_scaleset_to_config():
 def add_hc_probe_to_config():
     output_file.write("/c/sys/health\n\ton\n\tadd 8080\n")
 
+#convert_DPM_report"
+def convert_DPM_report__to_config():
+    output_file.write("/cfg/sys/report/trigger\n\talways\n")
+    output_file.write("/cfg/sys/report/interval\n\t" + server_dict["DPM_REPORT_INTERVAL"] + "\n")
+
 #convert to Azure function URL"
 def convert_azure_function_url_to_config():
-     output_file.write("/c/sys/azure/funcurl \n\t"+ server_dict["FUNC_URL"]+ "\n")
+    output_file.write("/c/sys/azure/funcurl \n\t"+ server_dict["FUNC_URL"]+ "\n")
+	 
+def convert_license_server_to_config():
+    output_file.write("/cfg/sys/licsrv\n")
+    output_file.write("\tena\n")	
+    output_file.write("\tprimary " + "\"" + server_dict["GEL_DEVID"] + "\"\n")	
+	 
 
 #convert to interface configuration"
 def convert_interface_peer_to_config():
@@ -168,8 +181,10 @@ convert_interface_peer_to_config()
 convert_DNS_menu_to_config()
 #convert_reals_to_config()
 convert_group_to_config()
+convert_license_server_to_config()
 convert_service_to_config()
 convert_reals_scaleset_to_config()
 add_hc_probe_to_config()
+convert_DPM_report__to_config()
 convert_azure_function_url_to_config()
 convert_AZURE_menu_to_config()
