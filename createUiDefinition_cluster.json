@@ -157,12 +157,12 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL 1",
+                        "label":"Cloud license server URL 2",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
                         },                      
-                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), empty(steps('GelSettings').CloudDeviceId))]"
+                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), equals(steps('GelSettings').CloudDeviceId, ''))]"
                         
                     },                                                                    
                     {  
