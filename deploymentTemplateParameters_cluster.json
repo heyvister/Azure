@@ -6,7 +6,7 @@
         "value": "East US"   
     },
     "AlteonClusterName": {
-        "value": "alteon-cluster"  
+        "value": "cluster-"  
     },    		
     "storageAccountType": {
       "value": "Standard_LRS"
@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP667"
+        "value": "demoPublicIP668"
     },
     "CloudDeviceId": {
         "value": "none"

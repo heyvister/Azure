@@ -8,7 +8,7 @@
                 "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
                 "label":"Alteon Cluster Name",
-                "defaultValue":"[concat('alteon-cluster', string(rand(1, 1000)))]",
+                "defaultValue":"[concat('cluster-', string(rand(1, 1000)))]",
                 "constraints":{  
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
                     "required": true
