@@ -157,7 +157,7 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"CLS URL 2",
+                        "label":"Cloud license server URL",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
@@ -204,7 +204,7 @@
                     {
                         "name":"ThroughputLicense",
                         "type":"Microsoft.Common.DropDown",
-                        "label":"Licence throughput (Mbps)",
+                        "label":"License throughput (Mbps)",
                         "defaultValue":"25",
                         "toolTip":"Choose licence server available throughput (Mbps)",
                         "constraints":{ 
@@ -851,7 +851,8 @@
             "tagUserDefinedValue": "[basics('AlteonClusterUserDefinedTag').TagValue]",
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
-            "CloudDeviceId":"[steps('GelSettings').CloudDeviceId]",
+            "CloudDeviceId":"[steps('GelSettings').CloudDeviceId]", 
+            "ClsUrl":"[steps('GelSettings').ClsUrl]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
