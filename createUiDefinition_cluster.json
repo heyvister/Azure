@@ -150,19 +150,19 @@
                         "defaultValue": "",
                         "toolTip":"Cloud license server ID",
                         "constraints":{  
-                            "required":"[equals(steps('GelSettings').ClsUrl, '')]"
+                            "required":"[empty(steps('GelSettings').ClsUrl)]"
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
                     },    
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL",
+                        "label":"Cloud license server URL 1",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
                         },                      
-                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), equals(steps('GelSettings').CloudDeviceId, ''))]"
+                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), empty(steps('GelSettings').CloudDeviceId))]"
                         
                     },                                                                    
                     {  
