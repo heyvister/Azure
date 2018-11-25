@@ -298,7 +298,6 @@
           }            
     },
     "variables": {
-        "alteonClusterName": "[concat(parameters('AlteonClusterName'), '-Alteon')]",
 		"securityGroupName": "[concat(resourceGroup().name, 'SG')]",
 		"PrivateIPAddressPrefix": "10.0.0.",
 		"PrivateIPAddressPosixStart": 4,
@@ -318,7 +317,7 @@
         "blobContainerName": "alteonconfig",
         "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
         "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
-        "virtualMachineScaleSetsName": "[concat(variables('alteonClusterName'), 'Vmss')]",
+        "virtualMachineScaleSetsName": "[concat(parameters('AlteonClusterName'), 'Vmss')]",
         "realsFullSubnetName": "[concat(parameters('RealsVirtualNetwork').vnetPickerData.id, '/subnets/', parameters('RealsVirtualNetwork').vnetPickerData.subnetName)]",
         "securityGroupId": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]",
         "realsResourceGroupName": "[parameters('RealsVirtualNetwork').resourceGroup]",

@@ -8,7 +8,7 @@
                 "name":"AlteonClusterName",
                 "type":"Microsoft.Common.TextBox",
                 "label":"Alteon Cluster Name",
-                "defaultValue":"[concat('cluster-', string(rand(1, 1000)))]",
+                "defaultValue":"[concat('cluster-', string(rand(1, 1000)), '-Alteon')]",
                 "constraints":{  
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
                     "required": true
@@ -157,7 +157,7 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL 4",
+                        "label":"Cloud license server URL",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
