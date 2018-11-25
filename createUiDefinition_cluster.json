@@ -274,9 +274,9 @@
             },
             {  
                 "name":"ScalesetSettings",
-                "label":"Scaleset Settings",
+                "label":"Settings",
                 "subLabel":{  
-                    "preValidation":"Configure Alteon cluster settings",
+                    "preValidation":"Configure Alteon cluster",
                     "postValidation":"Done"
                 },
                 "bladeTitle":"Advanced Scaleset Settings",
@@ -880,6 +880,7 @@
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
+            "EntitlementId": "[steps('GelSettings').EntitlementId]",
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
             "PublicIpName":"[steps('ScalesetSettings').LbPublicIpAddress.publicIpAddressName]",
