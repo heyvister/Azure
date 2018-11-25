@@ -43,7 +43,7 @@
     }, 
     "variables":
     {
-        "azureFunctionJsonParams": "[concat('{\n\t\"Azure\":\n\t{\n\t\t\"LoadBalancerName\":', '\"', parameters('alteonAzureFuncParams').loadBalancersName, '\"\n\t},',  '\n\t\"GelLicense\":\n\t{\n\t\t\"EntitlementId\": \"', parameters('alteonAzureFuncParams').Gel.EntitlementId, '\",',   '\n\t\t\"Throughput\": \"', parameters('alteonAzureFuncParams').Gel.ThroughputLicense, '\",',   '\n\t\t\"Subscriber\": \"', parameters('alteonAzureFuncParams').Gel.AddOnSubsciption, '\"\n\t},',    '\n\t\"Certificate\":\n\t{\n\t\t\"id\": \"Cert1\",',   '\n\t\t\"Passphrase\": \"', parameters('alteonAzureFuncParams').Ssl.SslPrivateKeyPassphrase, '\",',   '\n\t\t\"Key\": \"', parameters('alteonAzureFuncParams').Ssl.SslPrivateKey, '\",',    '\n\t\t\"Data\": \"', parameters('alteonAzureFuncParams').Ssl.SslCertificate, '\"\n\t}   \n}')]"
+        "azureFunctionJsonParams": "[concat('{\n\t\"Azure\":\n\t{\n\t\t\"LoadBalancerName\":', '\"', parameters('alteonAzureFuncParams').loadBalancersName, '\"\n\t},',  '\n\t\"GelLicense\":\n\t{\n\t\t\"EntitlementId\": \"', parameters('alteonAzureFuncParams').Gel.EntitlementId, '\",',   '\n\t\t\"Throughput\": \"', parameters('alteonAzureFuncParams').Gel.ThroughputLicense, '\",',   '\n\t\t\"Subscriber\": \"', parameters('alteonAzureFuncParams').Gel.AddOnSubsciption, '\"\n\t},',    '\n\t\"Certificate\":\n\t{\n\t\t\"id\": \"Cert1\",',   '\n\t\t\"Passphrase\": \"', parameters('alteonAzureFuncParams').Ssl.SslPrivateKeyPassphrase, '\",',   '\n\t\t\"Data\": \"', parameters('alteonAzureFuncParams').Ssl.sslCertNkeyFile, '\"\n\t}   \n}')]"
     },
     "resources": [    
     {

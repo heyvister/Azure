@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP663"
+        "value": "demoPublicIP664"
     },
     "CloudDeviceId": {
         "value": "none"
@@ -92,9 +92,6 @@
     },
     "TenantID": {
       "value": "36361a21-c721-4248-9748-8848b2573f18"
-    },
-    "DNSServerIP": {
-      "value": "168.63.129.16"
     },  
     "AcceleratedNetworking": {
         "value": false
@@ -104,10 +101,7 @@
     },
     "SLBMetric": {
       "value": "none"
-    },
-    "EnaDisScalesetSettings": {
-        "value": "Enable"
-    },    
+    }, 
     "ScalesetScaleIn": {
         "value": {
             "ScaleInCpuThreshold": "60",
