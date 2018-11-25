@@ -115,9 +115,9 @@ def convert_group_to_config():
 	    if server_dict["SLB_METRIC"] != "none":
                 output_file.write("\tmetric "+ server_dict["SLB_METRIC"]+ "\n")
 
-    if len(server_dict["REAL_1"]) > 1:
-        if server_dict["REAL_1"] != "none":
-	    output_file.write("\tadd " + "1" + "\n")
+#    if len(server_dict["REAL_1"]) > 1:
+#        if server_dict["REAL_1"] != "none":
+#	    output_file.write("\tadd " + "1" + "\n")
 
 
 #convert reals scaleset configuration"
@@ -166,7 +166,7 @@ def convert_interface_peer_to_config():
 
 convert_interface_peer_to_config()
 convert_DNS_menu_to_config()
-convert_reals_to_config()
+#convert_reals_to_config()
 convert_group_to_config()
 convert_service_to_config()
 convert_reals_scaleset_to_config()
