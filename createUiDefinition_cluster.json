@@ -153,7 +153,18 @@
                             "required":true
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
-                    },                                                
+                    },    
+                    {  
+                        "name":"ClsUrl",
+                        "type":"Microsoft.Common.TextBox",
+                        "label":"CLS URL",
+                        "defaultValue": "",
+                        "toolTip":"Cloud license server URL",
+                        "constraints":{  
+                        },                      
+                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), not(equals(steps('GelSettings').CloudDeviceId, '')))]"
+                        
+                    },                                                                    
                     {  
                         "name":"PrimaryLlsIP",
                         "type":"Microsoft.Common.TextBox",
