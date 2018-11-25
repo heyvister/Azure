@@ -61,17 +61,11 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP661"
+        "value": "demoPublicIP663"
     },
     "CloudDeviceId": {
         "value": "none"
     },
-    "PrimaryDnsIP": {
-        "value": "168.63.129.16"
-    },
-    "SecondaryDnsIP": {
-        "value": "none"
-    },    
     "PrimaryLlsIP": {
         "value": "none"
     },
@@ -82,7 +76,7 @@
         "value": "1000"
     },
     "AddOnSubsciption": {
-        "value": "no"
+        "value": "perform"
     },      
     "LbSku": {
         "value": "Standard"
@@ -146,12 +140,9 @@
     "SslPrivateKeyPassphrase": {
         "value": ""
     },
-    "SslPrivateKey": {
+    "sslCertNkeyFile": {
         "value": ""
-    },
-    "SslCertificate": {
-        "value": ""
-    },       
+    },    
     "_artifactsLocation": {
         "value": "https://raw.githubusercontent.com/heyvister/Azure/master/"
     }	     

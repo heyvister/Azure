@@ -127,8 +127,13 @@
             }
         },
         "AddOnSubsciption": {
-            "defaultValue": "none",
+            "defaultValue": "delivery",
             "type": "string",
+            "allowedValues": [
+                "delivery",
+                "perform",
+                "secure"
+            ],            
             "metadata": {
                 "description": ""
             }
