@@ -313,7 +313,7 @@
                 "product": "[variables('imageOffer')]",
                 "publisher": "[variables('imagePublisher')]"
         },
-        "storageAccountNameRef": "[ uniqueString(resourceGroup().id)]",
+        "storageAccountNameRef": "[concat('storage_', take(uniqueString(resourceGroup().id), 5))]",
         "blobContainerName": "alteonconfig",
         "loadBalancersName": "[concat(variables('resourceGroupName'), 'VmssLB')]", 
         "autoscalesettingsName": "[concat(toLower(variables('resourceGroupName')), 'scale')]",
