@@ -157,7 +157,7 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL 2",
+                        "label":"Cloud license server URL 3",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
@@ -767,7 +767,7 @@
                             "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable'), greater(steps('SLBSetting').RealsCount, 9))]"
                         }
                     ],
-                    "visible":"[and(equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')"
+                    "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
                 },
                 {  
                     "name":"SLBPortNumber",
@@ -805,6 +805,26 @@
                     },
                     "visible": true
                 },
+                {
+                    "name":"EnaDisSsl",
+                    "type":"Microsoft.Common.OptionsGroup",
+                    "label":"Enable/Disable SSL settings",
+                    "defaultValue":"Disable",
+                    "toolTip":"Enable/Disable SSL settings",
+                    "constraints":{  
+                        "allowedValues":[  
+                            {  
+                                "label":"Enable",
+                                "value":"Enable"
+                            },
+                            {  
+                                "label":"Disable",
+                                "value":"Disable"
+                            }
+                        ]
+                    },
+                    "visible":true
+                },                      
                 {  
                     "name":"sslPassphrase",
                     "type":"Microsoft.Common.PasswordBox",
@@ -821,7 +841,7 @@
                     "options":{  
                         "hideConfirmation":true
                     },
-                    "visible":true
+                    "visible":"[equals(steps('EnaDisSsl').EnaDisAutoscaleSettings, 'Enable')]"
                 },                              
                 {
                     "name": "sslCertKeyBundleFile",
@@ -838,7 +858,7 @@
                       "openMode": "text",
                       "encoding": "UTF-8"
                     },
-                    "visible": true
+                    "visible": "[equals(steps('EnaDisSsl').EnaDisAutoscaleSettings, 'Enable')]"
                   }                                    
                 ]
             }                                                                        
