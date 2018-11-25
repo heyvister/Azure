@@ -153,32 +153,7 @@
                             "required":true
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
-                    },             
-                    {
-                        "name":"PrimaryDnsIP",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Primary DNS IP Address",
-                        "defaultValue":"168.63.129.16",
-                        "toolTip":"Primary DNS IP Address",
-                        "constraints":{  
-                            "required":true,
-                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
-                            "validationMessage":"Format should be a valid IPv4 address"
-                        },
-                        "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"      
-                    },       
-                    {
-                        "name":"SecondaryDnsIP",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Secondary DNS IP Address",
-                        "defaultValue":"",
-                        "toolTip":"Secondary DNS IP Address",
-                        "constraints":{  
-                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
-                            "validationMessage":"Format should be a valid IPv4 address"
-                        },
-                        "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"      
-                    },                                        
+                    },                                                
                     {  
                         "name":"PrimaryLlsIP",
                         "type":"Microsoft.Common.TextBox",
@@ -254,17 +229,21 @@
                         "name":"AddOnSubsciption",
                         "type":"Microsoft.Common.DropDown",
                         "label":"Add-On Subsciption",
-                        "defaultValue":"no",
+                        "defaultValue":"delivery",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
                             "allowedValues":[
                                 {
-                                    "label":"yes",
-                                    "value":"yes" 
+                                    "label":"delivery",
+                                    "value":"delivery" 
                                 },
                                 {
-                                    "label":"no",
-                                    "value":"no" 
+                                    "label":"perform",
+                                    "value":"perform" 
+                                },                                       
+                                {
+                                    "label":"secure",
+                                    "value":"secure" 
                                 }                                                                  
                             ]                            
                         },
@@ -462,19 +441,6 @@
                 },
                 "bladeTitle":"Active Directory settings (Autoscaling)",
                 "elements":[  
-                    {  
-                        "name":"DNSServerIP",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"DNS Server IP Address",
-                        "defaultValue":"168.63.129.16",
-                        "toolTip":"DNS Server IP Address",
-                        "constraints":{  
-                            "required":true,
-                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
-                            "validationMessage":"Format should be a valid IPv4 address"
-                        },
-                        "visible": "[empty(steps('GelSettings').PrimaryDnsIP)]"
-                    },
                     {  
                         "name":"ActiveDirectoryCredentials",
                         "type":"Microsoft.Common.Section",
@@ -849,7 +815,7 @@
                 {
                     "name": "sslCertKeyBundleFile",
                     "type": "Microsoft.Common.FileUpload",
-                    "label": "Key and certificate",
+                    "label": "Key & certificate",
                     "toolTip": "",
                     "constraints": {
                       "required": true,
@@ -875,8 +841,6 @@
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "CloudDeviceId":"[steps('GelSettings').CloudDeviceId]",
-            "PrimaryDnsIP":"[steps('GelSettings').PrimaryDnsIP]",
-            "SecondaryDnsIP":"[steps('GelSettings').SecondaryDnsIP]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
@@ -894,7 +858,6 @@
             "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
             "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
             "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
-            "DNSServerIP":"[steps('ActiveDirSetting').DNSServerIP]",  
             "RealsVirtualNetwork": "[steps('SLBSetting').RealsVirtualNetwork]",
             "RealsScalesetName": "[steps('SLBSetting').RealsScalesetName]",                      
             "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
@@ -910,7 +873,7 @@
             "Real8": "[steps('SLBSetting').RealServerSection.Real8]",
             "Real9": "[steps('SLBSetting').RealServerSection.Real9]",
             "Real10": "[steps('SLBSetting').RealServerSection.Real10]",
-            "sslCertFile": "[steps('SLBSetting').sslCertKeyBundleFile]"                        	                         
+            "sslCertNkeyFile": "[steps('SLBSetting').sslCertKeyBundleFile]"                        	                         
 
         }
     }
