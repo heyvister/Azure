@@ -157,7 +157,7 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"CLS URL",
+                        "label":"CLS URL 1",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
