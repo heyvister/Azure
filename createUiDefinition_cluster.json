@@ -157,7 +157,7 @@
                     {  
                         "name":"ClsUrl",
                         "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL 3",
+                        "label":"Cloud license server URL 4",
                         "defaultValue": "",
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
@@ -841,7 +841,7 @@
                     "options":{  
                         "hideConfirmation":true
                     },
-                    "visible":"[equals(steps('EnaDisSsl').EnaDisAutoscaleSettings, 'Enable')]"
+                    "visible":"[equals(steps('SLBSetting').EnaDisSsl, 'Enable')]"
                 },                              
                 {
                     "name": "sslCertKeyBundleFile",
@@ -858,7 +858,7 @@
                       "openMode": "text",
                       "encoding": "UTF-8"
                     },
-                    "visible": "[equals(steps('EnaDisSsl').EnaDisAutoscaleSettings, 'Enable')]"
+                    "visible": "[equals(steps('SLBSetting').EnaDisSsl, 'Enable')]"
                   }                                    
                 ]
             }                                                                        
