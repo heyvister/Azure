@@ -162,7 +162,7 @@
                         "toolTip":"Cloud license server URL",
                         "constraints":{  
                         },                      
-                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), not(equals(steps('GelSettings').CloudDeviceId, '')))]"
+                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), not(equals(steps('GelSettings').CloudDeviceId, 'AAA')))]"
                         
                     },                                                                    
                     {  
