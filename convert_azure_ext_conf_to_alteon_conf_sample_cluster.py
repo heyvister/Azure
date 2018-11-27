@@ -13,20 +13,22 @@ import fileinput
 #if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py
 
 server_dict = {}
-server_dict["SLB_PORT"] =     "parameters('SLBPortNumber')"
-server_dict["REAL_1"] =       "parameters('Real1')"
-server_dict["CLIENTID"] =     "parameters('ClientID')"
-server_dict["CLIENTSECRET"] = "parameters('ClientSecret')"
-server_dict["TENANTID"] =     "parameters('TenantID')"
-server_dict["DNSSERVERIP"] =  "variables('DNSServerIP')"
-server_dict["RSRCGRP"] =      "variables('resourceGroupName')"
-server_dict["SUBSCRIP"] =     "variables('subscripID')"
-server_dict["SLB_METRIC"] =   "parameters('SLBMetric')"
-server_dict["SS_NAME"] =      "scaleset1"
-server_dict["REAL_SS_NAME"] = "parameters('RealsScalesetName')"
-server_dict["REALS_SS_RG"] =  "variables('realsResourceGroupName')"
-server_dict["FUNC_URL"] =     "variables('alteonAzureFuncUrl')"
-server_dict["GEL_DEVID"] =    "variables('cloudDeviceId')"
+server_dict["SLB_PORT"] =           "parameters('SlbPortNumber')"
+server_dict["SLB_HTTPS_PORT"] =     "parameters('SlbHttpsPortNumber')"
+server_dict["SSL_CERT_NAME"] =      "variables('sslCertificateName')"
+server_dict["REAL_1"] =             "parameters('Real1')"
+server_dict["CLIENTID"] =           "parameters('ClientID')"
+server_dict["CLIENTSECRET"] =       "parameters('ClientSecret')"
+server_dict["TENANTID"] =           "parameters('TenantID')"
+server_dict["DNSSERVERIP"] =        "variables('DNSServerIP')"
+server_dict["RSRCGRP"] =            "variables('resourceGroupName')"
+server_dict["SUBSCRIP"] =           "variables('subscripID')"
+server_dict["SLB_METRIC"] =         "parameters('SLBMetric')"
+server_dict["SS_NAME"] =            "scaleset1"
+server_dict["REAL_SS_NAME"] =       "parameters('RealsScalesetName')"
+server_dict["REALS_SS_RG"] =        "variables('realsResourceGroupName')"
+server_dict["FUNC_URL"] =           "variables('alteonAzureFuncUrl')"
+server_dict["GEL_DEVID"] =          "variables('CloudLicenseServerUrl')"
 server_dict["VM_ID"] =        VM_ID
 server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
 server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
@@ -98,6 +100,18 @@ def convert_service_to_config():
     if "SLB_PORT" in server_dict:
        if len(server_dict["SLB_PORT"]) > 0:
           output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
+
+    if "SLB_HTTPS_PORT" in server_dict:
+       if len(server_dict["SLB_HTTPS_PORT"]) > 0:
+          output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_HTTPS_PORT"] "\n")
+          output_file.write("\tgroup 1\n")
+          output_file.write("\trport 80\n")
+          output_file.write("\tdbind forceproxy\n")
+
+          output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_HTTPS_PORT"] + " https/ssl\n")
+          output_file.write("\tsrvrcert cert " + server_dict["SSL_CERT_NAME"] + "\n")
+          output_file.write("\tsslpol " + server_dict["SSL_CERT_NAME"] + "\n")
+          output_file.write("\tdis\n")
 
 
 

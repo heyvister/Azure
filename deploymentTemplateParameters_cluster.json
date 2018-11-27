@@ -61,10 +61,10 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP670"
+        "value": "demoPublicIP672"
     },
     "CloudDeviceId": {
-        "value": "https://google.com"
+        "value": "H3Z4FV90U129"
     },
     "PrimaryLlsIP": {
         "value": "none"
@@ -82,7 +82,7 @@
         "value": "Standard"
     },          
     "EntitlementId": {
-        "value": "blabla"
+        "value": "RD-Perform20Gbps"
     },                        
     "ClientID": {
       "value": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34"
@@ -99,9 +99,12 @@
     "SLBPortNumber": {
       "value": "80"
     },
+    "SlbHttpsPortNumber": {
+        "value": "443"
+    },    
     "SLBMetric": {
-      "value": "none"
-    }, 
+      "value": "leastconns"
+    },      
     "ScalesetScaleIn": {
         "value": {
             "ScaleInCpuThreshold": "60",
