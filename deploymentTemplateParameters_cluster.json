@@ -61,10 +61,10 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP669"
+        "value": "demoPublicIP670"
     },
     "CloudDeviceId": {
-        "value": "none"
+        "value": "https://google.com"
     },
     "PrimaryLlsIP": {
         "value": "none"
@@ -76,7 +76,7 @@
         "value": "1000"
     },
     "AddOnSubsciption": {
-        "value": "perform"
+        "value": "none"
     },      
     "LbSku": {
         "value": "Standard"
@@ -85,10 +85,10 @@
         "value": "blabla"
     },                        
     "ClientID": {
-      "value": "0c46a7db-cf3d-475d-ab18-e0601a94fde5"
+      "value": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34"
     },
     "ClientSecret": {
-      "value": "OvPYiakHZ9WFRres6dLAtub54Y52LO3WeEqKzrCEVys="
+      "value": "txEiP0oTOLBnIgHkWdyKvr6sBw8UqeEedfgrR4bIWR0="
     },
     "TenantID": {
       "value": "36361a21-c721-4248-9748-8848b2573f18"
