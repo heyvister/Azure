@@ -27,7 +27,6 @@ server_dict["SLB_METRIC"] =         "parameters('SLBMetric')"
 server_dict["SS_NAME"] =            "scaleset1"
 server_dict["REAL_SS_NAME"] =       "parameters('RealsScalesetName')"
 server_dict["REALS_SS_RG"] =        "variables('realsResourceGroupName')"
-server_dict["FUNC_URL"] =           "variables('alteonAzureFuncUrl')"
 server_dict["GEL_DEVID"] =          "variables('CloudLicenseServerUrl')"
 server_dict["VM_ID"] =        VM_ID
 server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
@@ -99,7 +98,7 @@ def convert_service_to_config():
   
     if "SLB_PORT" in server_dict:
         if len(server_dict["SLB_PORT"]) > 0:
-            if server_dict["SLB_HTTPS_PORT"] != "0":
+            if server_dict["SLB_PORT"] != "0":
                 output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
                 output_file.write("\tgroup 1\n")
                 output_file.write("\trport 80\n")
@@ -183,9 +182,6 @@ def convert_DPM_report__to_config():
     output_file.write("/cfg/sys/report/trigger\n\talways\n")
     output_file.write("/cfg/sys/report/interval\n\t" + server_dict["DPM_REPORT_INTERVAL"] + "\n")
 
-#convert to Azure function URL"
-def convert_azure_function_url_to_config():
-    output_file.write("/c/sys/azure/funcurl \n\t"+ server_dict["FUNC_URL"]+ "\n")
 	 
 def convert_license_server_to_config():
     output_file.write("/cfg/sys/licsrv\n")
@@ -210,5 +206,4 @@ convert_service_to_config()
 convert_reals_scaleset_to_config()
 add_hc_probe_to_config()
 convert_DPM_report__to_config()
-convert_azure_function_url_to_config()
 convert_AZURE_menu_to_config()
