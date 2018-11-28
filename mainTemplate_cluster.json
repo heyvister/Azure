@@ -170,14 +170,14 @@
             }
         },                
 		"SlbPortNumber": {
-            "defaultValue": "0",
+            "defaultValue": "80",
             "type": "string",
             "metadata": {
                 "description": "service port number"
             }
         },
 		"SlbHttpsPortNumber": {
-            "defaultValue": "0",
+            "defaultValue": "443",
             "type": "string",
             "metadata": {
                 "description": "service port number"
@@ -910,7 +910,9 @@
                                                                     "AddOnSubsciption": "[parameters('AddOnSubsciption')]"
                                                                 },
                                                                 "SsL":{
-                                                                    "Id": "[variables('sslCertificateName')]",
+                                                                    "sslCertificateName": "[variables('sslCertificateName')]",
+                                                                    "sslPolicyName": "[variables('sslPolicyName')]",
+                                                                    "SlbHttpsPortNumber": "[parameters('SlbHttpsPortNumber')]",
                                                                     "SslPrivateKeyPassphrase": "[parameters('SslPrivateKeyPassphrase')]",
                                                                     "sslCertNkeyFile": "[parameters('sslCertNkeyFile')]"
                                                                 }
