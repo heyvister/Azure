@@ -95,7 +95,7 @@ def convert_service_to_config():
     else:
         private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1)
 
-    output_file.write("/c/slb/virt 1\n\tdis\n\tvip " + private_ip +"\n")
+    output_file.write("/c/slb/virt 1\n\tena\n\tvip " + private_ip +"\n")
   
     if "SLB_PORT" in server_dict:
         if len(server_dict["SLB_PORT"]) > 0:
