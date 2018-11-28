@@ -734,7 +734,6 @@
                 "loadBalancingRules": [
                     {
                         "name": "alteon-http-slb",
-                        "condition": "[greater(int(parameters('SlbPortNumber')), 0)]",
                         "etag": "W/\"aae13fc1-416c-43c9-ab2f-48397cb021d6\"",
                         "properties": {
                             "frontendIPConfiguration": {
@@ -756,7 +755,6 @@
                     },
                     {
                         "name": "alteon-https-slb",
-                        "condition": "[greater(int(parameters('SlbHttpsPortNumber')), 0)]",
                         "properties": {
                             "frontendIPConfiguration": {
                                 "id": "[variables('loadBalancerFrontEnd')]"
