@@ -98,24 +98,22 @@ def convert_service_to_config():
     output_file.write("/c/slb/virt 1\n\tdis\n\tvip " + private_ip +"\n")
   
     if "SLB_PORT" in server_dict:
-       if len(server_dict["SLB_PORT"]) > 0:
-             if server_dict["SLB_PORT"] != "0":
-                 output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
+        if len(server_dict["SLB_PORT"]) > 0:
+            output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
 
     if "SLB_HTTPS_PORT" in server_dict:
-       if len(server_dict["SLB_HTTPS_PORT"]) > 0:
-            if server_dict["SLB_HTTPS_PORT"] != "0":
-              output_file.write("/c/slb/ssl/sslpol "+ server_dict["SSL_CERT_NAME"] + "\n")
-              output_file.write("\tena\n")
+        if len(server_dict["SLB_HTTPS_PORT"]) > 0:
+            output_file.write("/c/slb/ssl/sslpol "+ server_dict["SSL_CERT_NAME"] + "\n")
+            output_file.write("\tena\n")
 
-              output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https\n")
-              output_file.write("\tgroup 1\n")
-              output_file.write("\trport 80\n")
-              output_file.write("\tdbind forceproxy\n")
+            output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https\n")
+            output_file.write("\tgroup 1\n")
+            output_file.write("\trport 80\n")
+            output_file.write("\tdbind forceproxy\n")
 
-              output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https/ssl\n")
-              output_file.write("\tsrvrcert cert " + server_dict["SSL_CERT_NAME"] + "\n")
-              output_file.write("\tsslpol " + server_dict["SSL_CERT_NAME"] + "\n")
+            output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https/ssl\n")
+            output_file.write("\tsrvrcert cert " + server_dict["SSL_CERT_NAME"] + "\n")
+            output_file.write("\tsslpol " + server_dict["SSL_CERT_NAME"] + "\n")
           
 
 
