@@ -16,6 +16,7 @@ server_dict = {}
 server_dict["SLB_PORT"] =           "parameters('SlbPortNumber')"
 server_dict["SLB_HTTPS_PORT"] =     "parameters('SlbHttpsPortNumber')"
 server_dict["SSL_CERT_NAME"] =      "variables('sslCertificateName')"
+server_dict["SSL_CERT_NAME"] =      "variables('sslPolicyName')"
 server_dict["REAL_1"] =             "parameters('Real1')"
 server_dict["CLIENTID"] =           "parameters('ClientID')"
 server_dict["CLIENTSECRET"] =       "parameters('ClientSecret')"
@@ -112,16 +113,6 @@ def convert_service_to_config():
                 output_file.write("\tgroup 1\n")
                 output_file.write("\trport 80\n")
                 output_file.write("\tdbind forceproxy\n")
-
-                output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https/ssl\n")
-                output_file.write("\tsrvrcert cert " + server_dict["SSL_CERT_NAME"] + "\n")
-                output_file.write("\tsslpol " + server_dict["SSL_CERT_NAME"] + "\n")
-
-                output_file.write("/c/slb/virt 1\n")
-                output_file.write("\tdis\n")
-          
-          
-
 
 
 #convert reals to "/c/slb/real x/rip y.y.y.y/ena"
