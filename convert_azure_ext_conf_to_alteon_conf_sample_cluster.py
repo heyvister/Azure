@@ -99,12 +99,12 @@ def convert_service_to_config():
   
     if "SLB_PORT" in server_dict:
        if len(server_dict["SLB_PORT"]) > 0:
-            if len(server_dict["SLB_PORT"]) != "0":
+             if server_dict["SLB_PORT"] != "0":
                  output_file.write("/c/slb/virt 1/service "+ server_dict["SLB_PORT"] + " http\n")
 
     if "SLB_HTTPS_PORT" in server_dict:
        if len(server_dict["SLB_HTTPS_PORT"]) > 0:
-           if len(server_dict["SLB_HTTPS_PORT"]) != "0":
+            if server_dict["SLB_HTTPS_PORT"] != "0":
               output_file.write("/c/slb/ssl/sslpol "+ server_dict["SSL_CERT_NAME"] + "\n")
               output_file.write("\tena\n")
 
