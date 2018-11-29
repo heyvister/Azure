@@ -807,7 +807,7 @@
                     "visible":true
                 },  
                 {  
-                    "name":"SLBPortNumber",
+                    "name":"SlbPortNumber",
                     "type":"Microsoft.Common.TextBox",
                     "label":"Service Http Port Number",
                     "defaultValue":"80",
@@ -819,7 +819,7 @@
                     "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Http'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 }, 
                 {  
-                    "name":"SLBPortNumber",
+                    "name":"SlbHttpsPortNumber",
                     "type":"Microsoft.Common.TextBox",
                     "label":"Service Https Port Number",
                     "defaultValue":"443",
@@ -896,8 +896,7 @@
             "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",
             "RealsVirtualNetwork": "[steps('SLBSetting').RealsVirtualNetwork]",
             "RealsScalesetName": "[steps('SLBSetting').RealsScalesetName]",                      
-            "RealsCount":"[string(steps('SLBSetting').RealsCount)]",
-            "SLBPortNumber":"[steps('SLBSetting').SLBPortNumber]",            
+            "RealsCount":"[string(steps('SLBSetting').RealsCount)]",           
             "SLBMetric":"[steps('SLBSetting').SLBMetric]",
             "Real1": "[steps('SLBSetting').RealServerSection.Real1]",
             "Real2": "[steps('SLBSetting').RealServerSection.Real2]",
@@ -909,6 +908,8 @@
             "Real8": "[steps('SLBSetting').RealServerSection.Real8]",
             "Real9": "[steps('SLBSetting').RealServerSection.Real9]",
             "Real10": "[steps('SLBSetting').RealServerSection.Real10]",
+            "SlbPortNumber":"[steps('SLBSetting').SlbPortNumber]",  
+            "SlbHttpsPortNumber":"[steps('SLBSetting').SlbHttpsPortNumber]",             
             "sslCertNkeyFile": "[steps('SLBSetting').sslCertKeyBundleFile]"                        	                         
 
         }
