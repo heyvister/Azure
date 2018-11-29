@@ -160,13 +160,6 @@
                           "name": "res",
                           "type": "http",
                           "direction": "out"
-                        },
-                        {
-                          "name": "blob",
-                          "type": "blob",
-                          "direction": "in",
-                          "path": "alteonconfig/clusterConfiguration.tgz",
-                          "connection": "AzureWebJobsStorage"
                         }
                       ]    
               },
