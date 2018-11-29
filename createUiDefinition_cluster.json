@@ -150,7 +150,7 @@
                         "defaultValue": "",
                         "toolTip":"Cloud license server ID or full URL",
                         "constraints":{  
-                            "required":"[empty(steps('GelSettings').ClsUrl)]"
+                            "required":true
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
                     },                                             

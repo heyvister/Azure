@@ -28,7 +28,9 @@ server_dict["SLB_METRIC"] =         "parameters('SLBMetric')"
 server_dict["SS_NAME"] =            "scaleset1"
 server_dict["REAL_SS_NAME"] =       "parameters('RealsScalesetName')"
 server_dict["REALS_SS_RG"] =        "variables('realsResourceGroupName')"
-server_dict["GEL_DEVID"] =          "variables('CloudLicenseServerUrl')"
+server_dict["GEL_CLS_URL"] =        "variables('CloudLicenseServerUrl')"
+server_dict["GEL_PRIM_LLS_URL"] =   "variables('primaryLlsUrl')"
+server_dict["GEL_2ND_LLS_URL"] =    "variables('secondaryLlsUrl')"
 server_dict["VM_ID"] =        VM_ID
 server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
 server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
@@ -176,8 +178,15 @@ def convert_DPM_report__to_config():
 	 
 def convert_license_server_to_config():
     output_file.write("/cfg/sys/licsrv\n")
-    output_file.write("\tena\n")	
-    output_file.write("\tprimary " + "\"" + server_dict["GEL_DEVID"] + "\"\n")	
+    output_file.write("\tena\n")
+    if server_dict["GEL_CLS_URL"] != "none":
+        output_file.write("\tprimary " + "\"" + server_dict["GEL_CLS_URL"] + "\"\n")	
+
+    if server_dict["GEL_PRIM_LLS_URL"] != "none":
+        output_file.write("\tprimary " + "\"" + server_dict["GEL_PRIM_LLS_URL"] + "\"\n")	
+
+    if server_dict["GEL_2ND_LLS_URL"] != "none":
+        output_file.write("\tsecondry " + "\"" + server_dict["GEL_2ND_LLS_URL"] + "\"\n")	
 	 
 
 #convert to interface configuration"
