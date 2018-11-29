@@ -148,23 +148,12 @@
                         "type":"Microsoft.Common.TextBox",
                         "label":"CLS Device ID",
                         "defaultValue": "",
-                        "toolTip":"Cloud license server ID",
+                        "toolTip":"Cloud license server ID or full URL",
                         "constraints":{  
                             "required":"[empty(steps('GelSettings').ClsUrl)]"
                         },                      
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud')]"
-                    },    
-                    {  
-                        "name":"ClsUrl",
-                        "type":"Microsoft.Common.TextBox",
-                        "label":"Cloud license server URL",
-                        "defaultValue": "",
-                        "toolTip":"Cloud license server URL",
-                        "constraints":{  
-                        },                      
-                        "visible":"[and(equals(steps('GelSettings').ClsLlsGelSettings, 'Cloud'), equals(steps('GelSettings').CloudDeviceId, ''))]"
-                        
-                    },                                                                    
+                    },                                             
                     {  
                         "name":"PrimaryLlsIP",
                         "type":"Microsoft.Common.TextBox",
@@ -245,16 +234,16 @@
                         "constraints":{ 
                             "allowedValues":[
                                 {
-                                    "label":"delivery",
-                                    "value":"delivery" 
+                                    "label":"none",
+                                    "value":"none" 
                                 },
                                 {
-                                    "label":"perform",
-                                    "value":"perform" 
+                                    "label":"Perform",
+                                    "value":"Perform" 
                                 },                                       
                                 {
-                                    "label":"secure",
-                                    "value":"secure" 
+                                    "label":"Secure",
+                                    "value":"Secure" 
                                 }                                                                  
                             ]                            
                         },
@@ -404,7 +393,7 @@
                                 "name": "ScaleOutIncreaseBy",
                                 "type": "Microsoft.Common.TextBox",
                                 "defaultValue":"1",
-                                "label": "Number of VMS to increase by"
+                                "label": "Number of VMs to increase by"
                               }                            
                         ],
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
@@ -436,7 +425,7 @@
                                 "name": "ScaleInDecreaseBy",
                                 "type": "Microsoft.Common.TextBox",
                                 "defaultValue":"1",
-                                "label": "Number of VMS to decreased by"
+                                "label": "Number of VMs to decreased by"
                               }                            
                         ],
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
@@ -770,18 +759,6 @@
                     "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Disable')]"
                 },
                 {  
-                    "name":"SLBPortNumber",
-                    "type":"Microsoft.Common.TextBox",
-                    "label":"Service Port Number",
-                    "defaultValue":"80",
-                    "constraints":{  
-                        "regex":"^\\d+$",
-                        "validationMessage":"Format should be valid tcp port"
-                    },
-                    "toolTip":"The port number of the service you want to load balance",
-                    "visible": true
-                },
-                {  
                     "name":"SLBMetric",
                     "type":"Microsoft.Common.DropDown",
                     "label":"Metrics",
@@ -806,25 +783,53 @@
                     "visible": true
                 },
                 {
-                    "name":"EnaDisSsl",
+                    "name":"HttpHttpsSet",
                     "type":"Microsoft.Common.OptionsGroup",
-                    "label":"Enable/Disable SSL settings",
-                    "defaultValue":"Disable",
-                    "toolTip":"Enable/Disable SSL settings",
+                    "label":"Https/Https/Both SLB settings",
+                    "defaultValue":"Http",
+                    "toolTip":"Https/Https/Both SLB settings",
                     "constraints":{  
                         "allowedValues":[  
                             {  
-                                "label":"Enable",
-                                "value":"Enable"
+                                "label":"Http",
+                                "value":"Http"
                             },
                             {  
-                                "label":"Disable",
-                                "value":"Disable"
-                            }
+                                "label":"Https",
+                                "value":"Https"
+                            },
+                            {  
+                                "label":"Both",
+                                "value":"Both"
+                            }                            
                         ]
                     },
                     "visible":true
-                },                      
+                },  
+                {  
+                    "name":"SLBPortNumber",
+                    "type":"Microsoft.Common.TextBox",
+                    "label":"Service Http Port Number",
+                    "defaultValue":"80",
+                    "constraints":{  
+                        "regex":"^\\d+$",
+                        "validationMessage":"Format should be valid tcp port"
+                    },
+                    "toolTip":"The port number of the http service you want to load balance",
+                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Http')]"
+                }, 
+                {  
+                    "name":"SLBPortNumber",
+                    "type":"Microsoft.Common.TextBox",
+                    "label":"Service Https Port Number",
+                    "defaultValue":"443",
+                    "constraints":{  
+                        "regex":"^\\d+$",
+                        "validationMessage":"Format should be valid tcp port"
+                    },
+                    "toolTip":"The port number of the https service you want to load balance",
+                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
+                },                                                              
                 {  
                     "name":"sslPassphrase",
                     "type":"Microsoft.Common.PasswordBox",
@@ -841,7 +846,7 @@
                     "options":{  
                         "hideConfirmation":true
                     },
-                    "visible":"[equals(steps('SLBSetting').EnaDisSsl, 'Enable')]"
+                    "visible":"[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
                 },                              
                 {
                     "name": "sslCertKeyBundleFile",
@@ -858,7 +863,7 @@
                       "openMode": "text",
                       "encoding": "UTF-8"
                     },
-                    "visible": "[equals(steps('SLBSetting').EnaDisSsl, 'Enable')]"
+                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
                   }                                    
                 ]
             }                                                                        
@@ -872,7 +877,6 @@
             "adminUsername":"[steps('VmssInstanceCredentials').adminUsername]",
             "adminPassword":"[steps('VmssInstanceCredentials').adminPassword.password]",
             "CloudDeviceId":"[steps('GelSettings').CloudDeviceId]", 
-            "ClsUrl":"[steps('GelSettings').ClsUrl]",
             "PrimaryLlsIP":"[steps('GelSettings').PrimaryLlsIP]",
             "SecondaryLlsIP":"[steps('GelSettings').SecondaryLlsIP]",
             "ThroughputLicense": "[steps('GelSettings').ThroughputLicense]",
