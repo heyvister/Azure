@@ -229,7 +229,7 @@
                         "name":"AddOnSubsciption",
                         "type":"Microsoft.Common.DropDown",
                         "label":"Add-On Subsciption",
-                        "defaultValue":"delivery",
+                        "defaultValue":"none",
                         "toolTip":"Add-On Subsciption",
                         "constraints":{ 
                             "allowedValues":[
@@ -816,7 +816,7 @@
                         "validationMessage":"Format should be valid tcp port"
                     },
                     "toolTip":"The port number of the http service you want to load balance",
-                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Http')]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Http'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 }, 
                 {  
                     "name":"SLBPortNumber",
@@ -828,7 +828,7 @@
                         "validationMessage":"Format should be valid tcp port"
                     },
                     "toolTip":"The port number of the https service you want to load balance",
-                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 },                                                              
                 {  
                     "name":"sslPassphrase",
@@ -846,7 +846,7 @@
                     "options":{  
                         "hideConfirmation":true
                     },
-                    "visible":"[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
+                    "visible":"[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 },                              
                 {
                     "name": "sslCertKeyBundleFile",
@@ -863,7 +863,7 @@
                       "openMode": "text",
                       "encoding": "UTF-8"
                     },
-                    "visible": "[equals(steps('SLBSetting').HttpHttpsSet, 'Https')]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                   }                                    
                 ]
             }                                                                        
