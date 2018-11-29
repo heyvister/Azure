@@ -253,7 +253,7 @@
             },
             {  
                 "name":"ScalesetSettings",
-                "label":"Settings",
+                "label":"Scaleset settings",
                 "subLabel":{  
                     "preValidation":"Configure Alteon cluster",
                     "postValidation":"Done"
@@ -785,18 +785,18 @@
                 {
                     "name":"HttpHttpsSet",
                     "type":"Microsoft.Common.OptionsGroup",
-                    "label":"Https/Https/Both SLB settings",
-                    "defaultValue":"Http",
-                    "toolTip":"Https/Https/Both SLB settings",
+                    "label":"HTTP/HTTPs/Both SLB settings",
+                    "defaultValue":"HTTP",
+                    "toolTip":"HTTP/HTTPs/Both SLB settings",
                     "constraints":{  
                         "allowedValues":[  
                             {  
-                                "label":"Http",
-                                "value":"Http"
+                                "label":"HTTP",
+                                "value":"HTTP"
                             },
                             {  
-                                "label":"Https",
-                                "value":"Https"
+                                "label":"HTTPs",
+                                "value":"HTTPs"
                             },
                             {  
                                 "label":"Both",
@@ -816,7 +816,7 @@
                         "validationMessage":"Format should be valid tcp port"
                     },
                     "toolTip":"The port number of the http service you want to load balance",
-                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Http'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTP'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 }, 
                 {  
                     "name":"SlbHttpsPortNumber",
@@ -828,7 +828,7 @@
                         "validationMessage":"Format should be valid tcp port"
                     },
                     "toolTip":"The port number of the https service you want to load balance",
-                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTPs'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 },                                                              
                 {  
                     "name":"sslPassphrase",
@@ -846,7 +846,7 @@
                     "options":{  
                         "hideConfirmation":true
                     },
-                    "visible":"[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
+                    "visible":"[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTPs'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                 },                              
                 {
                     "name": "sslCertKeyBundleFile",
@@ -863,7 +863,7 @@
                       "openMode": "text",
                       "encoding": "UTF-8"
                     },
-                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'Https'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
+                    "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTPs'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                   }                                    
                 ]
             }                                                                        
@@ -890,7 +890,6 @@
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
             "ScalesetScaleOut": "[steps('ScalesetSettings').ScalesetScaleOut]",            
             "ScalesetScaleIn": "[steps('ScalesetSettings').ScalesetScaleIn]",  
-            "EnaDisScalesetSettings":"[steps('ScalesetSettings').EnaDisScalesetSettings]",
             "ClientID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientID]",
             "ClientSecret":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.ClientSecret]",
             "TenantID":"[steps('ActiveDirSetting').ActiveDirectoryCredentials.TenantID]",

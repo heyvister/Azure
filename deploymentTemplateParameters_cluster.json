@@ -61,13 +61,13 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP701"
+        "value": "demoPublicIP703"
     },
     "CloudDeviceId": {
-        "value": "H3Z4FV90U129"
+        "value": "none"
     },
     "PrimaryLlsIP": {
-        "value": "none"
+        "value": "10.171.153.204"
     },
     "SecondaryLlsIP": {
         "value": "none"
