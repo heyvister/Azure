@@ -295,7 +295,11 @@
             "defaultValue": {
                 "alteon": "true"
             }
-          }            
+          },
+          "emptyVmObjectTag": {
+            "type": "object",
+            "defaultValue": {}
+          }          
     },
     "variables": {
 		"securityGroupName": "[concat(resourceGroup().name, 'SG')]",
@@ -392,7 +396,7 @@
                   "TenantID":  {"value": "[parameters('TenantID')]"},
                   "ClientSecret":  {"value": "[parameters('ClientSecret')]"},
                   "ClientID":  {"value": "[parameters('ClientID')]"},
-                  "vmTags": {"value": "[if(equals(parameters('tagUserDefinedName'), 'none'),  '', parameters('userMonitorVmObjectTag'))]"}
+                  "vmTags": {"value": "[if(equals(parameters('tagUserDefinedName'), 'none'),  parameters('emptyVmObjectTag'), parameters('userMonitorVmObjectTag'))]"}
                }
             },
             "dependsOn":[
