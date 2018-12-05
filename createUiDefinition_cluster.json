@@ -274,7 +274,7 @@
                         },
                         "options":{  
                             "hideNone":true,
-                            "hideExisting":false,
+                            "hideExisting":true,
                             "hideDomainNameLabel":true
                         },                                                   
                         "visible":true           
@@ -556,7 +556,7 @@
                           "minAddressPrefixSize": "/16"
                         },
                         "options": {
-                          "hideExisting": true
+                          "hideExisting": false
                         },
                         "subnets": {
                           "subnet1": {
