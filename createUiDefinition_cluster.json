@@ -307,6 +307,7 @@
                         "recommendedSizes":[
                             "Standard_D1",  
                             "Standard_D2",
+                            "Standard_A1",
                             "Standard_A2",
                             "Standard_D3",
                             "Standard_A3"
