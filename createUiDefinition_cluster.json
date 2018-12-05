@@ -312,7 +312,8 @@
                             "Standard_A3"
                         ],
                         "constraints":{  
-                            "allowedSizes":[  
+                            "allowedSizes":[ 
+                                "Standard_A1_V2", 
                                 "Standard_DS1_V2",
                                 "Standard_DS2_V2",
                                 "Standard_DS3_V2",
@@ -346,7 +347,7 @@
                         "toolTip":"Define minimum of scaleset VMs",
                         "constraints":{ 
                             "required": true,
-                            "regex":"^\\d+$",
+                            "regex":"^((?!0)[0-9]*)$",
                             "validationMessage": "Only numeric characters are allowed 1-10"
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
@@ -359,7 +360,7 @@
                         "toolTip":"Define maximum of scaleset VMs",
                         "constraints":{ 
                             "required": true,
-                            "regex":"^(?!0+\\d+)$",
+                            "regex":"^((?!0)[0-9]*)$",
                             "validationMessage": "Only numeric characters are allowed 1-10"
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
