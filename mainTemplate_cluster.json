@@ -120,7 +120,7 @@
             }
         },
         "AddOnSubsciption": {
-            "defaultValue": "delivery",
+            "defaultValue": "none",
             "type": "string",
             "allowedValues": [
                 "none",
@@ -336,7 +336,7 @@
         "alteonsAzureFuncServerFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]", 
         "alteonAzureFuncHostNameBindingsName": "[concat(toLower(variables('alteonsAzureFuncName')), '.azurewebsites.net')]",
         "dpmReportInterval": "15",
-        "cloudDeviceId": "[concat('https://flex1336-uat.compliance.flexnetoperations.com:443/instances/', parameters('CloudDeviceId'), '/request')]",
+        "cloudDeviceId": "[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', parameters('CloudDeviceId'), '/request')]",
         "monitorVmName": "[concat(variables('resourceGroupName'), 'MonitorVm')]",
         "monitorBackendPoolFullName": "[concat(variables('loadBalancerId'), concat('/backendAddressPools/', variables('monitorVmName'),'LBBEMonitorPool'))]",
         "InstanceCount": "[parameters('MinNumOfVMs')]",
@@ -922,7 +922,9 @@
                                                                     "TenantId": "[parameters('TenantID')]",
                                                                     "ClientId": "[parameters('ClientID')]",
                                                                     "ClientSecret": "[parameters('ClientSecret')]",
-                                                                    "ResourceGroupName": "[variables('resourceGroupName')]"
+                                                                    "ResourceGroupName": "[variables('resourceGroupName')]",
+                                                                    "StorageAccount": "[variables('storageAccountNameRef')]",
+                                                                    "ContainerName": "[variables('blobContainerName')]"                                                                    
                                                                  },
                                                                 "Gel": {
                                                                     "EntitlementId": "[parameters('EntitlementId')]",

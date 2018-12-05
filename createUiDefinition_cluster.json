@@ -159,11 +159,10 @@
                         "type":"Microsoft.Common.TextBox",
                         "label":"Primary LLS IP Address",
                         "defaultValue":"",
-                        "toolTip":"Secondary LLS IP Address",
+                        "toolTip":"Primary LLS IP Address",
                         "constraints":{  
                             "required":true,
-                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
-                            "validationMessage":"Format should be a valid IPv4 address"
+                            "validationMessage":"Format should be a valid IPv4 address or domain name"
                         },
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Local')]"     
                     },
@@ -174,8 +173,7 @@
                         "defaultValue":"",
                         "toolTip":"Secondary LLS IP Address",
                         "constraints":{  
-                            "regex":"^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
-                            "validationMessage":"Format should be a valid IPv4 address"
+                            "validationMessage":"Format should be a valid IPv4 address or domain name"
                         },
                         "visible":"[equals(steps('GelSettings').ClsLlsGelSettings, 'Local')]"     
                     },
@@ -361,7 +359,7 @@
                         "toolTip":"Define maximum of scaleset VMs",
                         "constraints":{ 
                             "required": true,
-                            "regex":"^\\d+$",
+                            "regex":"^(?!0+\\d+)$",
                             "validationMessage": "Only numeric characters are allowed 1-10"
                         },
                         "visible":"[equals(steps('ScalesetSettings').EnaDisScalesetSettings, 'Enable')]"           
@@ -529,7 +527,7 @@
                         "type":"Microsoft.Common.TextBox",
                         "label":"Real Servers Scale-set Name",
                         "defaultValue":"",
-                        "toolTip":"Set Reals Scaleset Name",
+                        "toolTip":"Set Real Scaleset Name",
                         "constraints":{ 
                             "required": true,
                             "regex":"^[a-z0-9A-Z]{1,100}$",
@@ -545,8 +543,8 @@
                           "subnets": "Subnets"
                         },
                         "toolTip": {
-                          "virtualNetwork": "Choose reals server virtual network",
-                          "subnets": "Choose reals server subnet"
+                          "virtualNetwork": "Choose Real server virtual network",
+                          "subnets": "Choose Real server subnet"
                         },
                         "defaultValue": {
                           "name": "vnet01",
@@ -556,7 +554,7 @@
                           "minAddressPrefixSize": "/16"
                         },
                         "options": {
-                          "hideExisting": false
+                          "hideExisting": true
                         },
                         "subnets": {
                           "subnet1": {
