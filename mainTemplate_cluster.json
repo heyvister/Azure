@@ -660,7 +660,7 @@
                                     "operator": "GreaterThan",
                                     "statistic": "Average",
                                     "threshold": "[div(mul(int(parameters('ScalesetScaleOut').ScaleOutInboundTraffic), mul(int(parameters('ThroughputLicense')), 60)), 100)]",
-                                    "timeAggregation": "Minimum",
+                                    "timeAggregation": "Average",
                                     "timeGrain": "PT1M",
                                     "timeWindow": "PT5M"
                                 }
@@ -698,7 +698,7 @@
                                     "operator": "LessThan",
                                     "statistic": "Average",
                                     "threshold":"[div(mul(int(parameters('ScalesetScaleIn').ScaleInInboundTraffic), mul(int(parameters('ThroughputLicense')), 60)), 100)]",
-                                    "timeAggregation": "Minimum",
+                                    "timeAggregation": "Average",
                                     "timeGrain": "PT1M",
                                     "timeWindow": "PT10M"
                                 }

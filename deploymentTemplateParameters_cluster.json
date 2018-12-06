@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP888"
+        "value": "demoPublicIP889"
     },
     "CloudDeviceId": {
         "value": "none"
@@ -120,7 +120,7 @@
         }            
     },	 	   
     "InstanceSize": {
-        "value": "Standard_A1_v2"
+        "value": "Standard_D1"
     },                            
     "MaxNumOfVMs": {
         "value": "10"
