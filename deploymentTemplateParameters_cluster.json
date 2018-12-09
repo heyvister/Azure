@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP896"
+        "value": "demoPublicIP897"
     },
     "CloudDeviceId": {
         "value": "H3Z4FV90U129"
@@ -104,7 +104,7 @@
     },    
     "SLBMetric": {
       "value": "leastconns"
-    },      
+    },
     "ScalesetScaleIn": {
         "value": {
             "ScaleInCpuThreshold": "60",
@@ -129,11 +129,38 @@
         "value": "2"
     },     
     "RealsCount": {
-        "value": "1"
+        "value": "6"
     },                                 
      "Real1": {
         "value": "1.1.1.1"
     },
+    "Real2": {
+        "value": "1.1.1.2"
+    },
+    "Real3": {
+        "value": "1.1.1.3"
+    },
+    "Real4": {
+        "value": "1.1.1.4"
+    },
+    "Real5": {
+        "value": "1.1.1.5"
+    },
+    "Real6": {
+        "value": "1.1.1.6"
+    },
+    "Real7": {
+        "value": "1.1.1.7"
+    },
+    "Real8": {
+        "value": "1.1.1.8"
+    },  
+    "Real9": {
+        "value": "1.1.1.9"
+    }, 
+    "Real10": {
+        "value": "1.1.1.10"
+    },                              
     "SslPrivateKeyPassphrase": {
         "value": "radware"
     },
