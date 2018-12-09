@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP897"
+        "value": "demoPublicIP899"
     },
     "CloudDeviceId": {
         "value": "H3Z4FV90U129"
@@ -129,7 +129,7 @@
         "value": "2"
     },     
     "RealsCount": {
-        "value": "6"
+        "value": "0"
     },                                 
      "Real1": {
         "value": "1.1.1.1"
