@@ -13,6 +13,7 @@ import fileinput
 #if need to support other attributes there is a need to change parsing script custom_data_convert_to_json.py
 
 server_dict = {}
+server_dict["REAL_COUNT"] =         "parameters('RealsCount')"
 server_dict["SLB_PORT"] =           "parameters('SlbPortNumber')"
 server_dict["SLB_HTTPS_PORT"] =     "parameters('SlbHttpsPortNumber')"
 server_dict["SSL_CERT_NAME"] =      "variables('sslCertificateName')"
@@ -31,13 +32,34 @@ server_dict["REALS_SS_RG"] =        "variables('realsResourceGroupName')"
 server_dict["GEL_CLS_URL"] =        "variables('CloudLicenseServerUrl')"
 server_dict["GEL_PRIM_LLS_URL"] =   "variables('primaryLlsUrl')"
 server_dict["GEL_2ND_LLS_URL"] =    "variables('secondaryLlsUrl')"
-server_dict["VM_ID"] =        VM_ID
+server_dict["REAL_COUNT"] =   	    "parameters('RealsCount')"
+server_dict["REAL_1"] =             "parameters('Real1')"
+server_dict["REAL_2"] =             "parameters('Real2')"
+server_dict["REAL_3"] =             "parameters('Real3')"
+server_dict["REAL_4"] =             "parameters('Real4')"
+server_dict["REAL_5"] =             "parameters('Real5')"
+server_dict["REAL_6"] =             "parameters('Real6')"
+server_dict["REAL_7"] =             "parameters('Real7')"
+server_dict["REAL_8"] =             "parameters('Real8')"
+server_dict["REAL_9"] =             "parameters('Real9')"
+server_dict["REAL_10"] =            "parameters('Real10')"
+server_dict["VM_ID"] =              VM_ID
 server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
 server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
 server_dict["PRIVATE_IP_ADDRESS_POSIX_START"] =  variables('PrivateIPAddressPosixStart')
 
 #file which will hold the generated configuration
 output_file=open("/mnt/cf/Alteon/config/azure_converted_config.txt", "a+")
+
+real_count=0
+
+def init_vars():
+     global real_count
+     if "REAL_COUNT" in server_dict:
+        if int(server_dict["REAL_COUNT"]) > 0:
+            real_count=server_dict["REAL_COUNT"]
+        else:
+            real_count=0
 
 #convert  DNS server to Alteon if needed"
 def convert_DNS_menu_to_config():
@@ -119,9 +141,12 @@ def convert_service_to_config():
 
 #convert reals to "/c/slb/real x/rip y.y.y.y/ena"
 def convert_reals_to_config():
-    if len(server_dict["REAL_1"]) > 1:
-        if server_dict["REAL_1"] != "none":
-            output_file.write("/c/slb/real " + "1" + "\n\tdis\n "+"\trip "+ server_dict["REAL_1"]+"\n")
+     if int(real_count) > 0:
+        for indx in range(1, int(real_count)+1):
+            if ("REAL_" +str(indx)) in server_dict:
+                if len(server_dict["REAL_" +str(indx)]) > 1:
+                    if server_dict["REAL_" +str(indx)] != "none":
+                        output_file.write("/c/slb/real " + str(indx) + "\n\tena\n "+"\trip "+ server_dict["REAL_" +str(indx)]+"\n")
 
 
 
@@ -133,9 +158,11 @@ def convert_group_to_config():
 	    if server_dict["SLB_METRIC"] != "none":
                 output_file.write("\tmetric "+ server_dict["SLB_METRIC"]+ "\n")
 
-#    if len(server_dict["REAL_1"]) > 1:
-#        if server_dict["REAL_1"] != "none":
-#	    output_file.write("\tadd " + "1" + "\n")
+        for indx in range(1, int(real_count)+1):
+            if ("REAL_" +str(indx)) in server_dict:
+                if len(server_dict["REAL_" +str(indx)]) > 1:
+                    if server_dict["REAL_" +str(indx)] != "none":
+                        output_file.write("\tadd " + str(indx) + "\n")
 
 
 #convert reals scaleset configuration"
@@ -196,10 +223,10 @@ def convert_interface_peer_to_config():
     if (server_dict["VM_ID"]) == 1:
         output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.1"  + "\n")
  
-
+init_vars()
 convert_interface_peer_to_config()
 convert_DNS_menu_to_config()
-#convert_reals_to_config()
+convert_reals_to_config()
 convert_group_to_config()
 convert_license_server_to_config()
 convert_service_to_config()
