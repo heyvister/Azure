@@ -572,7 +572,7 @@
                             }
                           }
                         },
-                        "visible":"[equals(steps('SLBSetting').EnaDisAutoscaleSettings, 'Enable')]"  
+                        "visible":true  
                 },	                        
                 {  
                     "name":"RealsCount",
