@@ -168,29 +168,30 @@ def convert_group_to_config():
 #convert reals scaleset configuration"
 def convert_reals_scaleset_to_config():
     fqdn_menu_on = 0
-    if "REAL_SS_NAME" in server_dict:
-        if len(server_dict["REAL_SS_NAME"]) > 1:
-              if server_dict["REAL_SS_NAME"] != "none":
-                 if (fqdn_menu_on == 0):
-                     fqdn_menu_on = 1
-                     output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup 1\n")
-                     output_file.write("\tmode cscale\n")
-                     output_file.write("\tena\n")
+    if (real_count == 0):
+        if "REAL_SS_NAME" in server_dict:
+            if len(server_dict["REAL_SS_NAME"]) > 1:
+                if server_dict["REAL_SS_NAME"] != "none":
+                    if (fqdn_menu_on == 0):
+                        fqdn_menu_on = 1
+                        output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
+                        output_file.write("\tgroup 1\n")
+                        output_file.write("\tmode cscale\n")
+                        output_file.write("\tena\n")
 
-                 output_file.write("\tfqdn " + server_dict["REAL_SS_NAME"]+"\n")
+                    output_file.write("\tfqdn " + server_dict["REAL_SS_NAME"]+"\n")
 
-    if "REALS_SS_RG" in server_dict:
-        if len(server_dict["REALS_SS_RG"]) > 1:
-              if server_dict["REALS_SS_RG"] != "none":
-                 if (fqdn_menu_on == 0):
-                     fqdn_menu_on = 1
-                     output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
-                     output_file.write("\tgroup 1\n")
-                     output_file.write("\tmode cscale\n")
-                     output_file.write("\tena\n")
+        if "REALS_SS_RG" in server_dict:
+            if len(server_dict["REALS_SS_RG"]) > 1:
+                if server_dict["REALS_SS_RG"] != "none":
+                    if (fqdn_menu_on == 0):
+                        fqdn_menu_on = 1
+                        output_file.write("/c/slb/adv/fqdnreal " + server_dict["SS_NAME"] + "\n" )
+                        output_file.write("\tgroup 1\n")
+                        output_file.write("\tmode cscale\n")
+                        output_file.write("\tena\n")
 
-                 output_file.write("\trsrcgrp " + server_dict["REALS_SS_RG"]+"\n")
+                    output_file.write("\trsrcgrp " + server_dict["REALS_SS_RG"]+"\n")
 
 
 #Add HC probe 8080"
