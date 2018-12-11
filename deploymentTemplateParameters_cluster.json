@@ -61,13 +61,13 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP901"
+        "value": "demoPublicIP912"
     },
     "CloudDeviceId": {
-        "value": "H3Z4FV90U129"
+        "value": "none"
     },
     "PrimaryLlsIP": {
-        "value": "none"
+        "value": "http://tomer-alteonlls.westeurope.cloudapp.azure.com:7070/request"
     },
     "SecondaryLlsIP": {
         "value": "none"
@@ -129,13 +129,13 @@
         "value": "2"
     },     
     "RealsCount": {
-        "value": "0"
+        "value": "2"
     },                                 
      "Real1": {
-        "value": "1.1.1.1"
+        "value": "10.0.0.4"
     },
     "Real2": {
-        "value": "1.1.1.2"
+        "value": "10.0.0.5"
     },
     "Real3": {
         "value": "1.1.1.3"

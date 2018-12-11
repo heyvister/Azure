@@ -18,7 +18,6 @@ server_dict["SLB_PORT"] =           "parameters('SlbPortNumber')"
 server_dict["SLB_HTTPS_PORT"] =     "parameters('SlbHttpsPortNumber')"
 server_dict["SSL_CERT_NAME"] =      "variables('sslCertificateName')"
 server_dict["SSL_CERT_NAME"] =      "variables('sslPolicyName')"
-server_dict["REAL_1"] =             "parameters('Real1')"
 server_dict["CLIENTID"] =           "parameters('ClientID')"
 server_dict["CLIENTSECRET"] =       "parameters('ClientSecret')"
 server_dict["TENANTID"] =           "parameters('TenantID')"
@@ -43,10 +42,10 @@ server_dict["REAL_7"] =             "parameters('Real7')"
 server_dict["REAL_8"] =             "parameters('Real8')"
 server_dict["REAL_9"] =             "parameters('Real9')"
 server_dict["REAL_10"] =            "parameters('Real10')"
-server_dict["VM_ID"] =              VM_ID
+#server_dict["VM_ID"] =              VM_ID
 server_dict["DPM_REPORT_INTERVAL"] =        "variables('dpmReportInterval')"
-server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
-server_dict["PRIVATE_IP_ADDRESS_POSIX_START"] =  variables('PrivateIPAddressPosixStart')
+#server_dict["PRIVATE_IP_ADDRESS_PREFIX"] =  "variables('PrivateIPAddressPrefix')"
+#server_dict["PRIVATE_IP_ADDRESS_POSIX_START"] =  variables('PrivateIPAddressPosixStart')
 
 #file which will hold the generated configuration
 output_file=open("/mnt/cf/Alteon/config/azure_converted_config.txt", "a+")
@@ -112,14 +111,15 @@ def convert_AZURE_menu_to_config():
                  output_file.write("\trsrcgp " + server_dict["RSRCGRP"]+"\n")
 
 
-#convert slb port to "/c/slb/virt 1/service X http"
+#convert slb port to "/c/slb/virt 1/service X http" 
 def convert_service_to_config():
-    if (server_dict["VM_ID"]) == 1:
-        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"])
-    else:
-        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1)
+#    if (server_dict["VM_ID"]) == 1:
+#        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"])
+#    else:
+#        private_ip = server_dict["PRIVATE_IP_ADDRESS_PREFIX"] + str(server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1)
 
-    output_file.write("/c/slb/virt 1\n\tena\n\tvip " + private_ip +"\n")
+#    output_file.write("/c/slb/virt 1\n\tena\n\tvip " + private_ip +"\n")
+    output_file.write("/c/slb/virt 1\n\tena\n")
   
     if "SLB_PORT" in server_dict:
         if len(server_dict["SLB_PORT"]) > 0:
@@ -219,10 +219,9 @@ def convert_license_server_to_config():
 
 #convert to interface configuration"
 def convert_interface_peer_to_config():
-    private_ip_master_peer = server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1
+    #private_ip_master_peer = server_dict["PRIVATE_IP_ADDRESS_POSIX_START"]+1
     #we need to edit the interface ip and enable it so Alteon accept the config
-    if (server_dict["VM_ID"]) == 1:
-        output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.1"  + "\n")
+    output_file.write("/c/l3/if 1\n\tena\n\taddr 192.168.2.1"  + "\n")
  
 init_vars()
 convert_interface_peer_to_config()
