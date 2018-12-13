@@ -135,7 +135,7 @@ def convert_service_to_config():
                 output_file.write("\tena\n")
                 output_file.write("/c/slb/virt 1/service " + server_dict["SLB_HTTPS_PORT"] + " https\n")
                 output_file.write("\tgroup 1\n")
-                output_file.write("\trport 80\n")
+                output_file.write("\trport 443\n")
                 output_file.write("\tdbind forceproxy\n")
 
 

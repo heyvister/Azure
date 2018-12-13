@@ -102,6 +102,9 @@
     "SlbHttpsPortNumber": {
         "value": "443"
     },    
+    "SlbHttpsRport": {
+            "value": "443"
+    },          
     "SLBMetric": {
       "value": "leastconns"
     },
