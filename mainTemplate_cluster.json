@@ -570,7 +570,7 @@
             "sku": {
                 "name": "[parameters('InstanceSize')]",
                 "tier": "Standard",
-                "capacity": 1
+                "capacity": "[int(parameters('MinNumOfVMs'))]"
             },
             "name": "[variables('virtualMachineScaleSetsName')]",
             "apiVersion": "2018-06-01",
