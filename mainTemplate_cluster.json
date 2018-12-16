@@ -83,7 +83,9 @@
                 "name": "alteon-clusterIP",
                 "sku": {
                     "value": "Standard",
-                    "allowedValues": "Standard"
+                    "allowedValues": [
+                        "Standard"
+                    ]
                 }
             },           
             "metadata": {
