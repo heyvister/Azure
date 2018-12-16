@@ -271,7 +271,7 @@
                         "defaultValue":{  
                             "publicIpAddressName":"[concat(basics('AlteonClusterName'), '-ip')]",
                             "domainNameLabel":"[concat(basics('AlteonClusterName'), '-ip')]", 
-                            "publicIPAllocationMethod": "Dynamic"
+                            "publicIPAllocationMethod": "Static"
                         },
                         "options":{  
                             "hideNone":true,
