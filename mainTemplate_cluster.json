@@ -560,7 +560,7 @@
 				  "description": "slb https service port",
 				  "protocol": "Tcp",
 				  "sourcePortRange": "*",
-				  "destinationPortRange": "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 443, int(parameters('SlbPortNumber')))]",
+				  "destinationPortRange": "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 443, int(parameters('SlbHttpsPortNumber')))]",
 				  "sourceAddressPrefix": "Internet",
 				  "destinationAddressPrefix": "*",
 				  "access": "Allow",
