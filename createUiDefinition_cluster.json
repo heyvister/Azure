@@ -852,7 +852,7 @@
                 {
                     "name": "sslCertKeyBundleFile",
                     "type": "Microsoft.Common.FileUpload",
-                    "label": "Key & certificate",
+                    "label": "Key & certificate blabla",
                     "toolTip": "",
                     "constraints": {
                       "required": true,
