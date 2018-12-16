@@ -275,7 +275,8 @@
                         "options":{  
                             "hideNone":true,
                             "hideExisting":true,
-                            "hideDomainNameLabel":true
+                            "hideDomainNameLabel":true,
+                            "sku": "Standard"                         
                         },                                                   
                         "visible":true           
                     },                           
@@ -861,7 +862,7 @@
                       "multiple": false,
                       "uploadMode": "file",
                       "openMode": "text",
-                      "encoding": "UTF-8"
+                      "encoding": "pem"
                     },
                     "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTPs'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                   }                                    
