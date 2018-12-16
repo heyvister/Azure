@@ -276,7 +276,7 @@
                             "hideNone":true,
                             "hideExisting":true,
                             "hideDomainNameLabel":true,
-                            "sku": "Standard"                         
+                                    
                         },                                                   
                         "visible":true           
                     },                           
@@ -838,11 +838,11 @@
                         "password":"SSL passphrase",
                         "confirmPassword":"Confirm password"
                     },
-                    "toolTip":"Enter ssl key passphrase",
+                    "toolTip":"Enter ssl key passphrase. Above 4 and below 40 characters",
                     "constraints":{  
                         "required":true,
-                        "regex":"^",
-                        "validationMessage":"Format should be a valid SSL passphrase"
+                        "regex":"/^.{4,40}$/",
+                        "validationMessage":"Format should be a valid SSL passphrase. Above 4 and below 40 characters"
                     },
                     "options":{  
                         "hideConfirmation":true
@@ -852,17 +852,17 @@
                 {
                     "name": "sslCertKeyBundleFile",
                     "type": "Microsoft.Common.FileUpload",
-                    "label": "Key & certificate blabla",
+                    "label": "Key & certificate",
                     "toolTip": "",
                     "constraints": {
                       "required": true,
-                      "accept": ".txt"
+                      "accept": ".pem"
                     },
                     "options": {
                       "multiple": false,
                       "uploadMode": "file",
                       "openMode": "text",
-                      "encoding": "pem"
+                      "encoding": "UTF-8"
                     },
                     "visible": "[or(equals(steps('SLBSetting').HttpHttpsSet, 'HTTPs'), equals(steps('SLBSetting').HttpHttpsSet, 'Both'))]"
                   }                                    
@@ -885,7 +885,7 @@
             "DpsPackage": "[steps('GelSettings').DpsPackage]", 
             "AddOnSubsciption": "[steps('GelSettings').AddOnSubsciption]",
             "PublicIpName":"[steps('ScalesetSettings').LbPublicIpAddress.publicIpAddressName]",
-            "PublicIpDomainName":"[steps('ScalesetSettings').LbPublicIpAddress.domainNameLabel]",
+            "PublicIpDomainName":"[steps('ScalesetSettings').LbPublicIpAddress]",
             "InstanceSize": "[steps('ScalesetSettings').InstanceSize]",
             "MinNumOfVMs":"[steps('ScalesetSettings').MinNumOfVMs]",
             "MaxNumOfVMs": "[steps('ScalesetSettings').MaxNumOfVMs]",
