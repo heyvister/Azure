@@ -275,7 +275,7 @@
                         "options":{  
                             "hideNone":true,
                             "hideExisting":true,
-                            "hideDomainNameLabel":true
+                            "hideDomainNameLabel":false
                         },                                                   
                         "visible":true           
                     },                           
