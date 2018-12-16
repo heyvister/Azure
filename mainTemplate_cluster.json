@@ -78,8 +78,14 @@
             }
         },
         "PublicIpDomainName": {
-            "defaultValue": "alteon-clusterIP",
-            "type": "string",
+            "type": "object",
+            "defaultValue": {
+                "name": "alteon-clusterIP",
+                "sku": {
+                    "value": "Standard",
+                    "allowedValues": "Standard"
+                }
+            },           
             "metadata": {
                 "description": "Public IP Domain Name"
             }
@@ -457,7 +463,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Static", 
 				"dnsSettings": {
-                     "domainNameLabel": "[toLower(parameters('PublicIpDomainName'))]"
+                     "domainNameLabel": "[toLower(parameters('PublicIpDomainName').name)]"
                 }
             }
         },
@@ -1018,7 +1024,7 @@
                                                                 "SsL":{
                                                                     "sslCertificateName": "[variables('sslCertificateName')]",
                                                                     "sslPolicyName": "[variables('sslPolicyName')]",
-                                                                    "SlbHttpsRport":  "[parameters('SlbPortNumber')]",
+                                                                    "SlbHttpsRport":  "[parameters('SlbHttpsRport')]",
                                                                     "SlbHttpService": "[if(equals(parameters('SlbPortNumber'), 'none'), 'false', 'true')]",
                                                                     "SlbHttpsService":  "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 'false', 'true')]",
                                                                     "SslPrivateKeyPassphrase": "[parameters('SslPrivateKeyPassphrase')]",

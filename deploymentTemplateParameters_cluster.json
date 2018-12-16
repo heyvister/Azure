@@ -61,7 +61,10 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP929"
+        "value": {
+            "name": "demoPublicIP929",
+            "sku": "basic"
+        }
     },
     "CloudDeviceId": {
         "value": "https://flex1336-uat.compliance.flexnetoperations.com:443/instances/H3Z4FV90U129/request"
