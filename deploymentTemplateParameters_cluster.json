@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP922"
+        "value": "demoPublicIP924"
     },
     "CloudDeviceId": {
         "value": "https://flex1336-uat.compliance.flexnetoperations.com:443/instances/H3Z4FV90U129/request"
@@ -103,7 +103,13 @@
         "value": "443"
     },    
     "SlbHttpsRport": {
-            "value": "443"
+        "value": "443"
+    },
+    "SlbServiceRport": {
+        "value": "80"
+    },               
+    "SlbHttpsServiceRport": {
+        "value": "443"
     },          
     "SLBMetric": {
       "value": "leastconns"
