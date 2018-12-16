@@ -546,7 +546,7 @@
 				  "description": "slb http service port",
 				  "protocol": "Tcp",
 				  "sourcePortRange": "*",
-				  "destinationPortRange": "[int(parameters('SlbPortNumber'))]",
+				  "destinationPortRange": "[if(equals(parameters('SlbPortNumber'), 'none'), 80, int(parameters('SlbPortNumber')))]",
 				  "sourceAddressPrefix": "Internet",
 				  "destinationAddressPrefix": "*",
 				  "access": "Allow",
@@ -560,7 +560,7 @@
 				  "description": "slb https service port",
 				  "protocol": "Tcp",
 				  "sourcePortRange": "*",
-				  "destinationPortRange": "[int(parameters('SlbHttpsPortNumber'))]",
+				  "destinationPortRange": "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 443, int(parameters('SlbPortNumber')))]",
 				  "sourceAddressPrefix": "Internet",
 				  "destinationAddressPrefix": "*",
 				  "access": "Allow",
@@ -843,8 +843,8 @@
                             "frontendIPConfiguration": {
                                 "id": "[variables('loadBalancerFrontEnd')]"
                             },
-                            "frontendPort": "[int(parameters('SlbPortNumber'))]",
-                            "backendPort": "[int(parameters('SlbPortNumber'))]",
+                            "frontendPort": "[if(equals(parameters('SlbPortNumber'), 'none'), 80, int(parameters('SlbPortNumber')))]",
+                            "backendPort": "[if(equals(parameters('SlbPortNumber'), 'none'), 80, int(parameters('SlbPortNumber')))]",
                             "enableFloatingIP": false,
                             "idleTimeoutInMinutes": 4,
                             "protocol": "Tcp",
@@ -863,8 +863,8 @@
                             "frontendIPConfiguration": {
                                 "id": "[variables('loadBalancerFrontEnd')]"
                             },
-                            "frontendPort": "[int(parameters('SlbHttpsPortNumber'))]",
-                            "backendPort": "[int(parameters('SlbHttpsPortNumber'))]",
+                            "frontendPort": "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 443, int(parameters('SlbHttpsPortNumber')))]",
+                            "backendPort": "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 443, int(parameters('SlbHttpsPortNumber')))]",
                             "enableFloatingIP": false,
                             "idleTimeoutInMinutes": 4,
                             "protocol": "Tcp",

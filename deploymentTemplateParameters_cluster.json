@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": "demoPublicIP924"
+        "value": "demoPublicIP929"
     },
     "CloudDeviceId": {
         "value": "https://flex1336-uat.compliance.flexnetoperations.com:443/instances/H3Z4FV90U129/request"
@@ -99,18 +99,18 @@
     "SLBPortNumber": {
       "value": "80"
     },
+    "SlbHttpsServiceRport": {
+        "value": "443"
+    },         
     "SlbHttpsPortNumber": {
         "value": "443"
     },    
     "SlbHttpsRport": {
-        "value": "443"
+        "value": "none"
     },
     "SlbServiceRport": {
         "value": "80"
-    },               
-    "SlbHttpsServiceRport": {
-        "value": "443"
-    },          
+    },                
     "SLBMetric": {
       "value": "leastconns"
     },
@@ -174,7 +174,7 @@
         "value": "radware"
     },
     "sslCertNkeyFile": {
-        "value":  "-----BEGIN CERTIFICATE----- \r\nMIIDOjCCAiKgAwIBAgIBAjANBgkqhkiG9w0BAQUFADAQMQ4wDAYDVQQDEwVvY3Nw\r\nMjAeFw0xODEwMjExMjIwMDBaFw0xOTA5MTYxMDI2MDBaMBUxEzARBgNVBAMMCm9j\r\nc3BfY2VydDIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDQdJRbsNRx\r\nN98bDJRcjHVT6F8foxmOuW9x0hhSBId/8n4k8Ynso6UDUL/m0AzD8TqCiBRqwNCo\r\nCM70QSwfDVpADeaO9SA5mLI+j3ebwvGIBQNSSIAnGRgKK5Dd93wNcRZ6HIfkM9Oe\r\nkkCLY2OkY4cenWSQJ5T2ygrqZOkztLOqYeZc3QKKFVycHrvGPd5Hx12N0ZGbDp6g\r\nTwz27HsEFUYG34QRmviFdFAiSeLpR2P1wtrgD+hK4f82UTh1ZOVXnbQ/nAgTssHn\r\nh+fonIKLNkoD5/4jTHqCkJBFyJCeEcIZnwtZabvt+I1nuJBd7fPMwgp0Wszfp4y0\r\njRtoSuoTg0t1AgMBAAGjgZkwgZYwCQYDVR0TBAIwADAdBgNVHQ4EFgQUePvplE3Q\r\nNuM10q110U9vI2pUqs8wOAYDVR0jBDEwL4AU6Vs97rS0o7Bq28W+yme05/vcG3Gh\r\nFKQSMBAxDjAMBgNVBAMTBW9jc3AyggEBMDAGCCsGAQUFBwEBBCQwIjAgBggrBgEF\r\nBQcwAYYUaHR0cDovLzEuMS4xLjMwOjk5OTkwDQYJKoZIhvcNAQEFBQADggEBAB9l\r\nUM6PRCXpD6jig3HfQqZrscTiE1bLgxep+JRDn+NDArRjKTSJV0QcsZkEywfjWeZL\r\neELt1heUtIQHuYhQ8gViryr6AyYOe5gNECCKKGw4mczuq6R0us5Bh+0MO+AUsP4b\r\nzfAfT+dAVITjreby8fWKSNtnDyeDtS1/SAlsNLKea+j5uvasb4siOLzwJZ7LbYBz\r\n0RuuSt7q/z8ACY34J90GhL+Gy8dnBkxLpGCbGuWbetVb2d0VIBoQxD/73cHIoQWa\r\nPEm6n4ZAvfPMWO1nnMW6rNU0gjyhx+U1DxspvYppttb6Mnf5vLB4icL0CWjsPmRO\r\naZnyjHuN+/ITwEwNybU=\r\n-----END CERTIFICATE-----\r\n-----BEGIN RSA PRIVATE KEY-----\r\nMIIEpAIBAAKCAQEA0HSUW7DUcTffGwyUXIx1U+hfH6MZjrlvcdIYUgSHf/J+JPGJ\r\n7KOlA1C/5tAMw/E6gogUasDQqAjO9EEsHw1aQA3mjvUgOZiyPo93m8LxiAUDUkiA\r\nJxkYCiuQ3fd8DXEWehyH5DPTnpJAi2NjpGOHHp1kkCeU9soK6mTpM7SzqmHmXN0C\r\nihVcnB67xj3eR8ddjdGRmw6eoE8M9ux7BBVGBt+EEZr4hXRQIkni6Udj9cLa4A/o\r\nSuH/NlE4dWTlV520P5wIE7LB54fn6JyCizZKA+f+I0x6gpCQRciQnhHCGZ8LWWm7\r\n7fiNZ7iQXe3zzMIKdFrM36eMtI0baErqE4NLdQIDAQABAoIBAFGJuFphQcgDhcaL\r\n1iCZZG9szoCOiLm2OSx5dL/oO6RFkygaPswMeshgNqAvMz8VxcA3QF09jKCdyW3r\r\nbDm9PFcf2NaEdZVx8A7eiXeo+lctNs5hw5cHjsqzndflLWYInTUoodMWnqlBJfQf\r\n7WLo93p3MFXe1bru7vQegsWR4lE7g2alTRhx1FOX9ySjNK80OEXTz38Bb2M0sygv\r\nZuwALXQ1judPkc9eKlnjV0DzWwiNF3Y5A4Mlkrxo9j+ecnxNghDodMe/Qn/pUMLO\r\n1IPf2LNjHro3iHUluNj6pf4K5v7uVD/fxRlkLsqyJ+WJPHjic/mLAYz2kwJp//+R\r\nrR+Q24UCgYEA6gZZg5Tcns/SvcwoUihEbsvlspZ/Gq71MkeUxwSBW6WAnkuA+iE3\r\nJKoHiW4DdKULjFhMnISBkQQZH3ntanQhwbsY1p0g9DInAM7zeDiNO2LkOJVLn7vM\r\nyU8KCtelq33W0yCQ7NxwWKJ3+wCMPIb8jWfQ3rRrrYrH0+0Ljy9xMNsCgYEA5AeT\r\nFlLQfweVNvFnDX37tnbIhCnzPsA/TALaUs6kybYOBujrUPqxiJT5FpmbmFrpLa6d\r\ncL4lpuinGWfpV+OS+N/xN0XvheAAiaqvpec0JCg93HM1FiDjxgSj6MNJnXSxOq/I\r\nuyoBen8UKIREZ+jrTFXrLSxNGTQ0zXj5Tcvfve8CgYEA4SiGyzBYK3vsWKuqR5Fy\r\ndd86+l4NoFCgnGV+YRSWmORdIO+oAgAfG+lzIuhz7rA0sizqWNSsDCgTO9OFdxyQ\r\nteIa/bFj2U6/c+mpGgve5jo5Na9+eQqo9y5SjSf5v0tteugkR5+3f6+hHB/kzP9a\r\n0XoG3Z5c0zVpGR9CNdsBXm0CgYEAxfF1UzmMV9kDRHCFnoawTJIMOf4Yc257A8au\r\nMpfDIH5y6riiHOeh2QhIub+Z+8VfCRK9BLNrB9qJw1oaivq4CGaNhAenhrUOgnKy\r\niveKoaB1Irq3aIAgeTJp/pIXgyFa/7C8NQyfv/A0VX+Lyg+8wcULo2kDfE9/TqYm\r\n88t4a+0CgYBgKdrgIJ0T06xFmn09NJozl39wkkJ9datOOll+6nh7BRC3JA2L0zMs\r\nPcc2qdz3eqI5r1te/Mbs4JD7P2WgpwXpgaz1BgE2dKzYeSZsVz1zxxGIAnbHcnF3\r\ngDPVLnWhgp1T5If/t54ArSLmH87CM+4TFqNbZ1sDXOq0/ZK4ynRGxg==\r\n-----END RSA PRIVATE KEY-----"
+        "value":  "none"
     },
     "_artifactsLocation": {
         "value": "https://raw.githubusercontent.com/heyvister/Azure/master/"
