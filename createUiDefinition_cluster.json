@@ -840,7 +840,7 @@
                     "toolTip":"Enter ssl key passphrase. Above 4 and below 40 characters",
                     "constraints":{  
                         "required":true,
-                        "regex":"/^.{4,40}$/",
+                        "regex":"^.{4,40}$",
                         "validationMessage":"Format should be a valid SSL passphrase. Above 4 and below 40 characters"
                     },
                     "options":{  
