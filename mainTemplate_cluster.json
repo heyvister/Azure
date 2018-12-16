@@ -1018,7 +1018,9 @@
                                                                 "SsL":{
                                                                     "sslCertificateName": "[variables('sslCertificateName')]",
                                                                     "sslPolicyName": "[variables('sslPolicyName')]",
-                                                                    "SlbHttpsRport": "[parameters('SlbHttpsRport')]",
+                                                                    "SlbHttpsRport":  "[parameters('SlbPortNumber')]",
+                                                                    "SlbHttpService": "[if(equals(parameters('SlbPortNumber'), 'none'), 'false', 'true')]",
+                                                                    "SlbHttpsService":  "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 'false', 'true')]",
                                                                     "SslPrivateKeyPassphrase": "[parameters('SslPrivateKeyPassphrase')]",
                                                                     "sslCertNkeyFile": "[parameters('sslCertNkeyFile')]"
                                                                 }
