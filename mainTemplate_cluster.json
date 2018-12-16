@@ -81,12 +81,7 @@
             "type": "object",
             "defaultValue": {
                 "name": "alteon-clusterIP",
-                "sku": {
-                    "value": "Standard",
-                    "allowedValues": [
-                        "Standard"
-                    ]
-                }
+                "sku": "Standard"
             },           
             "metadata": {
                 "description": "Public IP Domain Name"

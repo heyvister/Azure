@@ -61,9 +61,9 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-	"value": "demoPublicIp447"
+        "value": {
             "name": "demoPublicIP929",
-            "sku": "basic"
+            "sku": "Basic"
         }
     },
     "CloudDeviceId": {
