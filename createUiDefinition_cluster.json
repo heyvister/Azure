@@ -273,11 +273,11 @@
                             "domainNameLabel":"[concat(basics('AlteonClusterName'), '-ip')]"
                         },
                         "options":{  
-                            "hideNone":false,
+                            "hideNone":true,
                             "hideExisting":true,
                             "hideDomainNameLabel":true
                         },                                                   
-                        "visible":true           
+                        "visible":false           
                     },                           
                     {  
                         "name":"EnaDisScalesetSettings",
