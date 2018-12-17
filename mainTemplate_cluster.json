@@ -195,7 +195,7 @@
             }
         }, 
 		"SlbHttpsServiceRport": {
-            "defaultValue": "443",
+            "defaultValue": "80",
             "type": "string",
             "metadata": {
                 "description": "service https rport number"

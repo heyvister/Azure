@@ -62,7 +62,7 @@
     },
     "PublicIpDomainName": {
         "value": {
-		"name": "demoPublicIp907",
+		"name": "demoPublicIp349",
             "sku": "Standard"                     
         }
     },
@@ -100,7 +100,7 @@
         "value": false
     },        
     "SLBPortNumber": {
-      "value": "none"
+      "value": "80"
     },
     "SlbHttpsPortNumber": {
         "value": "443"
