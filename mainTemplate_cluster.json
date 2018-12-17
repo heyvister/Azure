@@ -79,7 +79,7 @@
         },
         "PublicIpDomainName": {
             "type": "object",
-            "value":{
+            "defaultValue":{
                 "sku": {
                     "allowedValues": [
                             "Standard"
