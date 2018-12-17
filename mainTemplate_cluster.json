@@ -78,7 +78,14 @@
             }
         },
         "PublicIpDomainName": {
-            "type": "object",                 
+            "type": "object",
+            "defaultValue": {
+                "sku": {
+                    "allowedValues": [
+                        "Standard"
+                    ]
+                }
+            },
             "metadata": {
                 "description": "Public IP Domain Name"
             }
