@@ -174,14 +174,14 @@
             }
         },                
 		"SlbPortNumber": {
-            "defaultValue": "80",
+            "defaultValue": "none",
             "type": "string",
             "metadata": {
                 "description": "service port number"
             }
         },
 		"SlbHttpsPortNumber": {
-            "defaultValue": "443",
+            "defaultValue": "none",
             "type": "string",
             "metadata": {
                 "description": "service port number"
