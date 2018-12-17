@@ -187,13 +187,6 @@
                 "description": "service port number"
             }
         },        
-		"SlbHttpsRport": {
-            "defaultValue": "443",
-            "type": "string",
-            "metadata": {
-                "description": "service rport number"
-            }
-        }, 
 		"SlbServiceRport": {
             "defaultValue": "80",
             "type": "string",
@@ -1023,7 +1016,7 @@
                                                                 "SsL":{
                                                                     "sslCertificateName": "[variables('sslCertificateName')]",
                                                                     "sslPolicyName": "[variables('sslPolicyName')]",
-                                                                    "SlbHttpsRport":  "[parameters('SlbHttpsRport')]",
+                                                                    "SlbHttpsRport":  "[parameters('SlbHttpsServiceRport')]",
                                                                     "SlbHttpService": "[if(equals(parameters('SlbPortNumber'), 'none'), 'false', 'true')]",
                                                                     "SlbHttpsService":  "[if(equals(parameters('SlbHttpsPortNumber'), 'none'), 'false', 'true')]",
                                                                     "SslPrivateKeyPassphrase": "[parameters('SslPrivateKeyPassphrase')]",
