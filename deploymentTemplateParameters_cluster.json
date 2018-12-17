@@ -61,7 +61,7 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-	"value": "demoPublicIp611"
+	"value": "demoPublicIp464"
             "name": "cluster-97-Alteon-ip",
             "sku": "Standard"                     
         }
