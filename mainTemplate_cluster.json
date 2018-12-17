@@ -419,7 +419,6 @@
         "alteonsAzureFuncServerFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]", 
         "alteonAzureFuncHostNameBindingsName": "[concat(toLower(variables('alteonsAzureFuncName')), '.azurewebsites.net')]",
         "dpmReportInterval": "15",
-        "domainNameLabel": "[if(equals(parameters('PublicIpDomainName').sku, 'Basic'), '', parameters('PublicIpDomainName').sku)]",
         "cloudDeviceId": "[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', parameters('CloudDeviceId'), '/request')]",
         "monitorVmName": "[concat(variables('resourceGroupName'), 'MonitorVm')]",
         "monitorBackendPoolFullName": "[concat(variables('loadBalancerId'), concat('/backendAddressPools/', variables('monitorVmName'),'LBBEMonitorPool'))]",
@@ -457,7 +456,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Static", 
 				"dnsSettings": {
-                     "domainNameLabel": "[toLower(variables('domainNameLabel'))]"
+                     "domainNameLabel": "[toLower(parameters('PublicIpDomainName').name)]"
                 }
             }
         },

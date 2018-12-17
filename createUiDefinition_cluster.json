@@ -270,11 +270,10 @@
                         },
                         "defaultValue":{  
                             "publicIpAddressName":"[concat(basics('AlteonClusterName'), '-ip')]",
-                            "domainNameLabel":"[concat(basics('AlteonClusterName'), '-ip')]", 
-                            "publicIPAllocationMethod": "Static"
+                            "domainNameLabel":"[concat(basics('AlteonClusterName'), '-ip')]"
                         },
                         "options":{  
-                            "hideNone":true,
+                            "hideNone":false,
                             "hideExisting":true,
                             "hideDomainNameLabel":true
                         },                                                   

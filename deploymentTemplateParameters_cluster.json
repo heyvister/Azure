@@ -62,8 +62,8 @@
     },
     "PublicIpDomainName": {
         "value": {
-		"name": "demoPublicIp564",
-            "sku": "Basic"                     
+		"name": "demoPublicIp358",
+            "sku": "Standard"                     
         }
     },
     "CloudDeviceId": {
@@ -100,7 +100,7 @@
         "value": false
     },        
     "SLBPortNumber": {
-      "value": "80"
+      "value": "none"
     },
     "SlbHttpsPortNumber": {
         "value": "443"
