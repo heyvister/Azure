@@ -61,11 +61,15 @@
       "value": "demoPublicIP"
     },
     "PublicIpDomainName": {
-        "value": {
-            "name": "demoPublicIP929",
-            "sku": "Basic"
+	"value": "demoPublicIp903"
+          "name": "demoPublicIP929",
+          "resourceGroup": "fertrtertret",
+          "domainNameLabel": "cluster-97-Alteon-ip",
+          "sku": "Standard",
+          "publicIPAllocationMethod": "Static",
+          "newOrExistingOrNone": "new"
         }
-    },
+    },    
     "CloudDeviceId": {
         "value": "https://flex1336-uat.compliance.flexnetoperations.com:443/instances/H3Z4FV90U129/request"
     },
