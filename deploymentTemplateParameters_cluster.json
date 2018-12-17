@@ -62,7 +62,7 @@
     },
     "PublicIpDomainName": {
         "value": {
-            "name": "cluster-113-Alteon-ip",
+		"name": "demoPublicIp564",
             "sku": "Basic"                     
         }
     },
