@@ -305,10 +305,10 @@
                         "label":"Instance size",
                         "toolTip":"The size of scaleset virtual machine/s",
                         "recommendedSizes":[
+                            "Standard_D1", 
                             "Standard_A1",
                             "Standard_A2",
                             "Standard_A3",
-                            "Standard_D1",  
                             "Standard_D2",
                             "Standard_D3"  
                         ],
