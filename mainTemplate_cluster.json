@@ -78,7 +78,12 @@
             }
         },
         "PublicIpDomainName": {
-            "type": "object",             
+            "type": "object",  
+            "defaultValue": 
+            {
+                "name": "none",
+                "sku": "Standard"     
+            },           
             "metadata": {
                 "description": "Public IP Domain Name"
             }
@@ -418,6 +423,7 @@
 		"alteonAzureFuncServerfarmsPlanName" : "[concat(variables('resourceGroupName'), 'Plan')]", 
         "alteonsAzureFuncServerFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('alteonAzureFuncServerfarmsPlanName'))]", 
         "alteonAzureFuncHostNameBindingsName": "[concat(toLower(variables('alteonsAzureFuncName')), '.azurewebsites.net')]",
+        "domainNameLabel": "[if(equals(parameters('PublicIpDomainName').name, 'none'), concat(parameters('AlteonClusterName'), '-ip'), parameters('PublicIpDomainName').name)]",
         "dpmReportInterval": "15",
         "cloudDeviceId": "[concat('https://flex1336.compliance.flexnetoperations.com:443/instances/', parameters('CloudDeviceId'), '/request')]",
         "monitorVmName": "[concat(variables('resourceGroupName'), 'MonitorVm')]",
@@ -456,7 +462,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Static", 
 				"dnsSettings": {
-                     "domainNameLabel": "[toLower(parameters('PublicIpDomainName').name)]"
+                     "domainNameLabel": "[toLower(variables('domainNameLabel'))]"
                 }
             }
         },
