@@ -389,11 +389,11 @@
 		"publicIPAddressNameref": "[parameters('PublicIpName')]",
 		"subscripID": "[subscription().id]",
 		"resourceGroupName": "[resourceGroup().name]",
-		"imageOffer": "radware-alteon-va-preview",
+		"imageOffer": "radware-alteon-va",
         "imagePublisher": "radware",
 		"radware_sku": "radware-alteon-ng-va-adc",
         "plan": "[variables(concat('plan-', variables('imageOffer')))]",
-        "plan-radware-alteon-va-preview": {
+        "plan-radware-alteon-va": {
                 "name": "[variables('radware_sku')]",
                 "product": "[variables('imageOffer')]",
                 "publisher": "[variables('imagePublisher')]"
