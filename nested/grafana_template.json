@@ -76,10 +76,10 @@
         "subscripID": "[subscription().id]",
         "networkInterfaceName": "[concat(resourceGroup().name, 'MonitorIface')]",
         "monitorImagePublisher": "radware",
-		"monitorImageOffer": "alteon-va-cluster-monitor",
+		"monitorImageOffer": "alteon-va-cluster-monitoring",
         "monitor_radware_sku": "alteon-va-cluster-monitoring",	
 		"plan": "[variables(concat('plan-', variables('monitorImageOffer')))]",
-		"plan-alteon-va-cluster-monitor": {
+		"plan-alteon-va-cluster-monitoring": {
 			"name": "[variables('monitor_radware_sku')]",
 			"product": "[variables('monitorImageOffer')]",
 			"publisher": "[variables('monitorImagePublisher')]"
