@@ -78,7 +78,7 @@
         "monitorImagePublisher": "radware",
 		"monitorImageOffer": "alteon-va-cluster-monitor",
         "monitor_radware_sku": "alteon-va-cluster-monitoring",	
-		"plan": "[variables(concat('plan-', variables('monitorImageOffer')))]",
+		"plan": "[variables(concat('plan-', variables('monitor_radware_sku')))]",
 		"plan-alteon-va-cluster-monitoring": {
 			"name": "[variables('monitor_radware_sku')]",
 			"product": "[variables('monitorImageOffer')]",
