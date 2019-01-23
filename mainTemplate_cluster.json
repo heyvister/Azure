@@ -470,6 +470,7 @@
                  "contentVersion":"1.0.0.0"
               },
               "parameters": {
+                  "location": {"value": "[parameters('location')]"},
                   "clusterSecurityGroupName": {"value": "[variables('securityGroupId')]"},
                   "virtualMachineRG": {"value": "[variables('resourceGroupName')]"},
                   "subnetId":  {"value": "[variables('realsFullSubnetName')]"},
@@ -990,6 +991,7 @@
                     "contentVersion":"1.0.0.0"
                 },
                 "parameters": {
+                    "location":                             {"value": "[parameters('location')]"},
                     "alteonsAzureFuncName":                 {"value": "[variables('alteonsAzureFuncName')]"},
                     "alteonAzureFuncServerfarmsPlanName":   {"value": "[variables('alteonAzureFuncServerfarmsPlanName')]"},
                     "alteonsAzureFuncServerFarmId":         {"value": "[variables('alteonsAzureFuncServerFarmId')]"},
