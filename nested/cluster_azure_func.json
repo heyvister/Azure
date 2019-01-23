@@ -3,7 +3,6 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-			"defaultValue": "[resourceGroup().location]",
             "type": "String"
         },
         "alteonsAzureFuncName": { 
@@ -64,7 +63,7 @@
             {
                 "name": "[concat('default/', parameters('blobContainerName'))]",
                 "type": "blobServices/containers",
-                "apiVersion": "2018-03-01-preview",
+                "apiVersion": "2018-03-01",
                 "dependsOn": [
                     "[parameters('storageAccountName')]"
                 ],
@@ -87,12 +86,8 @@
         "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
         "apiVersion": "2017-08-01",
         "location": "[parameters('location')]",
-        "scale": null,
         "properties": {
             "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
-            "workerTierName": null,
-            "adminSiteName": null,
-            "hostingEnvironmentProfile": null,
             "perSiteScaling": false,
             "reserved": false,
             "targetWorkerCount": 0,
@@ -106,20 +101,16 @@
         "name": "[parameters('alteonsAzureFuncName')]",
         "apiVersion": "2016-08-01",
         "location": "[parameters('location')]",
-        "scale": null,
         "properties": {
 
             "serverFarmId": "[parameters('alteonsAzureFuncServerFarmId')]",
             "reserved": false,
-            "siteConfig": null,
             "scmSiteAlsoStopped": false,
-            "hostingEnvironmentProfile": null,
             "clientAffinityEnabled": false,
             "clientCertEnabled": false,
             "hostNamesDisabled": false,
             "containerSize": 1536,
-            "dailyMemoryTimeQuota": 0,
-            "cloningInfo": null
+            "dailyMemoryTimeQuota": 0
         },
         "dependsOn": [
             "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]"
@@ -177,10 +168,8 @@
         "name": "[concat(parameters('alteonsAzureFuncName'), '/', parameters('alteonAzureFuncHostNameBindingsName'))]",
         "apiVersion": "2018-02-01",
         "location": "[parameters('location')]",
-        "scale": null,
         "properties": {
             "siteName": "[parameters('alteonsAzureFuncName')]",
-            "domainId": null,
             "hostNameType": "Verified"
         },
         "dependsOn": [
@@ -191,7 +180,7 @@
 "outputs": {
     "alteonsAzureFuncName": {
         "type": "String",
-        "value": "[listsecrets(resourceId('Microsoft.Web/sites/functions', parameters('alteonsAzureFuncName'), 'TestFunctionCM'),'2016-08-01').trigger_url]"
+        "value": "[listsecrets(resourceId('Microsoft.Web/sites/functions', parameters('alteonsAzureFuncName'), 'TestFunctionCM'),'2018-02-01').trigger_url]"
     }
 }
 }
