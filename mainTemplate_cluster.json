@@ -597,7 +597,6 @@
             "location": "[parameters('location')]",
             "plan" : "[variables('plan')]",
             "tags": "[if(equals(parameters('tagUserDefinedName'), 'none'),  intersection(parameters('defaultVmObjectTag'), parameters('userVmObjectTag')), union(parameters('defaultVmObjectTag'), parameters('userVmObjectTag')))]",
-            "scale": null,
             "properties": {
                 "singlePlacementGroup": true,
                 "upgradePolicy": {
@@ -699,7 +698,6 @@
             "apiVersion": "2014-04-01",
             "location": "[parameters('location')]",
             "tags": {},
-            "scale": null,
             "properties": {
                 "profiles": [
                     {
@@ -806,7 +804,6 @@
             "name": "[variables('loadBalancersName')]",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
-            "scale": null,
             "properties": {
                 "resourceGuid": "e408cdf7-d30a-40d6-8d50-c0f9c20d82f6",
                 "frontendIPConfigurations": [
@@ -1033,10 +1030,6 @@
         }                  
     ],
     "outputs": {
-        "realsFullSubnetName": {
-            "type": "String",
-            "value": "[variables('realsFullSubnetName')]"
-        }        
 	}
 }
 
