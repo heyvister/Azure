@@ -30,7 +30,6 @@
         },
         "adminPassword": {
             "type": "securestring",
-            "defaultValue": "radware12345!",
             "metadata": {
                 "description": "Admin password"
             }
@@ -473,6 +472,7 @@
                   "location": {"value": "[parameters('location')]"},
                   "clusterSecurityGroupName": {"value": "[variables('securityGroupId')]"},
                   "virtualMachineRG": {"value": "[variables('resourceGroupName')]"},
+                  "adminPassword":  {"value": "[parameters('adminPassword')]"},
                   "subnetId":  {"value": "[variables('realsFullSubnetName')]"},
                   "virtualMachineName": {"value": "[variables('monitorVmName')]"},
                   "monitorLbBackendPool":  {"value": "[variables('monitorBackendPoolFullName')]"},
