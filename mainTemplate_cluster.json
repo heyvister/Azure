@@ -253,7 +253,7 @@
             "allowedValues": [
                 true
             ],
-            "defaultValue": "[if(greaterOrEquals(parameters('MaxNumOfVMs'), parameters('MinNumOfVMs')), bool('true'), bool('false'))]", 
+            "defaultValue": "[greaterOrEquals(parameters('MaxNumOfVMs'), parameters('MinNumOfVMs'))]", 
             "metadata": {
                 "description": "Here we validate that MinNumOfVMs <= MaxNumOfVMs"    
             }
