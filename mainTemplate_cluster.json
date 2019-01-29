@@ -247,7 +247,17 @@
             "metadata": {
                 "description": "Scaleset min instance"
             } 
-        },                             
+        },  
+        "ValidateNumOfVMs":{
+            "type": "bool",
+            "allowedValues": [
+                true
+            ],
+            "defaultValue": "[if(greaterOrEquals(parameters('MaxNumOfVMs'), parameters('MinNumOfVMs')), bool('true'), bool('false'))]", 
+            "metadata": {
+                "description": "Here we validate that MinNumOfVMs <= MaxNumOfVMs"    
+            }
+        },                          
         "RealsCount": {
             "defaultValue": "0",
             "type": "string",

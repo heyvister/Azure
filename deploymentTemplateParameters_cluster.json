@@ -62,7 +62,7 @@
     },
     "PublicIpDomainName": {
         "value": {
-		"name": "demoPublicIp999",
+            "name": "none",
             "sku": "Standard"                     
         }
     },
@@ -132,10 +132,10 @@
         "value": "Standard_D1"
     },                            
     "MaxNumOfVMs": {
-        "value": "10"
+        "value": "2"
     },	
     "MinNumOfVMs": {
-        "value": "2"
+        "value": "10"
     },     
     "RealsCount": {
         "value": "0"
