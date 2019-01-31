@@ -10,7 +10,7 @@
                 "label":"Alteon Cluster Name",
                 "defaultValue":"[concat('cluster-', string(rand(1, 1000)), '-Alteon')]",
                 "constraints":{  
-                    "regex": "^[a-z0-9A-Z]{1,30}$",
+                    "regex": "^[a-z0-9A-Z_-]{1,30}$",
                     "validationMessage":"Alteon cluster must start with an alphanumeric characters",
                     "required": true
                 },
