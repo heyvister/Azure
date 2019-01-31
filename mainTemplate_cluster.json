@@ -1015,7 +1015,8 @@
                                                                     "ClientSecret": "[parameters('ClientSecret')]",
                                                                     "ResourceGroupName": "[variables('resourceGroupName')]",
                                                                     "StorageAccount": "[variables('storageAccountNameRef')]",
-                                                                    "ContainerName": "[variables('blobContainerName')]"                                                                    
+                                                                    "ContainerName": "[variables('blobContainerName')]",
+                                                                    "blobServiceEndpoint": ""                                                                                                                                      
                                                                  },
                                                                 "Gel": {
                                                                     "EntitlementId": "[parameters('EntitlementId')]",
