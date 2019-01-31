@@ -62,7 +62,7 @@
     },
     "PublicIpDomainName": {
         "value": {
-		"name": "demoPublicIp781",
+		"name": "demoPublicIp155",
             "sku": "Standard"                     
         }
     },
