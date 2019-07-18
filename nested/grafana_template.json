@@ -13,16 +13,16 @@
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
+        "virtualMachineSize": {
+            "defaultValue": "Standard_D1",
+            "type": "String"
+        },
         "virtualMachineRG": {
 			"defaultValue": "nisnisgraph",
             "type": "String"
         },
         "osDiskType": {
 			"defaultValue": "Standard_LRS",
-            "type": "String"
-        },
-        "virtualMachineSize": {
-			"defaultValue": "Standard_D1",
             "type": "String"
         },
         "adminUsername": {

@@ -1,0 +1,34 @@
+{
+	"Azure":
+	{
+		"LoadBalancerName": "",
+		"SubscriptionId": "6c5564e0-54db-4d63-aa7b-1a7d78dd6f98",
+		"TenantId": "36361a21-c721-4248-9748-8848b2573f18",
+		"ClientId": "5ca48787-fb5a-44aa-a5bf-7342ca8f7e34",
+		"ClientSecret": "txEiP0oTOLBnIgHkWdyKvr6sBw8UqeEedfgrR4bIWR0=",
+		"ResourceGroupName": "",
+		"StorageAccount": "",
+		"ContainerName": "alteonconfig"
+		
+	},
+	"GelLicense":
+	{
+		"EntitlementId": "RD-Perform20Gbps",
+		"Throughput": "1000",
+		"Subscriber": "Perform"
+	},
+	"Certificate":
+	{
+		"Id": "CLUSTER_SSL",
+		"Policy": "CLUSTER_POLICY",
+		"Passphrase": "radware",
+		"HttpsRport": "80",
+		"SlbHttpService": "true",
+		"SlbHttpsService": "true",
+		"Data": "-----BEGIN CERTIFICATE----- 
+-----END CERTIFICATE-----
+-----BEGIN RSA PRIVATE KEY-----
+-----END RSA PRIVATE KEY-----"  
+	}   
+}
+
