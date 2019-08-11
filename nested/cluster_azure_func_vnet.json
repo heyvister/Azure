@@ -88,7 +88,7 @@
             "size": 3,
             "capacity": 1
         },
-        "kind": "functionapp",
+        "kind": "app",
         "name": "[parameters('alteonAzureFuncServerfarmsPlanName')]",
         "apiVersion": "2017-08-01",
         "location": "[parameters('location')]",
@@ -99,20 +99,12 @@
     },      
     {
         "type": "Microsoft.Web/sites",
-        "kind": "functionapp",
+        "kind": "app",
         "name": "[parameters('alteonsAzureFuncName')]",
         "apiVersion": "2016-08-01",
         "location": "[parameters('location')]",
         "properties": {
-
-            "serverFarmId": "[parameters('alteonsAzureFuncServerFarmId')]",
-            "reserved": false,
-            "scmSiteAlsoStopped": false,
-            "clientAffinityEnabled": false,
-            "clientCertEnabled": false,
-            "hostNamesDisabled": false,
-            "containerSize": 1536,
-            "dailyMemoryTimeQuota": 0
+            "serverFarmId": "[parameters('alteonsAzureFuncServerFarmId')]"
         },
         "dependsOn": [
             "[resourceId('Microsoft.Web/serverfarms', parameters('alteonAzureFuncServerfarmsPlanName'))]"
@@ -120,8 +112,8 @@
         "resources": [           
             {
                 "apiVersion": "2018-02-01",
-                "name": "[parameters('vnetName')]",
-                "type": "virtualNetworkConnections",
+                "name": "virtualNetwork",
+                "type": "config",
                 "location": "[parameters('location')]",
                 "dependsOn": [
                     "[resourceId('Microsoft.Web/sites', parameters('alteonsAzureFuncName'))]",
