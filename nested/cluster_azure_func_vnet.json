@@ -120,7 +120,7 @@
                     "[parameters('storageAccountName')]"
                 ],
                 "properties": {
-                    "subnetResourceId": "[concat(resourceGroup().id, '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), parameters('funcSubnetName'))]",
+                    "subnetResourceId": "[parameters('funcSubnetName')]",
                     "swiftSupported": true,
                     "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
                     "AzureWebJobsDashboardWEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-02-01').keys[0].value)]", 
