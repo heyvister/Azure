@@ -122,11 +122,15 @@
                     {
                         "name": "WEBSITE_CONTENTSHARE",
                         "value": "[concat(toLower(parameters('alteonsAzureFuncName')), '9e99')]"
-                    },                    
+                    },  
                     {
-                    "name": "FUNCTIONS_EXTENSION_VERSION",
-                    "value": "~2" 
-                    }                        
+                        "name": "AzureWebJobsSecretStorageType",
+                        "value": "Files"
+                    },                                        
+                    {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "~2" 
+                    }          
                 ]
             }            
         },
