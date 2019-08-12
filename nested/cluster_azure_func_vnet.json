@@ -120,9 +120,13 @@
                         "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-02-01').keys[0].value)]"
                     },
                     {
+                        "name": "WEBSITE_CONTENTSHARE",
+                        "value": "[concat(toLower(parameters('alteonsAzureFuncName')), '9e99')]"
+                    },                    
+                    {
                     "name": "FUNCTIONS_EXTENSION_VERSION",
                     "value": "~2" 
-                    },
+                    },    
                     {
                         "name": "AzureWebJobsSecretStorageType",
                         "value": "Files" 
