@@ -126,11 +126,7 @@
                     {
                     "name": "FUNCTIONS_EXTENSION_VERSION",
                     "value": "~2" 
-                    },    
-                    {
-                        "name": "AzureWebJobsSecretStorageType",
-                        "value": "Files" 
-                    }                          
+                    }                        
                 ]
             }            
         },
