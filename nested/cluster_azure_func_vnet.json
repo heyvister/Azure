@@ -57,7 +57,7 @@
         "name": "[parameters('storageAccountName')]",
         "apiVersion": "2018-07-01",
         "location": "[parameters('location')]",
-        "kind": "BlobStorage",
+        "kind": "StorageV2",
         "sku": {
             "name": "[parameters('storageAccountType')]",
             "tier": "Standard"
