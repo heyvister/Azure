@@ -80,15 +80,6 @@
         "subnetRef": "[parameters('subnetId')]",
         "subscripID": "[subscription().id]",
         "networkInterfaceName": "[concat(resourceGroup().name, 'MonitorIface')]",
-        "monitorImagePublisher": "radware",
-		"monitorImageOffer": "alteon-va-cluster-monitor",
-        "monitor_radware_sku": "alteon-va-cluster-monitoring",	
-		"plan": "[variables(concat('plan-', variables('monitor_radware_sku')))]",
-		"plan-alteon-va-cluster-monitoring": {
-			"name": "[variables('monitor_radware_sku')]",
-			"product": "[variables('monitorImageOffer')]",
-			"publisher": "[variables('monitorImagePublisher')]"
-		},
         "customData": "[concat('#!/usr/bin/env python3\n', 'import fileinput\n', 'import os\n', '\n', '\n', 'def main():\n', '    filename = ''/etc/prometheus/prometheus.yml''\n', '    with fileinput.FileInput(filename, inplace=True, backup=''.bak'') as file:\n', '        check_words = (\n', '            \"''subscription_id''\",\n', '            \"''tenant_id''\",\n', '            \"''client_id''\",\n', '            \"''client_secret''\",\n', '            \"''resource_group''\"\n', '        )\n', '        rep_words = (\n', '            \"''', variables('subscripID'), '''\",\n', '            \"''', parameters('TenantID'), '''\",\n', '            \"''', parameters('ClientID'), '''\",\n', '            \"''', parameters('ClientSecret'), '''\",\n', '            \"''(?i:(', parameters('virtualMachineRG'), ';true))''\"\n', '        )\n', '        for line in file:\n', '            for check, rep in zip(check_words, rep_words):\n', '                line = line.replace(check, rep).rstrip()\n', '            if ''subscription_id:'' in line:\n', '                line = line.replace(''/subscriptions/'', '''')\n', '            print(line)\n', '    os.system(\"service prometheus restart\")\n', '\n', '\n', 'if __name__ == \"__main__\":\n', '    main()\n')]"
 
 		},
@@ -131,13 +122,14 @@
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
             "tags": "[parameters('vmTags')]",
-			"plan": "[variables('plan')]",
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('virtualMachineSize')]"
                 },
                 "storageProfile": {
                     "osDisk": {
+                        "name": "[concat(parameters('virtualMachineName'),'osDisk')]",
+                        "osType": "linux",
                         "createOption": "fromImage",
                         "image": {
                             "uri": "[parameters('VmVhdUrl')]"
