@@ -133,9 +133,6 @@
                         "createOption": "fromImage",
                         "vhd": {
                             "uri": "[parameters('VmVhdUrl')]"
-                        },                        
-                        "managedDisk": {
-                            "storageAccountType": "[parameters('osDiskType')]"
                         }
                     }
                 },
