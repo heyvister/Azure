@@ -131,9 +131,7 @@
                         "name": "[concat(parameters('virtualMachineName'),'osDisk')]",
                         "osType": "linux",
                         "createOption": "fromImage",
-                        "vhd": {
-                            "uri": "[parameters('VmVhdUrl')]"
-                        }
+                        "image": "[parameters('VmVhdUrl')]"
                     }
                 },
                 "networkProfile": {
