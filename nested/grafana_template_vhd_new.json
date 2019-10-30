@@ -128,7 +128,7 @@
                 },
                 "storageProfile": {
                      "imageReference": {
-                            "id": "/subscriptions/89860fc0-a202-4efe-ad68-9efb412c953f/resourceGroups/ido-new-monitoring-image/providers/Microsoft.Compute/images/ido-new-monitoring-iamge-2"
+                            "id": "/subscriptions/89860fc0-a202-4efe-ad68-9efb412c953f/resourceGroups/ido-new-monitoring-image/providers/Microsoft.Compute/images/ido-new-monitoring-image-3"
                         }
                 },
                 "networkProfile": {
